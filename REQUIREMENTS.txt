@@ -1,0 +1,8 @@
+postrgesql (crypto)
+chemdoodleweb
+php (postgres PDO)
+python2.7 (psycopg2)
+imagemagick (convert)
+pymol
+openbabel
+/home/faver/bin/cred.php

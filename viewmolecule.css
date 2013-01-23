@@ -1,0 +1,152 @@
+#div_molimg{
+	position:absolute;
+	border:0px dotted #bbbbbb;
+	margin:10px;
+	width:400px;
+	height:200px;
+	margin-bottom:20px;
+	left:500px;
+}
+#div_molentry{ 
+	position:absolute;
+	border:0px solid blue;
+	margin:10px;
+	left:60px;
+	width:400px;
+}
+#div_moldata{
+	position:absolute;
+	border:0px solid yellow;
+	border-bottom:1px solid black;
+	width:800px;
+	left:70px;
+	top:225px;
+}
+.div_molcommentblock{
+	display:block;
+	border:0px solid green;
+	width:600px;
+	margin-left:15px;
+	min-height:30px;
+	margin-top:10px;
+}
+.div_molcomment_author{
+	position:absolute;
+	left:0px;
+	width:100px;
+	font-size:0.9em;
+	text-align:center;
+	display:block;
+	border-right: 1px solid #bbbbbb;
+	display:inline;
+}
+.div_molcomment_text{
+	position:absolute;
+	display:inline;
+	text-align:justify;
+	font-size:0.9em;
+	width:480px;
+	left:115px;
+	margin-top:5px;
+	border:0px solid red;
+}
+.div_deletecomment{
+	border:0px solid blue;
+	position:absolute;
+	display:inline;
+	left:0px;
+	font-size:0.9em;
+	width:30px;
+	border:0px solid black;
+}
+#div_addmolcomment{
+	position:absolute;
+	margin-top:35px;
+	left:127px; 
+	width:400px;
+	height:30px;
+	display:block;
+}
+#textarea_addmolcomment{
+	position:absolute;
+	left:35px;
+	width:300px;
+}
+#commentbutton{
+	position:absolute;
+	font-size:0.9em;
+	top:50px;	
+	left:235px;
+	width:100px;	
+}
+#div_datapopup{
+	display:none;
+	position:fixed;
+	border:1px solid black;
+	width:600px;
+	height:250px;
+	top:100px;
+	left:250px;
+	background:#ccccdd;
+	z-index:2;
+}
+.datatab{
+	height:15px;
+	width:75px;
+	background:white;
+	border:1px solid #777777;
+	padding:5px;
+	font-size:0.8em;
+	float:left;
+	display:inline;
+}
+.datatabopen{
+	background:#bbbbff;
+}
+#moleditbutton{
+	position:absolute;
+	height:25px;
+	bottom:5px;
+	right:5px;
+}
+#table_molinfo{
+	text-align:center;
+	width:100%;
+	position:absolute;
+	border-collapse:collapse;
+	top:70px;
+}
+.molecules_th{
+	color:#bbbbbb;
+	border:0px;
+	padding-bottom:15px;
+}
+.molecules_td{
+	border:1px solid #cccccc;	
+	padding:5px;
+	width:20%;
+}
+.molecules_tdl{
+	border-left:0px;
+}
+.molecules_tdr{
+	border-right:0px;
+}
+.div_data{
+	position:absolute;
+	top:28px;
+	background:#f8f8f8;
+	border:0px solid red;
+	font-size:0.8em;
+	width:800px;
+	min-height:200px;
+}
+.viewmolecule_datatable{
+	position:absolute;
+	text-align:center;
+	width:500px;
+	top:30px;
+	left:150px;
+	border-collapse:collapse;
+}
+
