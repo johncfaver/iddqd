@@ -1,0 +1,100 @@
+
+
+       QikProp v 3.0.001 - Properties Predictions for
+               JLD008                                  
+
+ Primary Metabolites & Reactive FGs:
+ > Metabolism likely: benzylic-like H -> alcohol
+ > Metabolism likely: benzylic-like H -> alcohol
+ > Metabolism likely: sulfoxide -> sulfone
+ > Metabolism likely: benzylic-like H -> alcohol
+ > Metabolism likely: pyridine C2 hydroxylation
+
+ Principal Descriptors:                             (Range 95% of Drugs)
+     Solute        Molecular Weight      =   368.453  ( 130.0 / 725.0) 
+     Solute        Dipole Moment (D)     =     4.819  (   1.0 /  12.5) 
+     Solute        Total        SASA     =   694.922  ( 300.0 /1000.0) 
+     Solute        Hydrophobic  SASA     =   232.930  (   0.0 / 750.0) 
+     Solute        Hydrophilic  SASA     =   114.666  (   7.0 / 330.0) 
+     Solute        Carbon Pi    SASA     =   325.403  (   0.0 / 450.0) 
+     Solute        Weakly Polar SASA     =    21.923  (   0.0 / 175.0) 
+     Solute        Molecular Volume (A^3)=  1201.351  ( 500.0 /2000.0) 
+     Solute        vdW Polar SASA (PSA)  =    81.302  (   7.0 / 200.0) 
+     Solute        No. of Rotatable Bonds=     5.000  (   0.0 /  15.0) 
+     Solute as Donor -    Hydrogen Bonds =     1.000  (   0.0 /   6.0) 
+     Solute as Acceptor - Hydrogen Bonds =     9.000  (   2.0 /  20.0) 
+     Solute Globularity   (Sphere = 1)   =     0.786  (  0.75 /  0.95) 
+     Solute Ionization Potential (eV)    =     9.267  (   7.9 /  10.5) 
+     Solute Electron Affinity    (eV)    =     1.039  (  -0.9 /   1.7) 
+ Predictions for Properties:
+   QP Polarizability (Angstroms^3)       =    41.821M (  13.0 /  70.0) 
+   QP log P  for     hexadecane/gas      =    12.913M (   4.0 /  18.0) 
+   QP log P  for     octanol/gas         =    20.388M (   8.0 /  35.0) 
+   QP log P  for     water/gas           =    16.119M (   4.0 /  45.0) 
+   QP log P  for     octanol/water       =     2.695  (  -2.0 /   6.5) 
+   QP log P  o/w     by  88% similarity  =     2.695  (  -2.0 /   6.5) 
+   QP log S  for   aqueous solubility    =    -3.548  (  -6.5 /   0.5) 
+   QP log S          by  86% similarity  =    -3.548  (  -6.5 /   0.5) 
+   QP log S - conformation independent   =    -4.135  (  -6.5 /   0.5) 
+   QP log K hsa Serum Protein Binding    =    -0.137  (  -1.5 /   1.5) 
+   QP log BB for     brain/blood         =    -0.920  (  -3.0 /   1.2) 
+   No. of Primary Metabolites            =         5  (   1.0 /   8.0) 
+   Predicted CNS Activity (-- to ++)     =       - 
+   HERG K+ Channel Blockage: log IC50    =    -6.539  (concern below -5)
+   Apparent Caco-2 Permeability (nm/sec) =        32  (<25 poor, >500 great)
+   Apparent MDCK   Permeability (nm/sec) =       519  (<25 poor, >500 great)
+   QP log Kp for skin permeability       =    -2.006  (Kp in cm/hr)
+   Jm, max transdermal transport rate    =     1.028  (micrograms/cm^2-hr)
+   Lipinski Rule of 5 Violations         =         0  (maximum is 4)
+   % Human Oral Absorption in GI (+-20%) =        70  (<25% is poor)
+   Qual. Model for Human Oral Absorption =    Medium  (>80% is high)
+
+      An M indicates MW is outside training range.
+
+
+      20 of   1712 molecules most similar to the input one are:
+          Name                           Similarity(%)
+Pantoprazole                                  90.69
+Lansoprazole                                  89.47
+Picotamide                                    89.23
+Voriconazole                                  89.07
+Omeprazole                                    87.85
+Rabeprazole                                   87.71
+Alkofanone                                    87.17
+Fonazine                                      86.12
+Prednylidene                                  85.47
+Rosiglitazone                                 84.91
+Cloprednol                                    84.75
+Fludrocortisone                               84.53
+Prednisone                                    84.42
+Meprednisone                                  84.13
+Phentetramine                                 84.13
+Acenocoumarol                                 83.97
+Cinolazepam                                   83.41
+Fludrocortisone                               83.40
+Prednisolone                                  83.30
+Methylprednisolone                            83.18
+
+    QP Breakdown (< for descriptor over training max)
+                log Po/w                    -log S
+ H-bond Donor        -0.300    H-bond Donor        -0.402 
+ H-bond Acceptor     -4.383    H-bond Acceptor     -4.712 
+ Volume               7.838    SASA                13.169 
+ Ac x Dn^.5/SASA      0.575    Ac x Dn^.5/SASA      1.295 
+ FISA                -0.794    Rotor Bonds         -0.814 
+ Non-con amines       0.000    N Protonation        0.000 
+ Non-con amides       0.000    Non-con amides       0.000 
+ WPSA & PISA          0.465    WPSA                 0.096 
+ Constant            -0.705    Constant            -5.083 
+ Total                2.695    Total                3.548
+
+
+                log BB                    log PMDCK
+ Hydrophilic SASA    -1.236    Hydrophilic SASA    -1.175 
+ WPSA                 0.054    WPSA                 0.120 
+ Rotor Bonds         -0.301                         0.000 
+ N Protonation        0.000    Non-con amines       0.000 
+ FOSA                 0.000    COOH/SO3H acids      0.000 
+ Constant             0.563    Constant             3.771
+ Total               -0.920    Total                2.716
+
