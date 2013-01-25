@@ -45,7 +45,7 @@
 		if($loggedin){
 			echo '<span id="span_loggedin">Logged in as '.$_SESSION['username'].' <a href="logout.php">(logout)</a></span>';
 		}else{		
-			echo '<a href="registerpage.php" style="float:right;margin-right:100px;font-size:0.8em;">Register</a><br />';
+			echo '<a href="registerpage.php" style="float:left;font-size:0.8em;">Create Account</a><br />';
 			echo '<form id="login" method="post" action="login.php"	>';
 			echo '<input type="text" value="username" name="enteredusername" id="enteredusername" onclick="clearuserbox();" size="7" />';
 			echo '<input type="password" name="enteredpassword" value="password" id="enteredpassword" onclick="clearpasswordbox();" size="7" />';

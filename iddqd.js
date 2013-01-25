@@ -582,7 +582,7 @@ var bindingdataids = new Array('1','2','3');
 var bindingdataunits = new Array('&mu;M','&mu;M','&mu;M');
 var propertydatatypes = new Array('CC50','Aq. Solubility');
 var propertydataids = new Array('4','5');
-var propertydataunits = new Array('&mu;M','g/mL');
+var propertydataunits = new Array('&mu;M','mg/mL');
 var docdatatypes = new Array('H NMR','C NMR','Mass Spec.','Synthesis','Manuscript','Structure','Image','Other');
 var docdataids = new Array('6','7','8','9','10','11','13','15');
 
