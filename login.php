@@ -21,10 +21,12 @@
 		$_SESSION['username']=$userarray['username'];	
 		$_SESSION['userid']=$userarray['userid'];
 		$loggedin=True;	
-	}
-	else{
-		$loggedin=False;
-	}
-	$dbconn=null;
-	returnhome()
+             	$dbconn=null;
+                returnhome();
+        }
+        else{
+		$dbconn=null;
+                $loggedin=False;
+                header('Location: index.php?s=badpw');
+        }
 ?>

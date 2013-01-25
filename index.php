@@ -51,6 +51,13 @@
 			echo '<input type="password" name="enteredpassword" value="password" id="enteredpassword" onclick="clearpasswordbox();" size="7" />';
 			echo '<input type="submit" value="Log in"/>';
 			echo '</form>';
+ 			if(isset($_GET['s'])){
+                                if($_GET['s']=='badpw'){
+                                        echo '<span style="font-size:0.8em;position:fixed;top:60px;left:960px;margin:0px;">';
+                                        echo 'Invalid username/password.';
+                                        echo '</span>';
+                                }
+                        }
 		}	
 ?>	
 	</div>	
