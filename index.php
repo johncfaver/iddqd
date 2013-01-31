@@ -36,7 +36,7 @@
 ?>
 	</div>
 	<div id="div_ad">
-		<a href="http://web.chemdoodle.com"><img src="http://web.chemdoodle.com/resources/images/badges/badge120x60.png" /></a>
+		<a href="http://web.chemdoodle.com"><img src="chemdoodleweb.png" /></a>
 	</div>
 </div>	
 <div id="div_top">
