@@ -61,7 +61,7 @@
 		</span>
 	</div>
 	<div id="div_ad">
-		<a href="http://web.chemdoodle.com"><img src="chemdoodle.png" /></a>
+		<a href="http://web.chemdoodle.com"><img src="chemdoodleweb.png" /></a>
 	</div>
 </div>	
 
