@@ -21,7 +21,7 @@
 
 <div id="div_left">
 	<div id="left_links">
-		<span class="nonlinks">';
+		<span class="nonlinks">
 		<a href="index.php" style="color:#bbbbff">Home</a><br /><br />
 		<a href="search.php" style="color:white">Search </a><br /><br />
 		<a href="molecules.php" style="color:white">View Molecules</a><br /><br />
@@ -29,11 +29,14 @@
 		<a href="targets.php" style="color:white">View Targets</a><br /><br />
 		</span>
 	</div>
-	<div id="div_ad">
+	<!--<div id="div_ad">
 		<a href="http://web.chemdoodle.com"><img src="chemdoodleweb.png" /></a>
-	</div>
+	</div>-->
 </div>	
 <div id="div_top">
+	<div id="div_notebook">
+		<a href="notebook.php">My Notebook: <?php echo substr_count($_SESSION['notebook_molids'],','); ?></a>
+	</div>
 	<div id="div_login">
 		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?><a href="logout.php">(logout)</a></span>
 	</div>	

@@ -13,6 +13,7 @@
 	margin:10px;
 	left:60px;
 	width:400px;
+	font-size:0.7em;
 }
 #div_moldata{
 	position:absolute;
@@ -103,11 +104,21 @@
 .datatabopen{
 	background:#bbbbff;
 }
-#moleditbutton{
-	position:absolute;
-	height:25px;
-	bottom:5px;
-	right:5px;
+#div_addtonotebook{
+	float:right;
+	background:#dddddd;
+	position:relative;
+	border-bottom:1px;
+	top:1px;
+	width:150px;
+}
+#div_editdata{
+	float:right;
+	background:#dddddd;
+	width:50px;
+	position:relative;
+	border-bottom:1px;
+	top:1px;
 }
 #table_molinfo{
 	text-align:center;

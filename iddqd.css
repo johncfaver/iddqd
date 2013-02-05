@@ -38,11 +38,20 @@ img{
 	height:3px;
 	background-color:black;
 }
+#div_notebook{
+	position:absolute;
+	right:200px;
+	bottom:3px;
+	border:0px solid black;
+	font-size:0.8em;
+}
 #div_login{
 	position:absolute;
 	right:5px;
-	bottom:2px;
-	border:0px solid black;
+	bottom:3px;
+	border-left:0px solid black;
+	padding:0px;
+	font-size:0.8em;
 }
 #span_loggedin{
 	float:right;

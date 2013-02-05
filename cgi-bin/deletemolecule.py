@@ -12,7 +12,7 @@ if 'molid' in keys:
 else:
 	molid=0
 if 'username' in keys:
-	username=unquote_plus(form['username'].value)
+	username=unquote_plus(form['username'].value).replace('\'','').replace(';','')
 else:
 	username=0
 dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
