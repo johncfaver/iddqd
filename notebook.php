@@ -39,6 +39,16 @@
 	</div>	
 </div>
 <div id="div_main">
+	<br />
+	<span style="width:300px;float:left">
+		<a href="cgi-bin/export.py?export=pdf&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo $_SESSION['notebook_molids'];?>" >Export PDF</a>
+	</span>	
+	<span style="width:300px;float:left">
+		<a href="cgi-bin/export.py?export=spreadsheet&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo $_SESSION['notebook_molids'];?>" >Export Spreadsheet</a>
+	</span>	
+	<span style="width:300px;float:left">	
+		<a href="cgi-bin/export.py?export=structures&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo $_SESSION['notebook_molids'];?>" >Export Structures</a>
+	</span>	
 
 	<table id="moleculetable">
 		<tr class="moltr">
