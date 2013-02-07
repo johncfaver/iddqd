@@ -67,6 +67,9 @@
 
 <!-- TOP ROW -->
 <div id="div_top">
+	<div id="div_notebook">
+		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids']); ?></a>
+	</div>
 	<div id="div_login">
 		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?> <a href="logout.php">(logout)</a></span>
 	</div>	

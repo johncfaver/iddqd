@@ -40,11 +40,16 @@
 	</div>
 </div>	
 <div id="div_top">
-	<div id="div_login">
 <?php
 		if($loggedin){
+			echo '	<div id="div_notebook">';
+			echo '<a href="notebook.php">My Notebook: '.count($_SESSION['notebook_molids']).'</a>';
+			echo '</div>';
+			echo '<div id="div_login">';
 			echo '<span id="span_loggedin">Logged in as '.$_SESSION['username'].' <a href="logout.php">(logout)</a></span>';
+			echo '</div>';
 		}else{		
+			echo '<div id="div_login">';
 			echo '<a href="registerpage.php" style="float:left;font-size:0.8em;">Create Account</a><br />';
 			echo '<form id="login" method="post" action="login.php"	>';
 			echo '<input type="text" value="username" name="enteredusername" id="enteredusername" onclick="clearuserbox();" size="7" />';
@@ -58,9 +63,9 @@
                                         echo '</span>';
                                 }
                         }
+			echo '</div>';
 		}	
 ?>	
-	</div>	
 </div>
 <div id="div_main">
 <Br /><br />

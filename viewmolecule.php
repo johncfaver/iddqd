@@ -52,6 +52,9 @@
 	</div>
 </div>	
 <div id="div_top">
+	<div id="div_notebook">
+		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids']); ?></a>
+	</div>
 	<div id="div_login">
 		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?> <a href="logout.php">(logout)</a></span>
 	</div>	
@@ -88,8 +91,7 @@
 		</script>
 	</div>
 	<div id="div_molentry">
-		<span style="font-size:1.5em;"><?php echo $moldata['molname'];?></span>
-		<span style="font-size:0.7em;">
+		<span style="font-size:2.0em;"><?php echo $moldata['molname'];?></span>
 		<br />Added by: <?php echo $moldata['username'];?> on <?php echo parsetimestamp($moldata['dateadded']);?>
 <?php
 			if($moldata['username']==$_SESSION['username'])	echo '&nbsp;<a href="cgi-bin/deletemolecule.py?molid='.$thismolid.'&username='.urlencode($_SESSION['username']).'">(delete)</a>';
@@ -108,10 +110,7 @@
 				<td class="molecules_td molecules_tdr">CAS #</td>
 				<td class="molecules_td molecules_tdr molecules_tdl"><?php echo $moldata['cas'];?></td>
 			</tr>
-	
 		</table>	
-
-		</span>
 	</div>
 
 	<div id="div_moldata">
@@ -128,7 +127,14 @@
 	<a href="#"><div id="div_tabdocdata" class="datatab" onclick="switchdatadiv('docdata');">Documents</div></a>
 	<a href="#"><div id="div_tabmodelingdata" class="datatab" onclick="switchdatadiv('modelingdata');">Modeling</div></a>
 	<a href="#"><div id="div_tabcommentdata" class="datatab" onclick="switchdatadiv('commentdata');">Comments</div></a>
-	<a href="editmolecule.php?molid=<?php echo $thismolid;?>"><div id="div_editdata" class="datatab" style="float:right;border-bottom:0px;background:#dddddd;width:30px;position:relative;top:1px;">Edit</div></a>
+	<a href="editmolecule.php?molid=<?php echo $thismolid;?>"><div id="div_editdata" class="datatab" >Edit</div></a>
+<?php
+	if(!in_array($thismolid,$_SESSION['notebook_molids'])){
+		echo '<a href="addtonotebook.php?molid='.$thismolid.'"><div id="div_addtonotebook" class="datatab" >Add to Notebook</div></a>';
+	}else{
+		echo '<a href="removefromnotebook.php?molid='.$thismolid.'"><div id="div_addtonotebook" class="datatab" >Remove from Notebook</div></a>';
+	}
+?>
 	</span>
 
 	<div id="div_bindingdata" class="div_data">
@@ -262,7 +268,6 @@
 		echo '<input type="submit" id="commentbutton" value="Add Comment" />';
 		echo '</form>';
 		echo '</div>';
-		
 ?>
 
 	</div>
