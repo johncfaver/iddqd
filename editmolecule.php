@@ -68,7 +68,7 @@
 <!-- TOP ROW -->
 <div id="div_top">
 	<div id="div_notebook">
-		<a href="notebook.php">My Notebook: <?php echo substr_count($_SESSION['notebook_molids'],','); ?></a>
+		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids']); ?></a>
 	</div>
 
 	<div id="div_login">

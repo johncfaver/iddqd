@@ -20,6 +20,7 @@
 		$userarray=$regq->fetch();
 		$_SESSION['username']=$userarray['username'];	
 		$_SESSION['userid']=$userarray['userid'];
+		$_SESSION['notebook_molids']=Array();
 		$loggedin=True;	
              	$dbconn=null;
                 returnhome();

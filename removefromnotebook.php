@@ -8,18 +8,11 @@
 		returnhome();
 	}
 	session_start();
-	$ids=explode(',',$_SESSION['notebook_molids']);
-	array_pop($ids);
-	if(array_search($thismolid,$ids)>=0){
-		$newidstr='';
-		foreach($ids as $i){
-			if($i==$thismolid){
-				continue;
-			}else{
-				$newidstr.=$i.',';
-			}
-		}
-		$_SESSION['notebook_molids']=$newidstr;
+	if(in_array($thismolid,$_SESSION['notebook_molids'])){
+		$i = array_search($thismolid,$_SESSION['notebook_molids']); 
+		unset($_SESSION['notebook_molids'][$i])
+		$i = array_values($_SESSION['notebook_molids']);
+		$_SESSION['notebook_molids']=$i;
 	}
 	if(isset($_GET['dest'])){
 		if($_GET['dest']=='nb'){

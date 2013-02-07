@@ -32,7 +32,7 @@
 </div>	
 <div id="div_top">
 	<div id="div_notebook">
-		<a href="notebook.php">My Notebook: <?php echo substr_count($_SESSION['notebook_molids'],','); ?></a>
+		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids']); ?></a>
 	</div>
 	<div id="div_login">
 		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?><a href="logout.php">(logout)</a></span>
@@ -41,13 +41,13 @@
 <div id="div_main">
 	<br />
 	<span style="width:300px;float:left">
-		<a href="cgi-bin/export.py?export=pdf&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo $_SESSION['notebook_molids'];?>" >Export PDF</a>
+		<a href="cgi-bin/export.py?export=pdf&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo implode(',',$_SESSION['notebook_molids']);?>" >Export PDF</a>
 	</span>	
 	<span style="width:300px;float:left">
-		<a href="cgi-bin/export.py?export=spreadsheet&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo $_SESSION['notebook_molids'];?>" >Export Spreadsheet</a>
+		<a href="cgi-bin/export.py?export=spreadsheet&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo implode(',',$_SESSION['notebook_molids']);?>" >Export Spreadsheet</a>
 	</span>	
 	<span style="width:300px;float:left">	
-		<a href="cgi-bin/export.py?export=structures&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo $_SESSION['notebook_molids'];?>" >Export Structures</a>
+		<a href="cgi-bin/export.py?export=structures&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo implode(',',$_SESSION['notebook_molids']);?>" >Export Structures</a>
 	</span>	
 
 	<table id="moleculetable">
@@ -59,7 +59,7 @@
 			<th class="molth">Date Added</th>
 		</tr>
 <?php
-	$mollist=rtrim($_SESSION['notebook_molids'],',');
+	$mollist=implode(',',$_SESSION['notebook_molids']);
 	$qstr = 'SELECT a.molid,a.molname,a.dateadded,b.username,a.molweight from molecules a, users b where b.userid=a.authorid and a.molid in ('.$mollist.')';	
 	$response=$dbconn->query($qstr);
 	$count=1;

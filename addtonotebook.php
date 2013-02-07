@@ -6,10 +6,11 @@
 		returnhome();
 	}
 	session_start();
-	$ids=explode(',',$_SESSION['notebook_molids']);
-	if(!in_array($addmolid,$ids)){
-		$_SESSION['notebook_molids'].=$addmolid.',';
+
+	if(!in_array($addmolid,$_SESSION['notebook_molids'])){
+		array_push($_SESSION['notebook_molids'],$addmolid);
 	}
+
 	if(isset($_GET['dest'])){
 		if($_GET['dest']=='nb'){
 			header('Location: notebook.php');	

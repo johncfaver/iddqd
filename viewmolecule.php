@@ -53,7 +53,7 @@
 </div>	
 <div id="div_top">
 	<div id="div_notebook">
-		<a href="notebook.php">My Notebook: <?php echo substr_count($_SESSION['notebook_molids'],','); ?></a>
+		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids']); ?></a>
 	</div>
 	<div id="div_login">
 		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?> <a href="logout.php">(logout)</a></span>
@@ -129,7 +129,7 @@
 	<a href="#"><div id="div_tabcommentdata" class="datatab" onclick="switchdatadiv('commentdata');">Comments</div></a>
 	<a href="editmolecule.php?molid=<?php echo $thismolid;?>"><div id="div_editdata" class="datatab" >Edit</div></a>
 <?php
-	if(!in_array($thismolid,explode(',',$_SESSION['notebook_molids']))){
+	if(!in_array($thismolid,$_SESSION['notebook_molids'])){
 		echo '<a href="addtonotebook.php?molid='.$thismolid.'"><div id="div_addtonotebook" class="datatab" >Add to Notebook</div></a>';
 	}else{
 		echo '<a href="removefromnotebook.php?molid='.$thismolid.'"><div id="div_addtonotebook" class="datatab" >Remove from Notebook</div></a>';

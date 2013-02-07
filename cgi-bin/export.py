@@ -16,7 +16,6 @@ if 'molids' in keys:
 	molids=form['molids'].value.split(',')
 if 'userid' in keys:
 	userid=form['userid'].value
-molids.pop(-1)
 
 if export=='structures':
 	dl='/tmp/structures-'+userid

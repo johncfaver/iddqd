@@ -43,7 +43,7 @@
 <?php
 		if($loggedin){
 			echo '	<div id="div_notebook">';
-			echo '<a href="notebook.php">My Notebook: '.substr_count($_SESSION['notebook_molids'],',').'</a>';
+			echo '<a href="notebook.php">My Notebook: '.count($_SESSION['notebook_molids']).'</a>';
 			echo '</div>';
 			echo '<div id="div_login">';
 			echo '<span id="span_loggedin">Logged in as '.$_SESSION['username'].' <a href="logout.php">(logout)</a></span>';
