@@ -8,9 +8,10 @@
 		returnhome();
 	}
 	session_start();
+
 	if(in_array($thismolid,$_SESSION['notebook_molids'])){
 		$i = array_search($thismolid,$_SESSION['notebook_molids']); 
-		unset($_SESSION['notebook_molids'][$i])
+		unset($_SESSION['notebook_molids'][$i]);
 		$i = array_values($_SESSION['notebook_molids']);
 		$_SESSION['notebook_molids']=$i;
 	}
