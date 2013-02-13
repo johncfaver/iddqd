@@ -45,16 +45,16 @@
 </div>
 <div id="div_main">
 <?php
-	$nummol=(isset($_GET['nummol']))?(int)$_GET['nummol']:8;
+	$nummol=(isset($_GET['nummol']))?(int)$_GET['nummol']:10;
 	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;
 	$sortby=(isset($_GET['sortby']))?pg_escape_string($_GET['sortby']):'dateadded';
 	$sortdir=(isset($_GET['sortdir']))?(int)$_GET['sortdir']:1;
 	
 	if($molstart>=$nummol){
-		echo '<div id="div_molecules_prev"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart-$nummol).'&sortby='.$sortby.'"> << previous </a></span></div>';
+		echo '<div id="div_molecules_prev"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart-$nummol).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> << previous </a></span></div>';
 	}
 	if($molstart+$nummol<$ntotmol){
-		echo '<div id="div_molecules_next"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart+$nummol).'&sortby='.$sortby.'"> next>></a></span></div>';
+		echo '<div id="div_molecules_next"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart+$nummol).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> next>></a></span></div>';
 	}
 ?>
 <table id="moleculetable" >
@@ -102,7 +102,7 @@
 		}
 		echo '<tr class="moltr">';
 			echo '<td class="'.$tdcolor.'">';
-				echo '<a href="viewmolecule.php?molid='.$entry['molid'].'"><img src="uploads/sketches/'.$entry['molid'].'.png" style="height:60px"/></a>';
+				echo '<a href="viewmolecule.php?molid='.$entry['molid'].'"><img src="uploads/sketches/'.$entry['molid'].'.jpg" style="height:60px"/></a>';
 			echo '</td>';
 			
 			echo '<td class="'.$tdcolor.'">';

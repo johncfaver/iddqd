@@ -215,7 +215,7 @@ if(count($response)>0){
 					echo '<tr class="moltr">';
 					echo '<td class="'.$tdcolor.'">';
 					echo '<a href="viewmolecule.php?molid='.$response[$j]['molid'].'">';
-					echo '<img src="uploads/sketches/'.$response[$j]['molid'].'.png" style="height:60px"/></a>';
+					echo '<img src="uploads/sketches/'.$response[$j]['molid'].'.jpg" style="height:60px"/></a>';
 					echo '</td>';
 	
 					echo '<td class="'.$tdcolor.'">';
@@ -251,7 +251,7 @@ if(count($response)>0){
 			}
 			echo '<tr class="moltr">';
 				echo '<td class="'.$tdcolor.'">';
-					echo '<a href="viewmolecule.php?molid='.$entry['molid'].'"><img src="uploads/sketches/'.$entry['molid'].'.png" style="height:60px"/></a>';
+					echo '<a href="viewmolecule.php?molid='.$entry['molid'].'"><img src="uploads/sketches/'.$entry['molid'].'.jpg" style="height:60px"/></a>';
 				echo '</td>';
 					
 				echo '<td class="'.$tdcolor.'">';
