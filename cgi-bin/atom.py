@@ -39,6 +39,10 @@ class atom:
 			return 16 
 		elif atsym == 'cl':
 			return 17 
+		elif atsym == 'br':
+			return 35
+		elif atsym == 'i':
+			return 53
 		else:	
 			print 'Unexpected atom observed:',atsym
 			return -1
