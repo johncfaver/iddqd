@@ -6,7 +6,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Image
 
-uploaddir='/home/faver/ddb/dev/uploads/'
+uploaddir='/var/www/iddqd-prod/uploads/'
 
 form=cgi.FieldStorage()
 keys=form.keys()
