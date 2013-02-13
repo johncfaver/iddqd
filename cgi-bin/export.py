@@ -27,6 +27,10 @@ if export=='structures':
 	for i in molids:
 		shutil.copyfile(uploaddir+'structures/'+i+'-3d.mol',dl+'/3d/'+i+'-3d.mol')
 		shutil.copyfile(uploaddir+'structures/'+i+'.mol',dl+'/2d/'+i+'.mol')
+	with open(dl+'/notebook.sdf','w') as sdf:
+		for i in molids:
+			with open(uploaddir+'structures/'+i+'-3d.mol') as mol:
+				sdf.write(mol.read())
 	filename=shutil.make_archive(dl, 'zip', root_dir=dl)
 	shutil.copyfile(filename,uploaddir+'scratch/structures-'+userid+'.zip')
 	print 'Location: ../uploads/scratch/structures-'+userid+'.zip'

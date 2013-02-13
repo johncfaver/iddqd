@@ -222,6 +222,14 @@
 	<div id="div_modelingdata" class="div_data" style="display:none">
 		<table id="modelingtable" class="viewmolecule_datatable">
 		<?php	
+			if(file_exists('uploads/sketches/'.$thismolid.'.png')){
+				echo '<tr><td class="molecules_td molecules_tdl">PNG Image</td>';
+				echo '<td class="molecules_td molecules_tdr"><a href="uploads/sketches/'.$thismolid.'.png">Download</a></td>';
+			}
+			if(file_exists('uploads/sketches/'.$thismolid.'.jpg')){
+				echo '<tr><td class="molecules_td molecules_tdl">JPG Image</td>';
+				echo '<td class="molecules_td molecules_tdr"><a href="uploads/sketches/'.$thismolid.'.jpg">Download</a></td>';
+			}		
 			if(file_exists('uploads/structures/'.$thismolid.'.mol')){
 				echo '<tr><td class="molecules_td molecules_tdl">2D MOL</td>';
 				echo '<td class="molecules_td molecules_tdr"><a href="uploads/structures/'.$thismolid.'.mol">Download</a></td>';
