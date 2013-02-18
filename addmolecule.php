@@ -11,7 +11,7 @@
 	$loggedin = (isset($_SESSION['username']))?True:False;
 	if(!$loggedin) returnhome();
 
-	if($_FILES['sdffileupload']){
+	if(isset($_FILES['sdffileupload'])){
 		$fileupload=True;
 		$thismolfilename=substr($_FILES['sdffileupload']['name'],0,-4);
 		$handle = fopen($_FILES['sdffileupload']['tmp_name'],'r');
@@ -109,7 +109,7 @@
 		<div id="div_datainput_inner"><span style="font-size:1.2em;">Input Data:</span><br />
 				<br /><span style="font-size:0.8em;float:right;text-align:right;">
 				WLJID:
-				<input type="text" name="molname" id="molname" size=10 style="width:80px;" <?php if($thismolfilename) echo 'value="'.$thismolfilename.'"'; ?>/>
+				<input type="text" name="molname" id="molname" size=10 style="width:80px;" <?php if($fileupload) echo 'value="'.$thismolfilename.'"'; ?>/>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				IUPAC: <input type="text" name="iupacname" id="iupacname" style="width:80px;float:right" size=10 value="" />	
 				<br />CAS#: <input type="text" name="cas" id="cas" size=10 style="width:80px;float:right" value="" /><br />
