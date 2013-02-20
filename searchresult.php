@@ -135,7 +135,7 @@
 		$qstr = 'SELECT distinct m.molid,m.molname,m.dateadded,u.username,m.molweight,abs(m.molweight-:num5) from molecules m join users u on u.userid=m.authorid';	
 	}
 	if($query_molname){
-		$qstr.=' and (to_tsvector(\'english\', m.molname) @@ to_tsquery(\'english\',:str1) or to_tsvector(\'english\', m.iupac) @@ to_tsquery(\'english\',:str1) or to_tsvector(\'english\', m.cas) @@ to_tsquery(\'english\',:str1))';
+		$qstr.=' and (m.molname ilike :str1 or m.iupac ilike :str1 or m.cas ilike :str1) ';
 	}
 	if($query_molweight_range){
 		$qstr.=' and m.molweight between :num3 and :num4 ';
@@ -179,7 +179,8 @@
 		$q->bindParam(":num5",$nummol,PDO::PARAM_INT);
 	}
 	if($query_molname){
-		$q->bindParam(":str1",$query_molname,PDO::PARAM_STR);
+		$mn = '%'.$query_molname.'%';
+		$q->bindParam(":str1",$mn,PDO::PARAM_STR);
 	}
 
 	$q->execute();
