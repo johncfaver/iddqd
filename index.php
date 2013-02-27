@@ -30,7 +30,8 @@
 		echo '<a href="molecules.php" style="color:white">View Molecules</a><br /><br />';
 		echo '<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />';
 		echo '<a href="targets.php" style="color:white">View Targets</a><br /><br />';
-		echo '</span>';
+		echo '<a href="help.php" style="color:white">Help</a><br /><br />';
+	echo '</span>';
 	}
 
 ?>
