@@ -332,3 +332,13 @@ img{
 .img_inline{
 	display:inline;
 }
+.help_content{
+        min-height:100px;
+        width:95%;
+        border:0px solid gray;
+        margin-left:35px;
+        display:none;
+        text-align:justify;
+        font-size:0.8em;
+}
+
