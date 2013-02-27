@@ -45,7 +45,8 @@
 		<a href="molecules.php" style="color:#bbbbff">View Molecules</a><br /><br />
 		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
 		<a href="targets.php" style="color:white">View Targets</a><br /><br />
-		</span>
+		<a href="help.php" style="color:white">Help</a><br /><br />
+	</span>
 	</div>
 	<div id="div_ad">
 		<a href="http://web.chemdoodle.com"><img src="chemdoodleweb.png" /></a>
