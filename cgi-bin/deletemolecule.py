@@ -20,9 +20,9 @@ q = dbconn.cursor()
 q.execute('SELECT username FROM molecules m LEFT JOIN users u ON m.authorid=u.userid where molid=%s',[molid])
 authorname=q.fetchone()[0]
 if(username!=authorname):
-	print 'Context-type: text/html\n\n'
-	print username+' '+authorname
-	#print 'Location: ../index.php\n\n'
+	#print 'Context-type: text/html\n\n'
+	#print username+' '+authorname
+	print 'Location: ../index.php\n\n'
 	sys.exit()
 q.execute('DELETE FROM molecules WHERE molid=%s',[molid])
 q.execute('DELETE FROM moldata WHERE molid=%s',[molid])
