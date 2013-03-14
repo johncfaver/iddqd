@@ -876,6 +876,7 @@ this.buttonMove=new d.Button(c.id+"_button_move",c.iconPath,"move20","Move",func
 this.buttonMove.toggle=!0;
 this.buttonErase=new d.Button(c.id+"_button_erase",c.iconPath,"erase20","Erase",function(){c.stateManager.currentState=c.stateManager.STATE_ERASE});
 this.buttonErase.toggle=!0;
+this.buttonCenter=new d.Button(c.id+"_button_center",c.iconPath,"CenterSketch","Center Molecule",function(){c.center(c.molecule);});
 this.buttonClear=new d.Button(c.id+"_button_clear",c.iconPath,"clear20","Clear",function(){var a=!0;
 if(1==c.molecule.atoms.length){var j=c.molecule.atoms[0];
 "C"==j.label&&0==
@@ -898,6 +899,7 @@ a.push(this.buttonOpen.getSource());
 a.push(this.buttonSave.getSource());
 this.sketcher.useServices&&a.push(this.buttonSearch.getSource());
 a.push(this.scaleSet.getSource());
+a.push(this.buttonCenter.getSource());
 a.push(this.buttonClear.getSource());
 a.push(this.buttonErase.getSource("main_group"));
 a.push(this.buttonMove.getSource("main_group"));
@@ -916,6 +918,7 @@ f.ToolbarManager.prototype.setup=function(){this.buttonOpen.setup();
 this.buttonSave.setup();
 this.sketcher.useServices&&this.buttonSearch.setup();
 this.scaleSet.setup();
+this.buttonCenter.setup();
 this.buttonClear.setup();
 
 this.buttonErase.setup(!0);

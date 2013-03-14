@@ -1,0 +1,101 @@
+
+
+       QikProp v 3.0.001 - Properties Predictions for
+               JLD003                                  
+
+ Primary Metabolites & Reactive FGs:
+ > Metabolism likely: amine dealkylation
+ > Metabolism likely: alpha hydroxylation of carbonyl
+ > Metabolism likely: thiophene S -> S=O
+ > Metabolism likely: benzylic-like H -> alcohol
+ > Metabolism likely: thiophene S -> S=O
+ > Metabolism likely: pyridine C2 hydroxylation
+
+ Principal Descriptors:                             (Range 95% of Drugs)
+     Solute        Molecular Weight      =   458.570  ( 130.0 / 725.0) 
+     Solute        Dipole Moment (D)     =     2.683  (   1.0 /  12.5) 
+     Solute        Total        SASA     =   724.346  ( 300.0 /1000.0) 
+     Solute        Hydrophobic  SASA     =   186.964  (   0.0 / 750.0) 
+     Solute        Hydrophilic  SASA     =   144.852  (   7.0 / 330.0) 
+     Solute        Carbon Pi    SASA     =   270.620  (   0.0 / 450.0) 
+     Solute        Weakly Polar SASA     =   121.911  (   0.0 / 175.0) 
+     Solute        Molecular Volume (A^3)=  1292.488  ( 500.0 /2000.0) 
+     Solute        vdW Polar SASA (PSA)  =   100.676  (   7.0 / 200.0) 
+     Solute        No. of Rotatable Bonds=     5.000  (   0.0 /  15.0) 
+     Solute as Donor -    Hydrogen Bonds =     0.000  (   0.0 /   6.0) 
+     Solute as Acceptor - Hydrogen Bonds =    11.000  (   2.0 /  20.0) 
+     Solute Globularity   (Sphere = 1)   =     0.792  (  0.75 /  0.95) 
+     Solute Ionization Potential (eV)    =     8.947  (   7.9 /  10.5) 
+     Solute Electron Affinity    (eV)    =     1.566  (  -0.9 /   1.7) 
+ Predictions for Properties:
+   QP Polarizability (Angstroms^3)       =    44.945M (  13.0 /  70.0) 
+   QP log P  for     hexadecane/gas      =    14.080M (   4.0 /  18.0) 
+   QP log P  for     octanol/gas         =    21.527M (   8.0 /  35.0) 
+   QP log P  for     water/gas           =    16.099M (   4.0 /  45.0) 
+   QP log P  for     octanol/water       =     0.997  (  -2.0 /   6.5) 
+   QP log P  o/w     by  80% similarity  =     0.997  (  -2.0 /   6.5) 
+   QP log S  for   aqueous solubility    =    -1.771  (  -6.5 /   0.5) 
+   QP log S          by  81% similarity  =    -1.771  (  -6.5 /   0.5) 
+   QP log S - conformation independent   =    -3.200  (  -6.5 /   0.5) 
+   QP log K hsa Serum Protein Binding    =    -1.106  (  -1.5 /   1.5) 
+   QP log BB for     brain/blood         =    -0.579  (  -3.0 /   1.2) 
+   No. of Primary Metabolites            =         6  (   1.0 /   8.0) 
+   Predicted CNS Activity (-- to ++)     =       + 
+   HERG K+ Channel Blockage: log IC50    =    -5.537  (concern below -5)
+   Apparent Caco-2 Permeability (nm/sec) =        63  (<25 poor, >500 great)
+   Apparent MDCK   Permeability (nm/sec) =       221M (<25 poor, >500 great)
+   QP log Kp for skin permeability       =    -4.818  (Kp in cm/hr)
+   Jm, max transdermal transport rate    =     0.118  (micrograms/cm^2-hr)
+   Lipinski Rule of 5 Violations         =         0  (maximum is 4)
+   % Human Oral Absorption in GI (+-20%) =        65  (<25% is poor)
+   Qual. Model for Human Oral Absorption =      HIGH  (>80% is high)
+
+      An M indicates MW is outside training range.
+
+
+      20 of   1712 molecules most similar to the input one are:
+          Name                           Similarity(%)
+Loprazolam                                    80.50
+Metopimazine                                  80.31
+Moricizine                                    80.21
+Thioproperazine                               79.61
+Pholcodine                                    77.62
+Sildenafil                                    76.25
+Zopiclone                                     75.89
+Fominoben                                     75.15
+Spiperone                                     74.59
+Nicocodine                                    73.80
+Thiothixene                                   73.57
+Tandospirone                                  73.28
+Ketanserin                                    72.92
+Fipexide                                      72.67
+Buspirone                                     72.60
+Dextromoramide                                72.24
+Rubitecan                                     72.11
+Risperidone                                   72.09
+Cinepazide                                    72.00
+Perospirone                                   71.86
+
+    QP Breakdown (< for descriptor over training max)
+                log Po/w                    -log S
+ H-bond Donor         0.000    H-bond Donor         0.000 
+ H-bond Acceptor     -5.357    H-bond Acceptor     -5.760 
+ Volume               8.432    SASA                13.726 
+ Ac x Dn^.5/SASA      0.000    Ac x Dn^.5/SASA      0.000 
+ FISA                -1.003    Rotor Bonds         -0.814 
+ Non-con amines      -0.527    N Protonation       -1.219 
+ Non-con amides      -0.626    Non-con amides      -0.910 
+ WPSA & PISA          0.782    WPSA                 0.531 
+ Constant            -0.705    Constant            -3.783 
+ Total                0.997    Total                1.771
+
+
+                log BB                    log PMDCK
+ Hydrophilic SASA    -1.539    Hydrophilic SASA    -1.485 
+ WPSA                 0.299    WPSA                 0.668 
+ Rotor Bonds         -0.301                         0.000 
+ N Protonation        0.399    Non-con amines      -0.608 
+ FOSA                 0.000    COOH/SO3H acids      0.000 
+ Constant             0.563    Constant             3.771
+ Total               -0.579    Total                2.346
+
