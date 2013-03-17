@@ -4,7 +4,7 @@ import cgi, os, cgitb, base64, psycopg2, subprocess,sys
 cgitb.enable()
 
 #MOVE TO UPLOAD DIRECTORY
-os.chdir('/var/www/iddqd-prod/uploads/')
+os.chdir('../uploads/')
 ##############OPTIONS####################
 debug=False
 maxdata=5
@@ -100,6 +100,7 @@ for i in xrange(maxdata):
 #########################################
 
 
+#CHECK IF MOLNAME (WLJID) EXISTS
 dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
 q = dbconn.cursor()
 q.execute('SELECT molid FROM molecules WHERE molname=%s',[molname]) 
@@ -113,7 +114,7 @@ if len(r)>0:
 	sys.exit()
 
 
-###ADD TO MOLECULES###########
+###ADD TO MOLECULES TABLE###########
 query='INSERT INTO molecules (molname,authorid,dateadded'
 if(cas):
 	query+=',cas'
@@ -135,7 +136,7 @@ if(molnotes):
 ##############################
 
 
-######ADD TO DATA########### NOW THERE ARE UP TO (maxdata) VALUES OF PROPERTYDATA BINDNGDATA AND DOCDATA TYPES
+######ADD TO DATA TABLE########### NOW THERE ARE UP TO (maxdata) VALUES OF PROPERTYDATA BINDNGDATA AND DOCDATA TYPES
 for i in xrange(len(bindingdatas)):
 	query='INSERT INTO moldata (molid,authorid,dateadded,targetid,datatype,value)'
 	query+=' VALUES (%s, %s, localtimestamp, %s, %s, %s) RETURNING moldataid '

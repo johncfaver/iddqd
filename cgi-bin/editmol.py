@@ -5,7 +5,7 @@ from urllib import unquote_plus
 cgitb.enable()
 
 #MOVE TO UPLOAD DIRECTORY
-os.chdir('/var/www/iddqd-prod/uploads/')
+os.chdir('../uploads/')
 ##############OPTIONS####################
 debug=False
 maxdata=5
