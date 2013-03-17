@@ -1,19 +1,15 @@
-
+<!DOCTYPE html>
 <html>
 <head>
 <title>Register New Account</title>
 <link rel="stylesheet" href="iddqd.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 </head>
 <body>
 
-<div id="div_left">
-		<div id="div_ad">
-		<a href="http://web.chemdoodle.com"><img src="chemdoodleweb.png" /></a>
-	</div>
-</div>	
+<div id="div_left"></div>	
 <div id="div_top">
-	<div id="div_login">
-	</div>	
+	<div id="div_login"></div>	
 </div>
 <div id="div_main">
 <?php
