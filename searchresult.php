@@ -37,14 +37,14 @@
 		$searchtype=(isset($_POST['searchtype']))?$_POST['searchtype']:0;
 		if($searchtype=='similarity'){
 			$similarities = Array();
-			$cmdstr='for i in $(seq '.$dbminmol.' 1 '.$dbmaxmol.');do /usr/local/bin/babel /var/www/iddqd-prod/uploads/structures/$i.mol '.$tempmolfile.' -ofpt 2>/dev/null | ';
+			$cmdstr='for i in $(seq '.$dbminmol.' 1 '.$dbmaxmol.');do /usr/bin/babel uploads/structures/$i.mol '.$tempmolfile.' -ofpt 2>/dev/null | ';
 			$cmdstr.='grep Tanimoto | tr \'\n\' \' \0\' && ';
 			$cmdstr.='echo $i;done | awk \'{if(NF>1 && $6>'.$similaritythreshold.'){print $7" "$6}}\' | sort -rnk 2';
 			exec($cmdstr,$similarities);	 //$similarities has strings like : 'molid similarity'
 		}elseif($searchtype=='substructure'){
 			$superstructures= Array(); 
 			for($i=$dbminmol;$i<=$dbmaxmol;$i++){
-				$cmdstr='/usr/local/bin/babel /var/www/iddqd-prod/uploads/structures/'.$i.'.mol -s'.$tempmolfile.' /tmp/'.session_id().'results.smi -xt 2>/dev/null;';
+				$cmdstr='/usr/bin/babel uploads/structures/'.$i.'.mol -s'.$tempmolfile.' /tmp/'.session_id().'results.smi -xt 2>/dev/null;';
 				$cmdstr.='[ -s /tmp/'.session_id().'results.smi ] && echo 1';
 				if(exec($cmdstr)){
 					array_push($superstructures,$i);	
