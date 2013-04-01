@@ -4,10 +4,10 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Connection failed: '. $e->getMessage();
+		echo 'Database connection failed: '. $e->getMessage();
 	}
 	session_start();
-	$loggedin = (isset($_SESSION['username']))?True:False;
+	$loggedin = isset($_SESSION['username']);
 	if(!$loggedin) returnhome();	
 	
 	$q = $dbconn->query("SELECT COUNT(molid) FROM molecules");
@@ -20,6 +20,7 @@
 <head>
 <title>Molecules</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="reset.css" type="text/css" />
 <link rel="stylesheet" href="iddqd.css" type="text/css" />
 </head>
 <body>

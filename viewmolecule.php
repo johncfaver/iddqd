@@ -3,11 +3,11 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Connection failed: '. $e->getMessage();
+		echo 'Database connection failed: '. $e->getMessage();
 	}
 
 	session_start();
-	$loggedin = (isset($_SESSION['username']))?True:False;
+	$loggedin = isset($_SESSION['username']);
 	$thismolid = (isset($_GET['molid']))?(int)pg_escape_string($_GET['molid']):-1;
 	if(!$loggedin or $thismolid<0) returnhome();
 
@@ -22,6 +22,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="reset.css" type="text/css" />
 <link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css">
 <link rel="stylesheet" href="iddqd.css" type="text/css" />
 <link rel="stylesheet" href="viewmolecule.css" type="text/css" />

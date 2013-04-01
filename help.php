@@ -3,10 +3,10 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Connection failed: '. $e->getMessage();
+		echo 'Database connection failed: '. $e->getMessage();
 	}
 	session_start();
-	$loggedin = (isset($_SESSION['username']))? True:False;
+	$loggedin = isset($_SESSION['username']);
 	if(!$loggedin) returnhome();
 ?>
 <!DOCTYPE html>
@@ -14,7 +14,9 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Help</title>
+<link rel="stylesheet" href="reset.css" type="text/css" />
 <link rel="stylesheet" href="iddqd.css" type="text/css" />
+<link rel="stylesheet" href="help.css" type="text/css" />
 <script type="text/javascript" src="iddqd.js"></script>
 </head>
 <body>
@@ -45,12 +47,12 @@
 	function selecthelp(t){
 		for(var i=0;i<tabs.length;i++){
 			var j = document.getElementById(tabs[i]);
-			j.style.background='#ffffff';
+			j.setAttribute("class","helptab nonlinks");
 			j = document.getElementById('helpcontent_'+tabs[i]);
 			j.style.display='none';
 		}		
 		var j = document.getElementById(t);
-		j.style.background='#aaaaff';
+		j.setAttribute("class","helptab helptabselected nonlinks");
 		j = document.getElementById('helpcontent_'+t);
 		j.style.display='block';
 	}
@@ -58,12 +60,12 @@
 </script>
 <div id="div_main">
 	<h2>IDDQD-Help</h2><br />
-	<div id="helpbar" style="width:100%;border:0px solid gray;height:30px;margin-left:25px;">
-		<div id="searching" onclick="selecthelp('searching')" style="width:19%;border:1px solid #dddddd;float:left;text-align:center;background:#aaaaff">Searching</div>
-		<div id="inserting" onclick="selecthelp('inserting')" style="width:19%;border:1px solid #dddddd;float:left;text-align:center;">Inserting</div>
-		<div id="drawing" onclick="selecthelp('drawing')" style="width:19%;border:1px solid #dddddd;float:left;text-align:center;">Drawing</div>
-		<div id="viewing" onclick="selecthelp('viewing')" style="width:19%;border:1px solid #dddddd;float:left;text-align:center;">Viewing</div>
-		<div id="exporting" onclick="selecthelp('exporting')" style="width:19%;border:1px solid #dddddd;float:left;text-align:center;">Exporting</div>
+	<div id="helpbar" >
+		<div id="searching" onclick="selecthelp('searching')" class="helptab helptabselected nonlinks"><a href="#">Searching</a></div>
+		<div id="inserting" onclick="selecthelp('inserting')" class="helptab nonlinks"><a href="#">Inserting</a></div>
+		<div id="drawing" onclick="selecthelp('drawing')" class="helptab nonlinks"><a href="#">Drawing</a></div>
+		<div id="viewing" onclick="selecthelp('viewing')" class="helptab nonlinks"><a href="#">Viewing</a></div>
+		<div id="exporting" onclick="selecthelp('exporting')" class="helptab nonlinks"><a href="#">Exporting</a></div>
 	</div>
 	<div id="helpcontent_searching" class="help_content" style="display:block;"> 
 		<br/>Search By:
@@ -141,8 +143,6 @@
 			 click "Export PDF". For a spreadsheet containing all of the available measurement data for the compounds, 
 			click "Export Spreadsheet". For the 2D and 3D mol files as well as a compiled SDF file of your notebook, click "Export structures".
 	</div>
-
-
 </div>
 </body>
 </html>

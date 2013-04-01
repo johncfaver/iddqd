@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+#
+# Remove selcted molecule comment from database.
+#
 
 import cgi,cgitb,psycopg2
 cgitb.enable()

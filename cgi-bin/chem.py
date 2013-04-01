@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 
-"""
-John's Chemistry Library
-"""
-import math
+from math import pi
 
 #Physical constants in standard SI units.
 h=6.626068E-34                                  #planck's J*s
@@ -12,7 +9,7 @@ k=1.3806503E-23                                 #boltzmann's J/K
 R=8.3144                                        #Gas const.(k*Nav) J/K/mol
 Nav=6.0221415E23                                #Avagadro's /mol
 e=1.60217646E-19                                #elementary charge C
-hBar=h/2/math.pi                                
+hBar=h/2/pi                                
 hbar=hBar
 electronMass=9.10938188E-31                     #kg
 protonMass=1.67262158E-27                       #kg
@@ -26,7 +23,6 @@ def round_to_n(x, n):
     if n < 1:
         raise ValueError("number of significant digits must be >= 1")
     return "%.*f" % (n-1, x)
-
 
 def mass(sym):                                   
 	sym=sym.lower()

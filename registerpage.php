@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Register New Account</title>
-<link rel="stylesheet" href="iddqd.css" type="text/css" />
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Register New Account</title>
+	<link rel="stylesheet" href="reset.css" type="text/css" />
+	<link rel="stylesheet" href="iddqd.css" type="text/css" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 </head>
 <body>
 

@@ -1,6 +1,7 @@
 <?php
-// Remove molid from notebook, by removing it from the session variable "notebook_molids"
-// Go to either the notebook page or the molecule page depending on the GET variable "dest"
+/* Remove molid from notebook, by removing it from the session variable "notebook_molids"
+   Go to either the notebook page or the molecule page depending on the GET variable "dest"
+*/
 	require('/home/faver/bin/cred.php');
 	if(isset($_GET['molid'])){
 		$thismolid=(int)pg_escape_string($_GET['molid']);	

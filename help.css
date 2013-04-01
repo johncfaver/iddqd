@@ -1,0 +1,14 @@
+.helptab{
+	width:19%;
+	border:1px solid #dddddd;
+	float:left;
+	text-align:center;
+}
+.helptabselected{
+	background:#aaaaff;
+}
+#helpbar{
+	width:100%;
+	height:30px;
+	margin-left:25px;
+}

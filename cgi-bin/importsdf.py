@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+
+#
+# utility program for uploading many molecules in an sdf file. 
+#
 import psycopg2,sys,os,shutil
 from molecule import molecule
 

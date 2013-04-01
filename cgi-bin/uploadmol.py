@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+#
+# Inserts new molecule data into database.
+#
+
 import cgi, os, cgitb, base64, psycopg2, subprocess,sys
 cgitb.enable()
 

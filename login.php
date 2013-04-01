@@ -28,6 +28,6 @@
         else{
 		$dbconn=null;
                 $loggedin=False;
-                header('Location: index.php?s=badpw');
+                header('Location: index.php?status=badpw');
         }
 ?>

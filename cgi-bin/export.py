@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+#
+# Generate reports for exporting notebooks.
+#
+
 import os, cgi, cgitb, shutil, psycopg2
 cgitb.enable()
 from reportlab.lib.pagesizes import letter

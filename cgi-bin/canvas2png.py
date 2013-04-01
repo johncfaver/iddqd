@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-import cgi, cgitb, os, base64
+import cgi, cgitb
 cgitb.enable()
+from base64 import decodestring
 
 form = cgi.FieldStorage()
 

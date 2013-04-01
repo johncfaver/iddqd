@@ -1,13 +1,16 @@
 <?php
+/*
+	Main page for editing molecule information.
+*/
 	require('/home/faver/bin/cred.php');
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Connection failed: '. $e->getMessage();
+		echo 'Database connection failed: '. $e->getMessage();
 	}
 	session_start();
 
-	$loggedin = (isset($_SESSION['username']))?True:False;
+	$loggedin = isset($_SESSION['username']);
 	$thismolid = (isset($_GET['molid']))?(int)$_GET['molid']:-1;
 	if(!$loggedin or $thismolid==-1 ) returnhome();
 
@@ -37,6 +40,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<link rel="stylesheet" href="reset.css" type="text/css" />
 <link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css" />
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>

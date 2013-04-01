@@ -3,7 +3,7 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Connection failed: '. $e->getMessage();
+		echo 'Database connection failed: '. $e->getMessage();
 	}
 	session_start();
 	$loggedin = (isset($_SESSION['username']))? True:False;
@@ -12,10 +12,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>My Notebook</title>
-<link rel="stylesheet" href="iddqd.css" type="text/css" />
-<script type="text/javascript" src="iddqd.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>My Notebook</title>
+	<link rel="stylesheet" href="reset.css" type="text/css" />
+	<link rel="stylesheet" href="iddqd.css" type="text/css" />
+	<script type="text/javascript" src="iddqd.js"></script>
 </head>
 <body>
 

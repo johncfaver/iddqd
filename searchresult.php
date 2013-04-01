@@ -4,11 +4,11 @@
         try{
                 $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);
         }catch(PDOException $e){
-                echo 'Connection failed: '. $e->getMessage();
+                echo 'Database connection failed: '. $e->getMessage();
         }
 	$dbconn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING );
         session_start();
-        $loggedin = (isset($_SESSION['username']))?True:False;
+        $loggedin = isset($_SESSION['username']);
         if(!$loggedin) returnhome();
 
 	$nummol=(isset($_POST['nummol']) and $_POST['nummol']>0)?(int)$_POST['nummol']:8;
@@ -73,8 +73,9 @@
 <head>
 <title>Search Result</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="iddqd.js"></script>
+<link rel="stylesheet" href="reset.css" type="text/css" />
 <link rel="stylesheet" href="iddqd.css" type="text/css" />
+<script type="text/javascript" src="iddqd.js"></script>
 </head>
 <body>
 
