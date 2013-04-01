@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+#
+#  Perform various computations on molecule after entry into IDDQD
+#	1) Generate 3d structures with obgen
+#	2) MW and formula computation
+#	3) Extras
+#
 import os, psycopg2, subprocess, sys
 from molecule import molecule
 

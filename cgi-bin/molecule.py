@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from atom import atom
-from sys import exit as die
+from sys import exit 
 from chem import mass
 
 class molecule:
@@ -37,7 +37,7 @@ class molecule:
 			f=open(filename)
 		except:
 			print 'ERROR LOADING ',filename
-			die()
+			exit()
 		atomlist=[]
 		firstatominres=[]
 		res='1'	
@@ -70,7 +70,7 @@ class molecule:
 		except:
 			print line.split(),filename
 			print 'This XYZ format sucks. Put the charge on line 2.'
-			die()	
+			exit()	
 		fl=f.readlines()
 		f.close()
 		atomlist=[]
@@ -81,7 +81,6 @@ class molecule:
 			except:
 				print 'This XYZ format sucks. Check line', str(fl.index(i)+3),' of ',filename,'.'
 				break
-				#die()
 		return atomlist
 	
 	def readMOLfile(self,filename):

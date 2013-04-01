@@ -10,7 +10,7 @@ class atom:
 	def __init__(self,atsym,x,y,z,name='none'):
 		self.atsym = atsym.upper()
 		if len(self.atsym)>1:
-			self.atsym=self.atsym[0]+self.atsym[1].lower()
+			self.atsym=self.atsym[0].upper()+self.atsym[1].lower()
 		self.x=eval(str(x))
 		self.y=eval(str(y))
 		self.z=eval(str(z))

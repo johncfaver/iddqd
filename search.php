@@ -3,26 +3,27 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Connection failed: '. $e->getMessage();
+		echo 'Database connection failed: '. $e->getMessage();
 	}
 	session_start();
-	$loggedin = (isset($_SESSION['username']))?True:False;
+	$loggedin = isset($_SESSION['username']);
 	if(!$loggedin) returnhome();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-<link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css" />
-<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
-<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
-<link rel="stylesheet" href="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.css" type="text/css" />
-<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
-<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/ChemDoodleWeb-sketcher.js"></script>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>Molecule Search</title>
-<link rel="stylesheet" href="iddqd.css" type="text/css" />
-<script type="text/javascript" src="iddqd.js"></script>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+	<link rel="stylesheet" href="reset.css" type="text/css" />
+	<link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css" />
+	<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
+	<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
+	<link rel="stylesheet" href="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.css" type="text/css" />
+	<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
+	<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/ChemDoodleWeb-sketcher.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Molecule Search</title>
+	<link rel="stylesheet" href="iddqd.css" type="text/css" />
+	<script type="text/javascript" src="iddqd.js"></script>
 </head>
 <body>
 

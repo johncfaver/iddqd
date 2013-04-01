@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+#
+# Delete moldata from the editemolecule page.
+#
 import cgi, os, cgitb, psycopg2,subprocess
 cgitb.enable()
 

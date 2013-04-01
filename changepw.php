@@ -3,7 +3,7 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Connection failed: '. $e->getMessage();
+		echo 'Database connection failed: '. $e->getMessage();
 	}
 
 	$desiredusername=pg_escape_string($_POST['desiredusername']);
@@ -12,7 +12,6 @@
 	$q = $dbconn->prepare("SELECT username from users where username=:name");
 	$q->bindParam(":name",$desiredusername,PDO::PARAM_STR);
 	$q->execute();	
-	$nameexists=False;
 	if($q->rowCount()==0){
 		$nameexists=False;	
 	}else{

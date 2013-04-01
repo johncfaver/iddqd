@@ -1,6 +1,11 @@
 #!/usr/bin/python
 
-import cgi, os, cgitb, base64, psycopg2, subprocess,sys
+#
+# Update given molecule based on input from editmolecule page.
+# Check if structure changed before doing any computations. 
+#
+
+import cgi, os, cgitb, base64, psycopg2, subprocess, sys
 from urllib import unquote_plus
 cgitb.enable()
 
@@ -94,7 +99,7 @@ bindingdatas=[]
 propertydatas=[]
 commentdatas=[]
 docdatas=[]
-#LOAD OLD DATAS 
+#LOAD OLD DATA 
 for i in oldbindingdataids:
 	if 'bindingdata_datatypeid_'+i in keys and 'bindingdata_value_'+i in keys and 'bindingdata_targetid_'+i in keys:	
 		if(not form['bindingdata_value_'+i].value):	
@@ -134,7 +139,7 @@ for i in olddocdataids:
 		if 'textarea_docdata_notes_'+i in keys:
 			docdatas[-1].notes=form['textarea_docdata_notes_'+i].value
 			docdatas[-1].notesid=form['docdata_notesid_'+i].value
-#LOAD NEW DATAS
+#LOAD NEW DATA
 for i in xrange(1,maxdata+1):
 	if 'bindingdata_datatypeid_new_'+str(i) in keys and 'bindingdata_value_new_'+str(i) in keys and 'bindingdata_targetid_new_'+str(i) in keys:	
 		if(not form['bindingdata_value_new_'+str(i)].value):	

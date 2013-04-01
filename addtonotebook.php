@@ -1,4 +1,8 @@
 <?php
+/*
+	Given a molid, add the molecule to the notebook_molids session array.
+	Return the user to a specified destination, or default to viewmolecule page.
+*/
 	require('/home/faver/bin/cred.php');
 	if(isset($_GET['molid'])){
 		$addmolid=(int)pg_escape_string($_GET['molid']);	
@@ -12,7 +16,7 @@
 	}
 
 	if(isset($_GET['dest'])){
-		if($_GET['dest']=='nb'){
+		if($_GET['dest']=='nb'){	 // Intended destination is notebook.php
 			header('Location: notebook.php');	
 		}
 	}else{	

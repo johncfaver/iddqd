@@ -1,18 +1,20 @@
 <?php
-
+/*
+	Main page for drawing molecules and entering data into the database.
+*/
 	require('/home/faver/bin/cred.php');
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Connection failed: '. $e->getMessage();
+		echo 'Database connection failed: '. $e->getMessage();
 	}
 	session_start();
 
-	$loggedin = (isset($_SESSION['username']))?True:False;
+	$loggedin = isset($_SESSION['username']);
 	if(!$loggedin) returnhome();
 
-	if(isset($_FILES['sdffileupload'])){
-		$fileupload=True;
+	$fileupload = isset($_FILES['sdffileupload']);
+	if($fileupload){
 		$thismolfilename=substr($_FILES['sdffileupload']['name'],0,-4);
 		$handle = fopen($_FILES['sdffileupload']['tmp_name'],'r');
 		$thismolfilecontents='';
@@ -20,30 +22,26 @@
 			$thismolfilecontents.=rtrim($line).'\n';
 		}
 		fclose($handle);
-	}else{
-		$fileupload=False;
 	}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-<link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css" />
-<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
-<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
-<link rel="stylesheet" href="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.css" type="text/css" />
-<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
-<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/ChemDoodleWeb-sketcher.js"></script>
-<script type="text/javascript" src="iddqd.js"></script>
-
-<script type="text/javascript">
-	var datafields = new Array();
-</script>
-
-<title>Add a Molecule</title>
-
-<link rel="stylesheet" href="iddqd.css" type="text/css" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+	<link rel="stylesheet" href="reset.css" type="text/css" />
+	<link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css" />
+	<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
+	<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
+	<link rel="stylesheet" href="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.css" type="text/css" />
+	<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
+	<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/ChemDoodleWeb-sketcher.js"></script>
+	<script type="text/javascript" src="iddqd.js"></script>
+	<script type="text/javascript">
+		var datafields = new Array();
+	</script>
+	<title>Add a Molecule</title>
+	<link rel="stylesheet" href="iddqd.css" type="text/css" />
 </head>
 <body>
 
@@ -75,7 +73,7 @@
 		<script>
 		ChemDoodle.ELEMENT['H'].jmolColor = 'black';
 		ChemDoodle.ELEMENT['S'].jmolColor = '#B9A130';
-		// canvasID, width, height, icondirectory,touch,cloud
+		// arguments: canvasID, width, height, icondirectory, touch, cloud
 		var sketcher = new ChemDoodle.SketcherCanvas('sketcher', 500, 300, 'ChemDoodleWeb/install/sketcher/icons/', ChemDoodle.featureDetection.supports_touch(), false);
 		sketcher.specs.atoms_displayTerminalCarbonLabels_2D = true;
 		sketcher.specs.atoms_useJMOLColors = true;

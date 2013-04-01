@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+#
+# Utility script for convering sdf file to individual mol files.
+#
 import sys, os
 
 if(len(sys.argv)!=2 or sys.argv[1][-4:]!='.sdf'):
