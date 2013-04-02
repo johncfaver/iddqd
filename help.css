@@ -12,3 +12,21 @@
 	height:30px;
 	margin-left:25px;
 }
+li{
+	margin-left:25px;
+	list-style-type:circle;
+	padding-bottom:10px;
+	padding-top:10px;
+}
+b{
+	font-weight:bold;
+}
+.help_content{
+        min-height:100px;
+        width:95%;
+        border:0px solid gray;
+        margin-left:35px;
+        display:none;
+        text-align:justify;
+        font-size:0.8em;
+}
