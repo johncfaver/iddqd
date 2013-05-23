@@ -113,41 +113,41 @@ img{
 	position:absolute;
 	width:100px
 	text-align:left;
-	top:5px;
-	left:15px;
-	font-size:0.9em;
+	top:10px;
+	left:300px;
+	font-size:1.2em;
 }
 #div_molecules_next{
 	position:absolute;
 	width:100px
 	text-align:right;
-	top:5px;
-	right:15px;
-	font-size:0.9em;
+	top:10px;
+	right:300px;
+	font-size:1.2em;
 }
 #moleculetable{
 	position:absolute;
 	width:900px;
-	text-align:right;
 	top:50px;
-	left:10px;
-	border:0px solid red;
-	margin:auto;
+	left:15px;
 	font-size:0.9em;
 }
 .molth{
-	background:#999999;
+	background:#bbbbff;
 	text-align:center;
 	padding:5px;
+    border-bottom:1px solid #333333;
+    border-top:1px solid #333333;
 }
-.moltr{
-}
-.moltd1{
+.moltd{
 	text-align:center;
+    vertical-align:middle;
 }
-.moltd2{
-	text-align:center;
-	background:#dedede;
+.moltdcolor{
+	background:#e4e4ef;
+}
+.moltdborderright{
+    border-right:1px solid #333333;
 }
 #div_molnotes{
 	position:absolute;

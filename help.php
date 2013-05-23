@@ -26,7 +26,7 @@
 		<span class="nonlinks">
 		<a href="index.php" style="color:white">Home</a><br /><br />
 		<a href="search.php" style="color:white">Search </a><br /><br />
-		<a href="molecules.php" style="color:white">View Molecules</a><br /><br />
+		<a href="molecules.php" style="color:white">View Library</a><br /><br />
 		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
 		<a href="targets.php" style="color:white">View Targets</a><br /><br />
 		<a href="help.php" style="color:#bbbbff">Help</a><br /><br />

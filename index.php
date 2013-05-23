@@ -25,7 +25,7 @@
 		echo '<span class="nonlinks">';
 		echo '<a href="index.php" style="color:#bbbbff">Home</a><br /><br />';
 		echo '<a href="search.php" style="color:white">Search</a> <br /><br />';
-		echo '<a href="molecules.php" style="color:white">View Molecules</a><br /><br />';
+		echo '<a href="molecules.php" style="color:white">View Library</a><br /><br />';
 		echo '<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />';
 		echo '<a href="targets.php" style="color:white">View Targets</a><br /><br />';
 		echo '<a href="help.php" style="color:white">Help</a><br /><br />';

@@ -30,7 +30,7 @@
 		<span class="nonlinks">
 		<a href="index.php" style="color:white">Home</a><br /><br />
 		<a href="search.php" style="color:white">Search</a> <br /><br />
-		<a href="molecules.php" style="color:#bbbbff">View Molecules</a><br /><br />
+		<a href="molecules.php" style="color:#bbbbff">View Library</a><br /><br />
 		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
 		<a href="targets.php" style="color:white">View Targets</a><br /><br />
 		<a href="help.php" style="color:white">Help</a><br /><br />
@@ -61,19 +61,19 @@
 ?>
 <table id="moleculetable" >
 	<tr class="moltr">
-		<th class="molth">Structure </th>
+		<th class="molth moltdborderright">Structure </th>
 		<?php
-			echo '<th class="molth"><a href="molecules.php?sortby=molname';
+			echo '<th class="molth moltdborderright"><a href="molecules.php?sortby=molname';
 			if($sortby=='molname' && $sortdir==0) echo '&sortdir=1';
 			if($sortby=='molname' && $sortdir) echo '&sortdir=0';
 			echo '">Name</a></th>';
 
-			echo '<th class="molth"><a href="molecules.php?sortby=molweight';
+			echo '<th class="molth moltdborderright"><a href="molecules.php?sortby=molweight';
 			if($sortby=='molweight' && $sortdir==0) echo '&sortdir=1';
 			if($sortby=='molweight' && $sortdir) echo '&sortdir=0';
 			echo'">MW</a></th>';
 	
-			echo '<th class="molth"><a href="molecules.php?sortby=username';
+			echo '<th class="molth moltdborderright"><a href="molecules.php?sortby=username';
 			if($sortby=='username' && $sortdir==0) echo '&sortdir=1';
 			if($sortby=='username' && $sortdir) echo '&sortdir=0';
 			echo'">Author</a></th>';
@@ -98,27 +98,27 @@
 	$count=1;
 	foreach($response as $entry){
 		if($count%2==0){
-			$tdcolor="moltd2";
+			$tdcolor="moltdcolor";
 		}else{
-			$tdcolor="moltd1";
+			$tdcolor="";
 		}
 		echo '<tr class="moltr">';
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd '.$tdcolor.' moltdborderright">';
 				echo '<a href="viewmolecule.php?molid='.$entry['molid'].'"><img src="uploads/sketches/'.$entry['molid'].'.jpg" style="height:60px"/></a>';
 			echo '</td>';
 			
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class=" moltd '.$tdcolor.' moltdborderright">';
 				echo '<a href="viewmolecule.php?molid='.$entry['molid'].'">'.$entry['molname'].'</a>';
 			echo '</td>';
 
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd '.$tdcolor.' moltdborderright">';
 				echo $entry['molweight'];
 			echo '</td>';
 
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd '.$tdcolor.' moltdborderright">';
 				echo $entry['username'];
 			echo '</td>';
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd '.$tdcolor.'">';
 				echo parsetimestamp($entry['dateadded']);
 			echo '</td>';
 		echo '</tr>';	
@@ -126,7 +126,7 @@
 	}	
 ?>	
 </table>
-
+<br />
 </div>
 </body>
 </html>
