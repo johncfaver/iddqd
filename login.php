@@ -21,6 +21,7 @@
 		$_SESSION['username']=$userarray['username'];	
 		$_SESSION['userid']=$userarray['userid'];
 		$_SESSION['notebook_molids']=Array();
+        $_SESSION['notebook_bountyids']=Array();
 		$loggedin=True;	
              	$dbconn=null;
                 returnhome();

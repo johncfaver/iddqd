@@ -1,13 +1,17 @@
 #!/usr/bin/python
 
 #
-#  Perform various computations on molecule after entry into IDDQD
+#  Perform various computations on molecule after entry into molecule table and filesystem
 #	1) Generate 3d structures with obgen
 #	2) MW and formula computation
 #	3) Extras
 #
-import os, psycopg2, subprocess, sys
+import os, psycopg2, subprocess, sys, json
 from molecule import molecule
+
+with open('/home/faver/bin/iddqd-config.json') as configfile:
+    config = json.load(configfile)
+babeldir = config['babeldir'].encode('utf-8')
 
 cgidir=os.getcwd()
 os.chdir('../uploads/structures')
@@ -15,7 +19,7 @@ os.chdir('../uploads/structures')
 molid = int(sys.argv[1])
 
 ###GENERATE 3D MOL FILE WITH OBGEN###
-subprocess.call(['/usr/bin/obgen',str(molid)+'.mol'],stdout=open(str(molid)+'-3dt.mol','w'),stderr=open(os.devnull,'w'))
+subprocess.call([babeldir+'obgen',str(molid)+'.mol'],stdout=open(str(molid)+'-3dt.mol','w'),stderr=open(os.devnull,'w'))
 subprocess.call(['/bin/grep','-v','WARNING',str(molid)+'-3dt.mol'],stdout=open(str(molid)+'-3d.mol','w'),stderr=open(os.devnull,'w'))
 subprocess.Popen(['/bin/rm',str(molid)+'-3dt.mol'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 

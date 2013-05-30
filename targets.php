@@ -27,12 +27,10 @@
 		<a href="search.php" style="color:white">Search</a> <br /><br />
 		<a href="molecules.php" style="color:white">View Library</a><br /><br />
 		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
-		<a href="targets.php" style="color:#bbbbff">View Targets</a><br /><br />
+    	<a href="bounties.php" style="color:white">Bounties</a><br /><br />
+    	<a href="targets.php" style="color:#bbbbff">Targets</a><br /><br />
 		<a href="help.php" style="color:white">Help</a><br /><br />
 	</span>
-	</div>
-	<div id="div_ad">
-		<a href="http://web.chemdoodle.com"><img src="chemdoodleweb.png" /></a>
 	</div>
 </div>	
 <div id="div_top">
@@ -45,29 +43,33 @@
 </div>
 <div id="div_main">
 
-<table id="moleculetable" >
+<table class="moleculetable" >
 	<tr class="moltr">
-		<th class="molth">Name</th>	
-		<th class="molth">Nickname</th>
-		<th class="molth">Target Class</th>	
+		<th class="molth moltdborderright">Name</th>	
+		<th class="molth moltdborderright">Nickname</th>
+		<th class="molth moltdborderright">Target Class</th>	
+        <th class="molth moltdborderright">Series Name</th>	
 		<th class="molth">Inhibitors</th>
 	</tr>
 <?php
 		$icount=0;
-		$q=$dbconn->query("select t.targetid,t.fullname,t.nickname,t.targetclass,count(m.molid) from targets t left join moldata m on t.targetid=m.targetid group by t.targetid order by count desc;");
+		$q=$dbconn->query("select t.targetid,t.fullname,t.nickname,t.targetclass,t.series,count(m.molid) from targets t left join moldata m on t.targetid=m.targetid group by t.targetid order by count desc;");
 		foreach($q as $row){
-			$color=($icount%2==0)?'moltd1':'moltd2';
-			echo '<tr class="moltr">';
-			echo '	<td class="'.$color.'">';
+			$color=($icount%2==0)?'moltdcolor':'';
+			echo '<tr>';
+			echo '	<td class="moltd '.$color.' moltdpadding moltdborderright">';
 			echo	$row['fullname']; 	
 			echo '	</td>';
-			echo '	<td class="'.$color.'">';
+			echo '	<td class="moltd '.$color.' moltdpadding moltdborderright">';
 			echo	$row['nickname']; 	
 			echo '	</td>';
-			echo '	<td class="'.$color.'">';
+			echo '	<td class="moltd '.$color.' moltdpadding moltdborderright">';
 			echo    $row['targetclass'];
 			echo '	</td>';
-			echo '	<td class="'.$color.'">';
+            echo '	<td class="moltd '.$color.' moltdpadding moltdborderright">';
+			echo    $row['series'];
+			echo '	</td>';
+			echo '	<td class="moltd '.$color.' moltdpadding">';
 			echo    $row['count'];
 			echo '	</td>';
 			echo '</tr>';

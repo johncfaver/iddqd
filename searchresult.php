@@ -86,7 +86,8 @@
 		<a href="search.php" style="color:#bbbbff">Search</a> <br /><br />
 		<a href="molecules.php" style="color:white">View Library</a><br /><br />
 		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
-		<a href="targets.php" style="color:white">View Targets</a><br /><br />
+	    <a href="bounties.php" style="color:white">Bounties</a><br /><br />
+    	<a href="targets.php" style="color:white">Targets</a><br /><br />
 		<a href="help.php" style="color:white">Help</a><br /><br />
 	</span>
 	</div>
@@ -189,7 +190,7 @@
 	$err = $q->errorInfo();
 	$response=$q->fetchAll(PDO::FETCH_ASSOC);
 if(count($response)>0){
-	echo '<table id="moleculetable" >
+	echo '<table class="moleculetable" >
 		<tr class="moltr">
 		<th class="molth">Structure </th>';
 	if($query_structure && $searchtype=='similarity') echo '<th class="molth">Similarity</th>';

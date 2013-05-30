@@ -21,7 +21,7 @@ else:
 	username=0
 dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
 q = dbconn.cursor()
-q.execute('SELECT username FROM molecules m LEFT JOIN users u ON m.authorid=u.userid where molid=%s',[molid])
+q.execute('SELECT u.username FROM molecules m LEFT JOIN users u ON m.authorid=u.userid where molid=%s',[molid])
 authorname=q.fetchone()[0]
 if(username!=authorname):
 	print 'Location: ../index.php?status=error\n\n'
@@ -29,6 +29,7 @@ if(username!=authorname):
 q.execute('DELETE FROM molecules WHERE molid=%s',[molid])
 q.execute('DELETE FROM moldata WHERE molid=%s',[molid])
 q.execute('DELETE FROM molcomments WHERE molid=%s',[molid])
+q.execute('DELETE FROM bounties WHERE molid=%s',[molid])
 dbconn.commit()
 q.close()
 subprocess.Popen(['/bin/rm','../uploads/structures/'+str(molid)+'.mol','../uploads/structures/'+str(molid)+'-3d.mol'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))

@@ -32,14 +32,18 @@
 		<a href="search.php" style="color:white">Search</a> <br /><br />
 		<a href="molecules.php" style="color:#bbbbff">View Library</a><br /><br />
 		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
-		<a href="targets.php" style="color:white">View Targets</a><br /><br />
+		<a href="bounties.php" style="color:white">Bounties</a><br /><br />
+		<a href="targets.php" style="color:white">Targets</a><br /><br />
 		<a href="help.php" style="color:white">Help</a><br /><br />
 	</span>
+	</div>
+	<div id="div_ad">
+		<a href="http://web.chemdoodle.com"><img src="chemdoodleweb.png" /></a>
 	</div>
 </div>	
 <div id="div_top">
 	<div id="div_notebook">
-		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids']); ?></a>
+		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids'])+count($_SESSION['notebook_bountyids']); ?></a>
 	</div>
 	<div id="div_login">
 		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?> <a href="logout.php">(logout)</a></span>
@@ -47,7 +51,7 @@
 </div>
 <div id="div_main">
 <?php
-	$nummol=(isset($_GET['nummol']))?(int)$_GET['nummol']:10;
+	$nummol=(isset($_GET['nummol']))?(int)$_GET['nummol']:8;
 	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;
 	$sortby=(isset($_GET['sortby']))?pg_escape_string($_GET['sortby']):'dateadded';
 	$sortdir=(isset($_GET['sortdir']))?(int)$_GET['sortdir']:1;
@@ -59,8 +63,8 @@
 		echo '<div id="div_molecules_next"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart+$nummol).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> next>></a></span></div>';
 	}
 ?>
-<table id="moleculetable" >
-	<tr class="moltr">
+<table class="moleculetable" >
+	<tr>
 		<th class="molth moltdborderright">Structure </th>
 		<?php
 			echo '<th class="molth moltdborderright"><a href="molecules.php?sortby=molname';
@@ -126,7 +130,6 @@
 	}	
 ?>	
 </table>
-<br />
 </div>
 </body>
 </html>

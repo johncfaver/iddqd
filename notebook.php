@@ -27,7 +27,7 @@
 		<a href="search.php" style="color:white">Search </a><br /><br />
 		<a href="molecules.php" style="color:white">View Library</a><br /><br />
 		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
-		<a href="targets.php" style="color:white">View Targets</a><br /><br />
+		<a href="targets.php" style="color:white">Targets</a><br /><br />
 		<a href="help.php" style="color:white">Help</a><br /><br />
 	</span>
 	</div>
@@ -52,7 +52,7 @@
 		<a href="cgi-bin/export.py?export=structures&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo implode(',',$_SESSION['notebook_molids']);?>" >Export Structures</a>
 	</span>	
 
-	<table id="moleculetable">
+	<table class="moleculetable">
 		<tr class="moltr">
 			<th class="molth">Structure</th>
 			<th class="molth">Name</th>
