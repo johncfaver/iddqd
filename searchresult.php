@@ -192,11 +192,11 @@
 if(count($response)>0){
 	echo '<table class="moleculetable" >
 		<tr class="moltr">
-		<th class="molth">Structure </th>';
-	if($query_structure && $searchtype=='similarity') echo '<th class="molth">Similarity</th>';
-	echo '<th class="molth">Name </th>
-		<th class="molth">MW </th>
-		<th class="molth">Author</th>
+		<th class="molth moltdborderright">Structure </th>';
+	if($query_structure && $searchtype=='similarity') echo '<th class="molth moltdborderright">Similarity</th>';
+	echo '<th class="molth moltdborderright">Name </th>
+		<th class="molth moltdborderright">MW </th>
+		<th class="molth moltdborderright">Author</th>
 		<th class="molth">Date </tr>
 		</tr>';
 	
@@ -249,28 +249,28 @@ if(count($response)>0){
 	}else{
 		foreach($response as $entry){
 			if($count%2==1){
-				$tdcolor="moltd2";
+				$tdcolor="moltdcolor";
 			}else{
-				$tdcolor="moltd1";
+				$tdcolor="";
 			}
 			echo '<tr class="moltr">';
-				echo '<td class="'.$tdcolor.'">';
+				echo '<td class="moltd '.$tdcolor.' moltdborderright">';
 					echo '<a href="viewmolecule.php?molid='.$entry['molid'].'"><img src="uploads/sketches/'.$entry['molid'].'.jpg" style="height:60px"/></a>';
 				echo '</td>';
 					
-				echo '<td class="'.$tdcolor.'">';
+				echo '<td class="moltd '.$tdcolor.' moltdborderright">';
 					echo '<a href="viewmolecule.php?molid='.$entry['molid'].'">'.$entry['molname'].'</a>';
 				echo '</td>';
 	
-				echo '<td class="'.$tdcolor.'">';
+				echo '<td class="moltd '.$tdcolor.' moltdborderright">';
 					echo $entry['molweight'].'</a>';
 				echo '</td>';
 	
-				echo '<td class="'.$tdcolor.'">';
+				echo '<td class="moltd '.$tdcolor.' moltdborderright">';
 					echo $entry['username'];
 				echo '</td>';
 	
-				echo '<td class="'.$tdcolor.'">';
+				echo '<td class="moltd '.$tdcolor.'">';
 					echo parsetimestamp($entry['dateadded']);
 				echo '</td>';
 			echo '</tr>';	
