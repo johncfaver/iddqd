@@ -54,10 +54,10 @@
 
 	<table class="moleculetable">
 		<tr class="moltr">
-			<th class="molth">Structure</th>
-			<th class="molth">Name</th>
-			<th class="molth">MW</th>
-			<th class="molth">Author</th>
+			<th class="molth moltdborderright">Structure</th>
+			<th class="molth moltdborderright">Name</th>
+			<th class="molth moltdborderright">MW</th>
+			<th class="molth moltdborderright">Author</th>
 			<th class="molth">Date Added</th>
 		</tr>
 <?php
@@ -67,27 +67,27 @@
 	$count=1;
 	foreach($response as $row){
 		if($count%2==0){
-			$tdcolor="moltd2";
+			$tdcolor="moltdcolor";
 		}else{
-			$tdcolor="moltd1";
+			$tdcolor="";
 		}
 		echo '<tr class="moltr">';
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
 				echo '<a href="viewmolecule.php?molid='.$row['molid'].'"><img src="uploads/sketches/'.$row['molid'].'.jpg" style="height:60px"/></a>';
 			echo '</td>';
 			
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
 				echo '<a href="viewmolecule.php?molid='.$row['molid'].'">'.$row['molname'].'</a>';
 			echo '</td>';
 
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
 				echo $row['molweight'];
 			echo '</td>';
 
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
 				echo $row['username'];
 			echo '</td>';
-			echo '<td class="'.$tdcolor.'">';
+			echo '<td class="moltd '.$tdcolor.'">';
 				echo parsetimestamp($row['dateadded']);
 			echo '</td>';
 		echo '</tr>';	
