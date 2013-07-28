@@ -29,9 +29,11 @@
 		$loggedin=True;
 		$dbconn=null;	
 		header("Location: index.php");
+        exit;
 	}else{
 		$dbconn=null;
 		header("Location: changepassword.php?nameexists=0");		
+        exit;
 	}
 
 ?>

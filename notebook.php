@@ -77,7 +77,7 @@
 			echo '</td>';
 			
 			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
-				echo '<a href="viewmolecule.php?molid='.$row['molid'].'">'.$row['molname'].'</a>';
+				echo '<a href="viewmolecule.php?molid='.$row['molid'].'">'.htmlentities($row['molname']).'</a>';
 			echo '</td>';
 
 			echo '<td class="moltd moltdborderright '.$tdcolor.'">';

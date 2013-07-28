@@ -8,7 +8,15 @@
 
 	$desiredusername=pg_escape_string($_POST['desiredusername']);
 	$desiredpassword=pg_escape_string($_POST['desiredpassword']);
-
+ 
+ 
+    $forbiddenchars=Array("'",">","<","/","\\","\"",'&','*','$','#',';');
+    foreach($forbiddenchars as $c){
+        if(strpos($desiredusername,$c)!==false){
+            header('Location: registerpage.php?nameisbad=1');
+            exit;
+        }
+    }
 	$q = $dbconn->prepare("SELECT username from users where username=:name");
 	$q->bindParam(":name",$desiredusername,PDO::PARAM_STR);
 	$q->execute();	
@@ -32,9 +40,11 @@
 		$loggedin=True;
 		$dbconn=null;	
 		header("Location: index.php");
+        exit;
 	}else{
 		$dbconn=null;
 		header("Location: registerpage.php?nameexists=1");		
+        exit;
 	}
 
 ?>

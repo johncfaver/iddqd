@@ -26,9 +26,10 @@
              	$dbconn=null;
                 returnhome();
         }
-        else{
-		$dbconn=null;
-                $loggedin=False;
-                header('Location: index.php?status=badpw');
-        }
+    else{
+        $dbconn=null;
+        $loggedin=False;
+        header('Location: index.php?status=badpw');
+        exit;
+    }
 ?>

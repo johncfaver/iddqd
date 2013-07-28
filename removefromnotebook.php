@@ -19,8 +19,10 @@
 	if(isset($_GET['dest'])){
 		if($_GET['dest']=='nb'){
 			header('Location: notebook.php');	
+            exit;
 		}
 	}else{	
 		header('Location: viewmolecule.php?molid='.$thismolid);
+        exit;
 	}
 ?>

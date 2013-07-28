@@ -18,9 +18,9 @@
 	$q->bindParam(":num",$thismolid,PDO::PARAM_INT);
 	$q->execute();	
 	$r=$q->fetch();
-	$thismolname=$r['molname'];
-	$thiscas=$r['cas'];
-	$thisiupac=$r['iupac'];
+	$thismolname=htmlentities($r['molname']);
+	$thiscas=htmlentities($r['cas']);
+	$thisiupac=htmlentities($r['iupac']);
 
 	//Read mol file and load into ChemDoodleWeb
 	$thismolfilelocation='uploads/structures/'.$thismolid.'.mol';
@@ -221,20 +221,20 @@
 		while($row=$q->fetch()){
 			if(in_array($row['datatype'],$bindingdataids)){
 				if($row['datacommentid']){
-					echo "\n".'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",$row['datacomment']).'\');';
+					echo "\n".'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",htmlentities($row['datacomment'])).'\');';
 				}else{
 					echo "\n".'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].',0,\'\');';
 				}
 			}else if(in_array($row['datatype'],$propertydataids)){
 				if($row['datacommentid']){
-					echo "\n".'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",$row['datacomment']).'\');';
+					echo "\n".'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",htmlentities($row['datacomment'])).'\');';
 				}else{
 					echo "\n".'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].',0,\'\');';
 				}
 			}else if(in_array($row['datatype'],$docdataids)){
 				$filename=exec('ls uploads/documents/'.$thismolid.'_'.$row['datatype'].'_'.$row['moldataid'].'_*');
 				if($row['datacommentid']){
-					echo "\n".'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",$row['datacomment']).'\');';
+					echo "\n".'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",htmlentities($row['datacomment'])).'\');';
 				}else{
 					echo "\n".'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].',0,\'\');';
 				}

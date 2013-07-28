@@ -18,8 +18,10 @@
 	if(isset($_GET['dest'])){
 		if($_GET['dest']=='nb'){	 // Intended destination is notebook.php
 			header('Location: notebook.php');	
+            exit;
 		}
 	}else{	
 		header('Location: viewmolecule.php?molid='.$addmolid);
+        exit;
 	}
 ?>

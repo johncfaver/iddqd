@@ -1,15 +1,15 @@
 <?php
 	$debug=0;
-        require('/home/faver/bin/cred.php');
-        try{
-                $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);
-        }catch(PDOException $e){
-                echo 'Database connection failed: '. $e->getMessage();
-        }
+    require('/home/faver/bin/cred.php');
+    try{
+        $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);
+    }catch(PDOException $e){
+        echo 'Database connection failed: '. $e->getMessage();
+    }
 	$dbconn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING );
-        session_start();
-        $loggedin = isset($_SESSION['username']);
-        if(!$loggedin) returnhome();
+    session_start();
+    $loggedin = isset($_SESSION['username']);
+    if(!$loggedin) returnhome();
 
 	$nummol=(isset($_POST['nummol']) and $_POST['nummol']>0)?(int)$_POST['nummol']:8;
 	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;
@@ -23,8 +23,8 @@
 	$dbmaxmol = $r['max'];
 	$dbcountmol = $r['count'];
 	
-        $query_molname  =(isset($_POST['query_molname']))?pg_escape_string($_POST['query_molname']):0;
-        $query_molweight=(isset($_POST['query_molweight']))?pg_escape_string($_POST['query_molweight']):0;
+    $query_molname  =(isset($_POST['query_molname']))?pg_escape_string($_POST['query_molname']):0;
+    $query_molweight=(isset($_POST['query_molweight']))?pg_escape_string($_POST['query_molweight']):0;
 	$moltext=(isset($_POST['moltext']))?explode("\n",str_replace("\r",'',$_POST['moltext'])):0;
 	$query_structure=($moltext && count($moltext)>6)?1:0;
 	if($query_structure){
@@ -117,7 +117,7 @@
 		echo 'target:'.$query_target;
 	}
 	if($query_molname){
-		echo ' name:'.$query_molname;
+		echo ' name:'.htmlentities($query_molname);
 	}
 	if($query_molweight){
 		echo ' molweight:'.$query_molweight;
@@ -227,7 +227,7 @@ if(count($response)>0){
 					echo '</td>';		
 		
 					echo '<td class="'.$tdcolor.'">';
-					echo '<a href="viewmolecule.php?molid='.$response[$j]['molid'].'">'.$response[$j]['molname'].'</a>';
+					echo '<a href="viewmolecule.php?molid='.$response[$j]['molid'].'">'.htmlentities($response[$j]['molname']).'</a>';
 					echo '</td>';
 	
 					echo '<td class="'.$tdcolor.'">';
@@ -259,7 +259,7 @@ if(count($response)>0){
 				echo '</td>';
 					
 				echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-					echo '<a href="viewmolecule.php?molid='.$entry['molid'].'">'.$entry['molname'].'</a>';
+					echo '<a href="viewmolecule.php?molid='.$entry['molid'].'">'.htmlentities($entry['molname']).'</a>';
 				echo '</td>';
 	
 				echo '<td class="moltd '.$tdcolor.' moltdborderright">';

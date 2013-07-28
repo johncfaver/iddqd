@@ -1,3 +1,12 @@
+<?php
+    /* This file crawls throught he molids, and generates images for them sequentially.
+    */
+	$thismolid=isset($_GET['molid'])?(int)pg_escape_string($_GET['molid']):0;
+	if(!file_exists('uploads/structures/'.$thismolid.'.mol') and $thismolid<1000){
+		header("Location: ./pngwriter.php?molid=".($thismolid+1));
+		exit();
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,14 +29,7 @@
 </script>
 </head>
 <body onload="getmolecule()">
-<?php
-	$thismolid=isset($_GET['molid'])?(int)pg_escape_string($_GET['molid']):0;
-	if(!file_exists('uploads/structures/'.$thismolid.'.mol') and $thismolid<1000){
-		header("Location: ./pngwriter.php?molid=".($thismolid+1));
-		exit();
-	}
 
-?>
 	<script type="text/javascript">
 			var viewerCanvas = new ChemDoodle.ViewerCanvas('viewerCanvas', 400, 200);
 			viewerCanvas.specs.bonds_width_2D = 1.0;

@@ -19,6 +19,11 @@
 			echo 'That username exists already.<br />';
 		}
 	}
+    if(isset($_GET['nameisbad'])){
+        if((int)$_GET['nameisbad']==1){
+            echo 'That username was awful. Try again.<br />';
+        }
+    }
 ?>
 	<span id="regspan" style="text-align:right;float:right;margin-right:450px;margin-top:50px">
 	<form method="post" action="register.php" id="register" >

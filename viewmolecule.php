@@ -30,7 +30,7 @@
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
 <script type="text/javascript" src="iddqd.js"></script>
 <script type="text/javascript" src="viewmolecule.js"></script>
-<title><?php echo $moldata['molname']; ?></title>
+<title><?php echo htmlentities($moldata['molname']); ?></title>
 </head>
 <body>
 
@@ -94,7 +94,7 @@
 		</script>
 	</div>
 	<div id="div_molentry">
-		<span style="font-size:2.0em;"><?php echo $moldata['molname'];?></span>
+		<span style="font-size:2.0em;"><?php echo htmlentities($moldata['molname']);?></span>
 		<br />Added by: <?php echo $moldata['username'];?> on <?php echo parsetimestamp($moldata['dateadded']);?>
 <?php
 			if($moldata['username']==$_SESSION['username'])	echo '&nbsp;<a href="cgi-bin/deletemolecule.py?molid='.$thismolid.'&username='.urlencode($_SESSION['username']).'">(delete)</a>';
@@ -154,7 +154,7 @@
 						echo $r['nickname'].'</td>';
 						if($r['datacomment']){
 							echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-							echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n",'<br />',$r['datacomment']).'\');">';
+							echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n",'<br />',htmlentities($r['datacomment'])).'\');">';
 							echo '<img src="info_icon.png" height=15 title="Notes Available" />';
 						}else{
 							echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
@@ -180,7 +180,7 @@
 						echo $r['value'].' '.$r['units'].' </td>';
 						if($r['datacomment']){
 							echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-							echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",$r['datacomment']).'\');">';
+							echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",htmlentities($r['datacomment'])).'\');">';
 							echo '<img src="info_icon.png" height=15 title="Notes Available" />';
 						}else{
 							echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
@@ -208,7 +208,7 @@
 						echo '</td>';
 						if($r['datacomment']){
 							echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-							echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",$r['datacomment']).'\');">';
+							echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",htmlentities($r['datacomment'])).'\');">';
 							echo '<img src="info_icon.png" height=15 title="Notes Available" />';
 						}else{
 							echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
@@ -263,7 +263,7 @@
 					echo $row['username'];
 					echo ':<br/> ('.parsetimestamp($row['dateadded']).') ';
 				echo '</div>';
-				echo '<div class="div_molcomment_text">'.str_replace("\r\n","<br />",$row['molcomment']).'</div>';
+				echo '<div class="div_molcomment_text">'.str_replace("\r\n","<br />",htmlentities($row['molcomment'])).'</div>';
 				if($row['username']==$_SESSION['username']){
 					echo '<div class="div_deletecomment"><span class="nonlinks"><a href="cgi-bin/removemolcomment.py?molid='.$thismolid.'&molcommentid='.$row['molcommentid'].'">X</a></span></div>';
 				}
