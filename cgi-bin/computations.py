@@ -2,9 +2,9 @@
 
 #
 #  Perform various computations on molecule after entry into molecule table and filesystem
-#	1) Generate 3d structures with obgen
-#	2) MW and formula computation
-#	3) Extras
+#    1) Generate 3d structures with obgen
+#    2) MW and formula computation
+#    3) Extras
 #
 import os, psycopg2, subprocess, sys, json
 from molecule import molecule
