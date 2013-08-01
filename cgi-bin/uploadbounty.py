@@ -19,27 +19,27 @@ form=cgi.FieldStorage()
 keys=form.keys()
 
 if debug:
-	print 'Content-type: text/html\n\n'
-	print 'Received the following:\n<br />'
-	for i in keys:
-		print i+'='+form[i].value+'<br />'
-	sys.exit()	
+    print 'Content-type: text/html\n\n'
+    print 'Received the following:\n<br />'
+    for i in keys:
+        print i+'='+form[i].value+'<br />'
+    sys.exit()    
 
 moltext=form['moltext'].value.replace('\r','').split('\n')
 molfig64=form['molfig'].value.split(',')[1]
 
 if 'molnotes' in keys:
-	molnotes=form['molnotes'].value
+    molnotes=form['molnotes'].value
 else:
-	molnotes=0
+    molnotes=0
 if 'userid' in keys:
-	authorid=form['userid'].value
+    authorid=form['userid'].value
 else:
-	authorid=0
+    authorid=0
 if 'username' in keys:
-	author=form['username'].value
+    author=form['username'].value
 else:
-	author=0
+    author=0
 if 'select_targetid' in keys:
     targetid=form['select_targetid'].value
 else:
@@ -55,9 +55,9 @@ options=[targetid,authorid]
 q.execute(query,options)
 bid=q.fetchone()[0]
 if(molnotes):
-	query='INSERT INTO bountycomments (bountyid,bountycomment,authorid,dateadded) values(%s,%s,%s,localtimestamp)'
-	options=[bid,molnotes,authorid]
-	q.execute(query,options)
+    query='INSERT INTO bountycomments (bountyid,bountycomment,authorid,dateadded) values(%s,%s,%s,localtimestamp)'
+    options=[bid,molnotes,authorid]
+    q.execute(query,options)
 ##############################
 
 ############################
@@ -68,11 +68,11 @@ dbconn.close()
 
 #############FILE HANDLING###############
 with open('bounties/'+str(bid)+'.mol','w') as f:
-	f.write('bounty '+str(bid)+' \n')
-	for line in moltext[1:]:
-		f.write(line+' \n')
+    f.write('bounty '+str(bid)+' \n')
+    for line in moltext[1:]:
+        f.write(line+' \n')
 with open('bounties/'+str(bid)+'.png','w') as f:
-	f.write(base64.decodestring(molfig64))
+    f.write(base64.decodestring(molfig64))
 ##########################################
 
 #############COMPUTATION##################

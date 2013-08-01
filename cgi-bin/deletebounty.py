@@ -12,20 +12,20 @@ form=cgi.FieldStorage()
 keys=form.keys()
 
 if 'bid' in keys:
-	bid = int(form['bid'].value)
+    bid = int(form['bid'].value)
 else:
-	bid=0
+    bid=0
 if 'username' in keys:
-	username=unquote_plus(form['username'].value).replace('\'','').replace(';','')
+    username=unquote_plus(form['username'].value).replace('\'','').replace(';','')
 else:
-	username=0
+    username=0
 dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
 q = dbconn.cursor()
 q.execute('SELECT username FROM bounties b LEFT JOIN users u ON b.placed_by_id=u.userid where bountyid=%s',[bid])
 authorname=q.fetchone()[0]
 if(username!=authorname): #only the person who placed the bounty can delete it.
-	print 'Location: ../index.php?status=error\n\n'
-	sys.exit()
+    print 'Location: ../index.php?status=error\n\n'
+    sys.exit()
 q.execute('DELETE FROM bounties WHERE bountyid=%s returning claimed,molid',[bid])
 claimed,molid = q.fetchone()
 if claimed:

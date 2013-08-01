@@ -12,31 +12,31 @@ keys=form.keys()
 username=form['username'].value
 userid=form['userid'].value
 if 'textarea_addmolcomment' in keys:
-	comment=form['textarea_addmolcomment'].value
+    comment=form['textarea_addmolcomment'].value
 else:
-	comment=0
+    comment=0
 if 'molid' in keys:
-	molid=form['molid'].value
+    molid=form['molid'].value
 else:
-	molid=''
+    molid=''
 if(not comment):
-	print 'Location: ../viewmolecule.php?molid='+molid
-	print ''
-	exit()
+    print 'Location: ../viewmolecule.php?molid='+molid
+    print ''
+    exit()
 if(not molid):
-	print 'Location: ../index.php?status=error'
-	print ''
-	exit()
+    print 'Location: ../index.php?status=error'
+    print ''
+    exit()
 try:
-	dbconn=psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
-	q=dbconn.cursor()
-	q.execute("INSERT INTO molcomments (molid,molcomment,dateadded,authorid) VALUES(%s,%s,localtimestamp,%s)",[molid,comment,userid])
-	dbconn.commit()
-	q.close()
-	dbconn.close()
-	print 'Location: ../viewmolecule.php?molid='+molid
-	print ''
+    dbconn=psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
+    q=dbconn.cursor()
+    q.execute("INSERT INTO molcomments (molid,molcomment,dateadded,authorid) VALUES(%s,%s,localtimestamp,%s)",[molid,comment,userid])
+    dbconn.commit()
+    q.close()
+    dbconn.close()
+    print 'Location: ../viewmolecule.php?molid='+molid
+    print ''
 except:
-	print 'Location: ../index.php?status=error'
-	print ''
-	exit()
+    print 'Location: ../index.php?status=error'
+    print ''
+    exit()

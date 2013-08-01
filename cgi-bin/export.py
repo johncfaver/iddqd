@@ -1,80 +1,140 @@
 #!/usr/bin/env python
 
 #
-# Generate reports for exporting notebooks.
+# Generate reports,structures, or CSV files from notebooks.
 #
 
-import os, cgi, cgitb, shutil, psycopg2
+import os, cgi, cgitb, shutil, psycopg2, subprocess
 cgitb.enable()
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Image
+from sys import exit
 
 uploaddir='../uploads/'
 
 form=cgi.FieldStorage()
 keys=form.keys()
 if 'export' in keys:
-	export=form['export'].value
+    export=form['export'].value
 if 'molids' in keys:
-	molids=form['molids'].value.split(',')
+    molids=form['molids'].value.split(',')
 if 'userid' in keys:
-	userid=form['userid'].value
+    userid=form['userid'].value
 
 if export=='structures':
-	dl='/tmp/structures-'+userid
-	if(os.path.isdir(dl)):
-		shutil.rmtree(dl)
-	os.mkdir(dl)
-	os.mkdir(dl+'/3d')	
-	os.mkdir(dl+'/2d')	
-	for i in molids:
-		shutil.copyfile(uploaddir+'structures/'+i+'-3d.mol',dl+'/3d/'+i+'-3d.mol')
-		shutil.copyfile(uploaddir+'structures/'+i+'.mol',dl+'/2d/'+i+'.mol')
-	with open(dl+'/notebook.sdf','w') as sdf:
-		for i in molids:
-			with open(uploaddir+'structures/'+i+'-3d.mol') as mol:
-				sdf.write(mol.read())
-	filename=shutil.make_archive(dl, 'zip', root_dir=dl)
-	shutil.copyfile(filename,uploaddir+'scratch/structures-'+userid+'.zip')
-	print 'Location: ../uploads/scratch/structures-'+userid+'.zip'
-	print ''
+    dl='/tmp/structures-'+userid
+    if(os.path.isdir(dl)):
+        shutil.rmtree(dl)
+    os.mkdir(dl)
+    os.mkdir(dl+'/3d')    
+    os.mkdir(dl+'/2d')    
+    for i in molids:
+        shutil.copyfile(uploaddir+'structures/'+i+'-3d.mol',dl+'/3d/'+i+'-3d.mol')
+        shutil.copyfile(uploaddir+'structures/'+i+'.mol',dl+'/2d/'+i+'.mol')
+    with open(dl+'/notebook.sdf','w') as sdf:
+        for i in molids:
+            with open(uploaddir+'structures/'+i+'-3d.mol') as mol:
+                sdf.write(mol.read())
+    filename=shutil.make_archive(dl, 'zip', root_dir=dl)
+    shutil.copyfile(filename,uploaddir+'scratch/structures-'+userid+'.zip')
+    print 'Location: ../uploads/scratch/structures-'+userid+'.zip'
+    print ''
+    exit()
 
 if export=='spreadsheet':
-	dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
-	q = dbconn.cursor()
-	q.execute('select m.molname,m.molweight,r.nickname,t.type,d.value,t.units from molecules m left join moldata d on m.molid=d.molid left join targets r on d.targetid=r.targetid left join datatypes t on t.datatypeid=d.datatype where value is not null and m.molid in %s',[tuple(molids)])	
-	r=q.fetchall()
+    dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
+    q = dbconn.cursor()
+    q.execute('select m.molname,m.molweight,r.nickname,t.type,d.value,t.units from molecules m left join moldata d on m.molid=d.molid left join targets r on d.targetid=r.targetid left join datatypes t on t.datatypeid=d.datatype where value is not null and m.molid in %s',[tuple(molids)])    
+    r=q.fetchall()
 
-	dl='../uploads/scratch/spreadsheet-'+userid+'.csv'
-	with open(dl,'w') as f:
-		f.write('WLJID,MW,TARGET,DATATYPE,VALUE,UNITS\n')
-		for i in r:
-			for j in i:
-				f.write(str(j)+',')
-			f.write('\n')
-	print 'Location: '+dl+' \n\n'	
+    dl='../uploads/scratch/spreadsheet-'+userid+'.csv'
+    with open(dl,'w') as f:
+        f.write('WLJID,MW,TARGET,DATATYPE,VALUE,UNITS\n')
+        for i in r:
+            for j in i:
+                f.write(str(j)+',')
+            f.write('\n')
+    print 'Location: '+dl+' \n\n'    
+    exit()
 
 if export=='pdf':
-	c = canvas.Canvas("../uploads/scratch/report-"+userid+".pdf", pagesize=letter)
-	width,height=letter
-	dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
-	q = dbconn.cursor()
-	q.execute('select m.molid,m.molname,m.molweight,r.nickname,t.type,d.value,t.units from molecules m left join moldata d on m.molid=d.molid left join targets r on d.targetid=r.targetid left join datatypes t on t.datatypeid=d.datatype where (t.units!=\'file\' or t.units is null) and m.molid in %s',[tuple(molids)])	
-	r=q.fetchall()
-	ystart=300
-	dy=25
-	for i in molids:
-		c.drawImage('../uploads/sketches/'+i+'.png',50,450,width=500,height=300)
-		count=0
-		for j,k in enumerate(r):
-			if(str(k[0])==i):
-				if(count==0):
-					c.drawString(width/2-50,height-50,k[1]+'  '+str(k[2])+' g/mol')	
-				c.drawString(160,ystart+dy*j,''.join(str(l)+'   ' for l in k[3:] if l!=None))	
-				count+=1
-		c.showPage()
-	c.save()
-	print 'Location: ../uploads/scratch/report-'+userid+'.pdf \n\n'
+    dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
+    q = dbconn.cursor()
+    q.execute('select m.molid,\
+                      m.molname,\
+                      m.molweight,\
+                      m.molformula,\
+                      m.dateadded,\
+                      r.nickname,\
+                      t.type,\
+                      d.value,\
+                      t.units,\
+                      u.username \
+               from molecules m \
+            left join moldata d on m.molid=d.molid \
+            left join targets r on d.targetid=r.targetid \
+          left join datatypes t on t.datatypeid=d.datatype \
+              left join users u on u.userid=m.authorid \
+          where (t.units!=\'file\' or t.units is null) and m.molid in %s',[tuple(molids)])    
+    response=q.fetchall()
 
+    with open('../uploads/scratch/report-'+userid+'.html','w') as fout:
+        htmlstr="""
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <link rel="stylesheet" href="../../cgi-bin/report.css" type="text/css" /> 
+                </head>
+                <body>"""
+        for mol in molids:
+            for row in response:
+                if str(row[0])==mol:
+                    molname=row[1]
+                    molweight=str(row[2])
+                    molformula=row[3]
+                    dateadded=row[4].strftime('%b %d, %Y %I:%M%p')
+                    author=row[9]
+                    break
+            htmlstr+='<h1>'+molname+'</h1>'
+            htmlstr+='<br /><br /><div id="infodiv"><table id="infotable">'
+            htmlstr+='<tr><td class="infotd">Added by:</td><td class="infotd infotdleft">'+author+'</td></tr>'
+            htmlstr+='<tr><td class="infotd">Added on:</td><td class="infotd infotdleft">'+dateadded+'</td></tr>'
+            htmlstr+='<tr><td class="infotd">MW:</td><td class="infotd infotdleft">'+molweight+'</td></tr>'
+            htmlstr+='<tr><td class="infotd">Formula</td><td class="infotd infotdleft">'+molformula+'</td></tr>'
+            htmlstr+='<tr><td class="infotd">IUPAC</td><td class="infotd infotdleft"></td></tr>'
+            htmlstr+='<tr><td class="infotd">CAS</td><td class="infotd infotdleft"></td></tr>'
+            htmlstr+='</table></div>'
+            htmlstr+='<img src="../sketches/'+str(mol)+'.png" /><br />'
+            htmlstr+='<table id="datatable">'
+            htmlstr+='''<tr>
+                            <th class="datath datathleft">Data</th>
+                            <th class="datath datathleft">Value</th>
+                            <th class="datath datathleft">Units</th>
+                            <th class="datath datathright">Target</th>
+                       </tr>
+                     '''
+            for row in response:
+                if str(row[0])!=mol:
+                    continue
+                target=row[5]
+                if(not target):
+                    target='-'
+                datatype=row[6]
+                value=str(row[7])
+                units=row[8].decode('utf-8').encode('latin-1')
+                htmlstr+='<tr><td class="datatd datatdleft">'+datatype+'</td>'
+                htmlstr+='<td class="datatd">'+value+'</td>'
+                htmlstr+='<td class="datatd">'+units+'</td>'
+                htmlstr+='<td class="datatd datatdright">'+target+'</td></tr>'
+            htmlstr+='</table>' 
+
+            htmlstr+='<div class="clearfloat"></div>'
+            htmlstr+='<div class="pagebreak"><span style="display:none;">&nbsp;</span></div>'        
+        htmlstr+="""
+                </body>
+            </html>
+        """
+        fout.write(htmlstr)
+    subprocess.call(['/usr/bin/wkhtmltopdf','../uploads/scratch/report-'+userid+'.html','../uploads/scratch/report-'+userid+'.pdf'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+
+    print 'Location: ../uploads/scratch/report-'+userid+'.pdf \n\n'
+    exit()
 
