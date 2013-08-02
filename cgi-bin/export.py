@@ -95,9 +95,9 @@ if export=='pdf':
                     break
             htmlstr+='<h1>'+molname+'</h1>'
             htmlstr+='<br /><br /><div id="infodiv"><table id="infotable">'
-            htmlstr+='<tr><td class="infotd">Added by:</td><td class="infotd infotdleft">'+author+'</td></tr>'
-            htmlstr+='<tr><td class="infotd">Added on:</td><td class="infotd infotdleft">'+dateadded+'</td></tr>'
-            htmlstr+='<tr><td class="infotd">MW:</td><td class="infotd infotdleft">'+molweight+'</td></tr>'
+            htmlstr+='<tr><td class="infotd">Added by</td><td class="infotd infotdleft">'+author+'</td></tr>'
+            htmlstr+='<tr><td class="infotd">Added on</td><td class="infotd infotdleft">'+dateadded+'</td></tr>'
+            htmlstr+='<tr><td class="infotd">MW</td><td class="infotd infotdleft">'+molweight+'</td></tr>'
             htmlstr+='<tr><td class="infotd">Formula</td><td class="infotd infotdleft">'+molformula+'</td></tr>'
             htmlstr+='<tr><td class="infotd">IUPAC</td><td class="infotd infotdleft"></td></tr>'
             htmlstr+='<tr><td class="infotd">CAS</td><td class="infotd infotdleft"></td></tr>'

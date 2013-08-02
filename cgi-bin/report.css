@@ -6,7 +6,8 @@ body{
 img{
     border:0px solid blue;
     float:left;
-    margin-left:25px;
+    margin-left:0px;
+    margin-bottom:30px;
 }
 h1{
     font-size:1.8em;
@@ -15,7 +16,7 @@ h1{
     clear:both;
     margin:auto;
     margin-top:50px;
-    width:75%;
+    width:85%;
     text-align:center;
     border-collapse:collapse;
     font-size:0.75em;
@@ -51,9 +52,9 @@ h1{
     clear:both;
 }
 #infodiv{
-    width:200px;
+    width:250px;
     margin-top:30px;
-    margin-left:50px;
+    margin-left:30px;
     border:0px solid red;
     float:left;
 }
@@ -64,12 +65,12 @@ h1{
     font-size:0.75em;
 }
 .infotd{
-    border-top:1px solid gray;
-    border-bottom:1px solid gray;
+    border-top:1px solid #cccccc;
+    border-bottom:1px solid #cccccc;
 }
 .infotdleft{
-    border-left:1px solid gray;
+    border-left:1px solid #cccccc;
 }
 .infotdright{
-    border-right:1px solid gray;
+    border-right:1px solid #cccccc;
 }
