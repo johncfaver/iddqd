@@ -36,7 +36,7 @@
 	<script type="text/javascript" src="iddqd.js"></script>
 	<title>Post a Bounty</title>
 	<link rel="stylesheet" href="iddqd.css" type="text/css" />
-    <link rel="stylesheet" href="postbounty.css" type="text/css" />
+    <link rel="stylesheet" href="bounty.css" type="text/css" />
 </head>
 <body>
 

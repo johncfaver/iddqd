@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="reset.css" type="text/css" />
 <link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css">
 <link rel="stylesheet" href="iddqd.css" type="text/css" />
+<link rel="stylesheet" href="bounty.css" type="text/css" />
 <link rel="stylesheet" href="viewmolecule.css" type="text/css" />
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
@@ -161,7 +162,7 @@
 
 
 
-    <div id="commentholder" style="width:95%;position:absolute;top:220px;left:25px;margin-auto;text-align:center;border-top:1px solid gray;font-size:0.8em;">
+    <div id="commentholder" style="width:95%;position:absolute;top:220px;left:25px;margin:auto;text-align:center;border-top:1px solid gray;font-size:0.8em;">
 <?php
 		$q = $dbconn->prepare("select bountycommentid,bountycomment,dateadded,username from bountycomments left join users on users.userid=bountycomments.authorid where bountycomments.bountyid=:num order by dateadded");
 		$q->bindParam(":num",$bid,PDO::PARAM_INT);

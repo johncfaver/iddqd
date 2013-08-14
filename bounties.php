@@ -16,6 +16,7 @@
 <title>Bounties</title>
 <link rel="stylesheet" href="reset.css" type="text/css" />
 <link rel="stylesheet" href="iddqd.css" type="text/css" />
+<link rel="stylesheet" href="bounty.css" type="text/css" />
 <script type="text/javascript" src="iddqd.js"></script>
 </head>
 <body>

@@ -94,7 +94,6 @@ img{
 	font-size:0.9em;
 }
 #div_datainput_inner{
-	position:auto;
 	text-align:center;
 	border:0px solid black;
 	margin-top:25px;
@@ -111,7 +110,7 @@ img{
 }
 #div_molecules_prev{
 	position:absolute;
-	width:100px
+	width:100px;
 	text-align:left;
 	top:10px;
 	left:300px;
@@ -119,7 +118,7 @@ img{
 }
 #div_molecules_next{
 	position:absolute;
-	width:100px
+	width:100px;
 	text-align:right;
 	top:10px;
 	right:300px;
@@ -269,6 +268,25 @@ img{
 	text-align:center;
 	top:15px;
 }
+.div_bindingdata{
+}
+.select_bindingdata_target{
+    width:160px;
+}
+.select_bindingdata_datatype{
+    width:95px;
+}
+.input_bindingdata_value{
+    width:55px;
+}
+.img_bindingdata_notes{
+    height:20px;
+    margin-left:10px;
+}
+.img_bindingdata_delete{
+    height:20px;
+    margin-left:10px;
+}
 #div_input_datatype_propertydata{
 	position:absolute;
 	display:none;
@@ -278,6 +296,23 @@ img{
 	text-align:center;
 	top:15px;
 }
+.div_propertydata{
+}
+.select_propertydata_datatype{
+    width:170px;
+}
+.input_propertydata_value{
+    width:80px;
+}
+.img_propertydata_notes{
+    height:20px;
+    margin-left:15px;
+}
+.img_propertydata_delete{
+    height:20px;
+    margin-left:18px;
+}
+
 #div_input_datatype_docdata{
 	position:absolute;
 	top:15px; 
@@ -329,20 +364,7 @@ img{
 .molth A:active{text-decoration:none;color:black;}
 .molth A:hover{text-decoration:none;color:black;}
 
-
 .img_inline{
 	display:inline;
 }
 
-#div_post_bounty{
-    position:absolute;
-    top:15px;
-    left:400px;
-}
-#div_bountysketch{
-    width:400px;
-    height:200px;
-    position:absolute;
-    left:10px;
-    top:10px;     
-}

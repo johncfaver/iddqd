@@ -59,11 +59,13 @@ function morebindingdata(){
 	
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_bindingdata_new_'+i.toString());	
-	newinputline.setAttribute('class','nonlinks');	
+	newinputline.setAttribute('class','div_bindingdata nonlinks');	
 
 	var newtargetselect = document.createElement('select');
 	newtargetselect.setAttribute('id','bindingdata_targetid_new_'+i.toString());
 	newtargetselect.setAttribute('name','bindingdata_targetid_new_'+i.toString());
+    newtargetselect.setAttribute('class','select_bindingdata_target');
+
 	for(var j=0;j<targetnames.length;j++){
 		var newoption = document.createElement('option');
 		newoption.setAttribute('value',targetids[j]);
@@ -75,6 +77,8 @@ function morebindingdata(){
 	var newdatatypeselect = document.createElement('select');
 	newdatatypeselect.setAttribute('id','bindingdata_datatypeid_new_'+i.toString());
 	newdatatypeselect.setAttribute('name','bindingdata_datatypeid_new_'+i.toString());
+    newdatatypeselect.setAttribute('class','select_bindingdata_datatype');
+
 	for(var j=0;j<bindingdatatypes.length;j++){
 		var newoption = document.createElement('option');
 		newoption.setAttribute('value',bindingdataids[j]);
@@ -91,14 +95,14 @@ function morebindingdata(){
 	newinputvalue.setAttribute('type','text');
 	newinputvalue.setAttribute('name','bindingdata_value_new_'+i.toString());
 	newinputvalue.setAttribute('id','bindingdata_value_new_'+i.toString());
-	newinputvalue.setAttribute('size','5');	
+    newinputvalue.setAttribute('class','input_bindingdata_value');
 	newinputline.appendChild(newinputvalue);
 
 	var newnoteslink = document.createElement('a');
 	newnoteslink.setAttribute('href','#');
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
-	newnotesicon.setAttribute('height','20');
+	newnotesicon.setAttribute('class','img_bindingdata_notes');
 	newnotesicon.setAttribute('onclick','popnotes(\'bindingdata_notes_new_'+i.toString()+'\');');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);
@@ -138,12 +142,14 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_bindingdata_'+i.toString());	
-	newinputline.setAttribute('class','nonlinks');	
+	newinputline.setAttribute('class','div_bindingdata nonlinks');	
 	newinputline.setAttribute('style','text-align:right;');
 
 	var newtargetselect = document.createElement('select');
 	newtargetselect.setAttribute('id','bindingdata_targetid_'+i.toString());
 	newtargetselect.setAttribute('name','bindingdata_targetid_'+i.toString());
+    newtargetselect.setAttribute('class','select_bindingdata_target');
+
 	for(var j=0;j<targetnames.length;j++){
 		var newoption = document.createElement('option');
 		newoption.setAttribute('value',targetids[j]);
@@ -158,6 +164,8 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 	var newdatatypeselect = document.createElement('select');
 	newdatatypeselect.setAttribute('id','bindingdata_datatypeid_'+i.toString());
 	newdatatypeselect.setAttribute('name','bindingdata_datatypeid_'+i.toString());
+    newdatatypeselect.setAttribute('class','select_bindingdata_datatype');
+
 	for(var j=0;j<bindingdatatypes.length;j++){
 		var newoption = document.createElement('option');
 		newoption.setAttribute('value',bindingdataids[j]);
@@ -165,7 +173,7 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 			newoption.setAttribute('selected','selected');
 		}
 		newoption.innerHTML=bindingdatatypes[j];
-		newoption.innerHTML+=' ('+newoption.innerHTML+') ';
+		newoption.innerHTML+=' ('+bindingdataunits[j]+') ';
 		newdatatypeselect.appendChild(newoption);
 	}	
 	newinputline.appendChild(newdatatypeselect);
@@ -173,7 +181,7 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 	var newinputvalue = document.createElement('input');
 	newinputvalue.setAttribute('type','text');
 	newinputvalue.setAttribute('name','bindingdata_value_'+i.toString());
-	newinputvalue.setAttribute('size','5');
+	newinputvalue.setAttribute('class','input_bindingdata_value');
 	newinputvalue.setAttribute('value',value);
 	newinputline.appendChild(newinputvalue);
 
@@ -181,7 +189,7 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 	newnoteslink.setAttribute('href','#');
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
-	newnotesicon.setAttribute('height','20');
+	newnotesicon.setAttribute('class','img_bindingdata_notes');
 	if(comment.length==0) newnotesicon.setAttribute('style','opacity:0.45');
 	newnotesicon.setAttribute('onclick','popnotes(\'bindingdata_notes_'+i.toString()+'\');');
 	newnoteslink.appendChild(newnotesicon);	
@@ -191,8 +199,7 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 	deletelink.setAttribute('href','#');
 	var deleteicon = document.createElement('img');
 	deleteicon.setAttribute('src','delete_icon.png');
-	deleteicon.setAttribute('height','20');
-	deleteicon.setAttribute('style','margin-left:18px;');
+	deleteicon.setAttribute('class','img_bindingdata_delete');
 	deleteicon.setAttribute('onclick','deletecheck(\''+i.toString()+'\');');
 	deletelink.appendChild(deleteicon);	
 	newinputline.appendChild(deletelink);
@@ -248,11 +255,13 @@ function morepropertydata(){
 	
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_propertydata_new_'+i.toString());	
-	newinputline.setAttribute('class','nonlinks');	
+	newinputline.setAttribute('class','div_propertydata nonlinks');	
 
 	var newdatatypeselect = document.createElement('select');
 	newdatatypeselect.setAttribute('id','propertydata_datatypeid_new_'+i.toString());
 	newdatatypeselect.setAttribute('name','propertydata_datatypeid_new_'+i.toString());
+    newdatatypeselect.setAttribute('class','select_propertydata_datatype');
+
 	for(var j=0;j<propertydatatypes.length;j++){
 		var newoption = document.createElement('option');
 		newoption.setAttribute('value',propertydataids[j]);
@@ -265,14 +274,14 @@ function morepropertydata(){
 	var newinputvalue = document.createElement('input');
 	newinputvalue.setAttribute('type','text');
 	newinputvalue.setAttribute('name','propertydata_value_new_'+i.toString());
-	newinputvalue.setAttribute('size','5');	
+	newinputvalue.setAttribute('class','input_propertydata_value');	
 	newinputline.appendChild(newinputvalue);
 
 	var newnoteslink = document.createElement('a');
 	newnoteslink.setAttribute('href','#');
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
-	newnotesicon.setAttribute('height','20');
+	newnotesicon.setAttribute('class','img_propertydata_notes');
 	newnotesicon.setAttribute('onclick','popnotes(\'propertydata_notes_new_'+i.toString()+'\');');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);
@@ -312,11 +321,13 @@ function populatepropertydata(dataid,datatype,value,commentid,comment){
 
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_propertydata_'+i.toString());	
-	newinputline.setAttribute('class','nonlinks');	
+	newinputline.setAttribute('class','div_propertydata nonlinks');	
 
 	var newdatatypeselect = document.createElement('select');
 	newdatatypeselect.setAttribute('id','propertydata_datatypeid_'+i.toString());
 	newdatatypeselect.setAttribute('name','propertydata_datatypeid_'+i.toString());
+    newdatatypeselect.setAttribute('class','select_propertydata_datatype');
+
 	for(var j=0;j<propertydatatypes.length;j++){
 		var newoption = document.createElement('option');
 		newoption.setAttribute('value',propertydataids[j]);
@@ -332,7 +343,7 @@ function populatepropertydata(dataid,datatype,value,commentid,comment){
 	var newinputvalue = document.createElement('input');
 	newinputvalue.setAttribute('type','text');
 	newinputvalue.setAttribute('name','propertydata_value_'+i.toString());
-	newinputvalue.setAttribute('size','5');	
+	newinputvalue.setAttribute('class','input_propertydata_value');	
 	newinputvalue.setAttribute('value',value);
 	newinputline.appendChild(newinputvalue);
 
@@ -340,7 +351,7 @@ function populatepropertydata(dataid,datatype,value,commentid,comment){
 	newnoteslink.setAttribute('href','#');
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
-	newnotesicon.setAttribute('height','20');
+	newnotesicon.setAttribute('class','img_propertydata_notes');
 	if(comment.length<1){
 		 newnotesicon.setAttribute('style','opacity:.3');
 	}
@@ -361,8 +372,7 @@ function populatepropertydata(dataid,datatype,value,commentid,comment){
 	deletelink.setAttribute('href','#');
 	var deleteicon = document.createElement('img');
 	deleteicon.setAttribute('src','delete_icon.png');
-	deleteicon.setAttribute('height','20');
-	deleteicon.setAttribute('style','margin-left:18px;');
+	deleteicon.setAttribute('class','img_propertydata_delete');
 	deleteicon.setAttribute('onclick','deletecheck(\''+i.toString()+'\');');
 	deletelink.appendChild(deleteicon);	
 	newinputline.appendChild(deletelink);
