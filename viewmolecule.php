@@ -274,7 +274,7 @@
 			echo '<br /><br />No comments.';
 		}
 		echo '<div id="div_addmolcomment">';
-		echo '<form action="cgi-bin/addmolcomment.py?molid='.$thismolid.'&username='.$_SESSION['username'].'&userid='.$_SESSION['userid'].'" method="post">';
+		echo '<form action="cgi-bin/addmolcomment.py?molid='.$thismolid.'&userid='.$_SESSION['userid'].'" method="post">';
 		echo '<textarea name="textarea_addmolcomment" id="textarea_addmolcomment" ></textarea><br />';
 		echo '<input type="submit" id="commentbutton" value="Add Comment" />';
 		echo '</form>';

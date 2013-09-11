@@ -1,3 +1,14 @@
+
+
+var bindingdatatypes = new Array('IC50','EC50','kd');
+var bindingdataids = new Array('1','2','3');
+var bindingdataunits = new Array('&mu;M','&mu;M','&mu;M');
+var propertydatatypes = new Array('CC50','Aq. Solubility');
+var propertydataids = new Array('4','5');
+var propertydataunits = new Array('&mu;M','mg/mL');
+var docdatatypes = new Array('H NMR','C NMR','Mass Spec.','Synthesis','Manuscript','Structure','Image','Other');
+var docdataids = new Array('6','7','8','9','10','11','13','15');
+
 function getmolecule(){
 	document.getElementById("molfig").value=document.getElementById("sketcher").toDataURL("image/png");
 	document.getElementById("moltext").value=ChemDoodle.writeMOL(sketcher.molecule);
@@ -65,7 +76,9 @@ function morebindingdata(){
 	newtargetselect.setAttribute('id','bindingdata_targetid_new_'+i.toString());
 	newtargetselect.setAttribute('name','bindingdata_targetid_new_'+i.toString());
     newtargetselect.setAttribute('class','select_bindingdata_target');
-
+    if(i==1){
+        newtargetselect.setAttribute('onChange','getMolnameSuggestion()');
+    }
 	for(var j=0;j<targetnames.length;j++){
 		var newoption = document.createElement('option');
 		newoption.setAttribute('value',targetids[j]);
@@ -587,14 +600,29 @@ function closedeletecheck(){
 	t = document.getElementById("div_deletecheck");
 	t.style.display='none';
 }
-var bindingdatatypes = new Array('IC50','EC50','kd');
-var bindingdataids = new Array('1','2','3');
-var bindingdataunits = new Array('&mu;M','&mu;M','&mu;M');
-var propertydatatypes = new Array('CC50','Aq. Solubility');
-var propertydataids = new Array('4','5');
-var propertydataunits = new Array('&mu;M','mg/mL');
-var docdatatypes = new Array('H NMR','C NMR','Mass Spec.','Synthesis','Manuscript','Structure','Image','Other');
-var docdataids = new Array('6','7','8','9','10','11','13','15');
+
+function getMolnameSuggestion(){
+    var firstTargetSelectElement = document.getElementById('bindingdata_targetid_new_1');
+    var recspan = document.getElementById("molnameRecommendation");
+    var tid = firstTargetSelectElement.value;
+    var xhr = new XMLHttpRequest();
+    
+    recspan.innerHTML= '';
+    xhr.onreadystatechange = function(){
+        try{
+            if(xhr.readyState === 4 && xhr.status === 200){
+                recspan.innerHTML='Recommended:'+xhr.responseText;
+            }
+        }
+        catch(e){
+        }
+    };
+    if(tid>0){
+        xhr.open("GET","cgi-bin/ajax-getlastmolname.py?targetid="+tid,true);
+        xhr.send();
+    }
+}
 
 
+ 
 

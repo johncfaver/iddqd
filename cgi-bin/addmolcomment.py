@@ -9,8 +9,7 @@ cgitb.enable()
 form=cgi.FieldStorage()
 keys=form.keys()
 
-username=form['username'].value
-userid=form['userid'].value
+userid=int(form['userid'].value)
 if 'textarea_addmolcomment' in keys:
     comment=form['textarea_addmolcomment'].value
 else:

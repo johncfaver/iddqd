@@ -226,18 +226,7 @@ img{
 	border:0px solid yellow;
 	text-align:left;
 }
-
-#div_tab_datatype_bindingdata{
-	position:absolute;
-	width:33%;
-	height:15px;
-	font-size:0.8em;
-	border:1px solid black;
-	background:#bbbbff;
-	float:left;
-	text-align:center;
-}
-#div_tab_datatype_propertydata{
+.div_tab_datatype{
 	position:absolute;
 	height:15px;
 	font-size:0.8em;
@@ -246,16 +235,16 @@ img{
 	background:#ffffff;
 	float:left;
 	text-align:center;
+    line-height:1.5em;
+}
+#div_tab_datatype_bindingdata{
+	width:33%;
+	background:#bbbbff;
+}
+#div_tab_datatype_propertydata{
 	left:33%;
 }
 #div_tab_datatype_docdata{
-	position:absolute;
-	height:15px;
-	text-align:center;
-	font-size:0.8em;
-	width:34%;
-	border:1px solid black;
-	background:#ffffff;
 	left:67%;
 }
 
