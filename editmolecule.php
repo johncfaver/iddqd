@@ -109,23 +109,26 @@
 	<div id="div_datainput">
 		<div id="div_datainput_inner">
 			<span style="font-size:1.2em;">Edit Data:</span><br />	
-			<br /><span style="font-size:0.8em;float:right;text-align:right;">
-			WLJID:
-			<input type="text" name="molname" id="molname" size=10 style="width:80px" value="<?php echo $thismolname;?>" />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			IUPAC: <input type="text" name="iupacname" id="iupacname" size=10 style="width:80px;float:right" value="<?php echo $thisiupac;?>" />	
-			<br />CAS#: <input type="text" name="cas" id="cas" size=10 style="width:80px;float:right" value="<?php echo $thiscas;?>" /><br />
-			</span><br /><br />
+			<br />
+            <span style="font-size:0.8em;float:right;text-align:right;">
+			    WLJID:
+			    <input type="text" name="molname" id="molname" size=10 style="width:80px;margin-right:45px;" value="<?php echo $thismolname;?>" />
+			    IUPAC: <input type="text" name="iupacname" id="iupacname" size=10 style="width:80px;float:right" value="<?php echo $thisiupac;?>" />	
+            </span>
+            <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
+			    CAS#: <input type="text" name="cas" id="cas" size=10 style="width:80px;float:right" value="<?php echo $thiscas;?>" /><br />
+			</span>
+            <br /><br />
 
 		<div id="div_dataentry">
 			<span class="nonlinks">
-			<div id="div_tab_datatype_bindingdata" onclick="switchinputdatatab('bindingdata');">
+			<div id="div_tab_datatype_bindingdata" class="div_tab_datatype" onclick="switchinputdatatab('bindingdata');">
 				<a href="#">Binding</a>
 			</div>
-			<div id="div_tab_datatype_propertydata" onclick="switchinputdatatab('propertydata');">
+			<div id="div_tab_datatype_propertydata" class="div_tab_datatype" onclick="switchinputdatatab('propertydata');">
 				<a href="#">Properties</a>
 			</div>
-			<div id="div_tab_datatype_docdata" onclick="switchinputdatatab('docdata');">
+			<div id="div_tab_datatype_docdata" class="div_tab_datatype" onclick="switchinputdatatab('docdata');">
 				<a href="#">Documents</a>
 			</div>
 			</span>
