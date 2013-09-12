@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 #Input  = targetid
-#Output = last molname present in database
+#Output = suggested molname (last molname+1)
+#
+#e.g. if the last XXY compound was XXY144
+#     then we suggest XXY145
 
 import psycopg2,cgi,cgitb
 from sys import exit

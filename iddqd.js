@@ -1,5 +1,3 @@
-
-
 var bindingdatatypes = new Array('IC50','EC50','kd');
 var bindingdataids = new Array('1','2','3');
 var bindingdataunits = new Array('&mu;M','&mu;M','&mu;M');
@@ -600,7 +598,6 @@ function closedeletecheck(){
 	t = document.getElementById("div_deletecheck");
 	t.style.display='none';
 }
-
 function getMolnameSuggestion(){
     var firstTargetSelectElement = document.getElementById('bindingdata_targetid_new_1');
     var recspan = document.getElementById("molnameRecommendation");
@@ -622,7 +619,4 @@ function getMolnameSuggestion(){
         xhr.send();
     }
 }
-
-
- 
 
