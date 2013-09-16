@@ -357,3 +357,7 @@ img{
 	display:inline;
 }
 
+.span_export{
+    width:300px;
+    float:left;
+}

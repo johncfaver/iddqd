@@ -8,6 +8,7 @@
 	session_start();
 	$loggedin = (isset($_SESSION['username']))? True:False;
 	if(!$loggedin) returnhome();
+    $notebookcount = count($_SESSION['notebook_molids']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,7 +36,7 @@
 </div>	
 <div id="div_top">
 	<div id="div_notebook">
-		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids']); ?></a>
+		<a href="notebook.php">My Notebook: <?php echo $notebookcount; ?></a>
 	</div>
 	<div id="div_login">
 		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?><a href="logout.php">(logout)</a></span>
@@ -43,61 +44,70 @@
 </div>
 <div id="div_main">
 	<br />
-	<span style="width:300px;float:left">
-		<a href="cgi-bin/export.py?export=pdf&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo implode(',',$_SESSION['notebook_molids']);?>" >Export PDF</a>
-	</span>	
-	<span style="width:300px;float:left">
-		<a href="cgi-bin/export.py?export=spreadsheet&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo implode(',',$_SESSION['notebook_molids']);?>" >Export Spreadsheet</a>
-	</span>	
-	<span style="width:300px;float:left">	
-		<a href="cgi-bin/export.py?export=structures&userid=<?php echo $_SESSION['userid'];?>&molids=<?php echo implode(',',$_SESSION['notebook_molids']);?>" >Export Structures</a>
-	</span>	
-
-	<table class="moleculetable">
-		<tr class="moltr">
-			<th class="molth moltdborderright">Structure</th>
-			<th class="molth moltdborderright">Name</th>
-			<th class="molth moltdborderright">MW</th>
-			<th class="molth moltdborderright">Author</th>
-			<th class="molth">Date Added</th>
-		</tr>
 <?php
-	$mollist=implode(',',$_SESSION['notebook_molids']);
-	$qstr = 'SELECT a.molid,a.molname,a.dateadded,b.username,a.molweight from molecules a, users b where b.userid=a.authorid and a.molid in ('.$mollist.')';	
-	$response=$dbconn->query($qstr);
-	$count=1;
-	foreach($response as $row){
-		if($count%2==0){
-			$tdcolor="moltdcolor";
-		}else{
-			$tdcolor="";
-		}
+    if($notebookcount>0){
+		echo '<span class="span_export">';
+		echo '<a href="cgi-bin/export.py?export=pdf&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'">Export PDF</a>';
+		echo '</span>';
+		echo '<span class="span_export">';
+		echo '<a href="cgi-bin/export.py?export=spreadsheet&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'" >Export Spreadsheet</a>';
+		echo '</span>';	
+		echo '<span class="span_export">';
+		echo '<a href="cgi-bin/export.py?export=structures&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'" >Export Structures</a>';
+		
+        echo '</span>';
+		echo '<table class="moleculetable">';
 		echo '<tr class="moltr">';
-			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
-				echo '<a href="viewmolecule.php?molid='.$row['molid'].'"><img src="uploads/sketches/'.$row['molid'].'.jpg" style="height:60px"/></a>';
-			echo '</td>';
-			
-			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
-				echo '<a href="viewmolecule.php?molid='.$row['molid'].'">'.htmlentities($row['molname']).'</a>';
-			echo '</td>';
-
-			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
-				echo $row['molweight'];
-			echo '</td>';
-
-			echo '<td class="moltd moltdborderright '.$tdcolor.'">';
-				echo $row['username'];
-			echo '</td>';
-			echo '<td class="moltd '.$tdcolor.'">';
-				echo parsetimestamp($row['dateadded']);
-			echo '</td>';
-		echo '</tr>';	
-		$count++;
+		echo '<th class="molth moltdborderright">Structure</th>';
+		echo '<th class="molth moltdborderright">Name</th>';
+		echo '<th class="molth moltdborderright">MW</th>';
+		echo '<th class="molth moltdborderright">Author</th>';
+		echo '<th class="molth moltdborderright">Date Added</th>';
+        echo '<th class="molth">Remove</th>';
+		echo '</tr>';
+		
+	    $mollist=implode(',',$_SESSION['notebook_molids']);
+		$qstr = 'SELECT a.molid,a.molname,a.dateadded,b.username,a.molweight from molecules a, users b where b.userid=a.authorid and a.molid in ('.$mollist.')';	
+		$response=$dbconn->query($qstr);
+		$count=0;
+		foreach($response as $row){
+			if($count%2==0){
+				$tdcolor="";
+			}else{
+				$tdcolor="moltdcolor";
+			}
+			echo '<tr class="moltr">';
+				echo '<td class="moltd moltdborderright '.$tdcolor.'">';
+					echo '<a href="viewmolecule.php?molid='.$row['molid'].'"><img src="uploads/sketches/'.$row['molid'].'.jpg" style="height:60px"/></a>';
+				echo '</td>';
+				
+				echo '<td class="moltd moltdborderright '.$tdcolor.'">';
+					echo '<a href="viewmolecule.php?molid='.$row['molid'].'">'.htmlentities($row['molname']).'</a>';
+				echo '</td>';
+	
+				echo '<td class="moltd moltdborderright '.$tdcolor.'">';
+					echo $row['molweight'];
+				echo '</td>';
+	
+				echo '<td class="moltd moltdborderright '.$tdcolor.'">';
+					echo $row['username'];
+				echo '</td>';
+				echo '<td class="moltd moltdborderright '.$tdcolor.'">';
+					echo parsetimestamp($row['dateadded']);
+				echo '</td>';
+                echo '<td class="moltd '.$tdcolor.'"><a href="removefromnotebook.php?molid='.$row['molid'].'&dest=nb"><img src="delete_icon.png"/></td>';
+			echo '</tr>';	
+            $count++;
+        }
+        echo '</table>';
 	}	
+    echo '<br /><div style="margin-top:100px;">';
+    if($notebookcount==0){
+        echo 'No notebook entries.';
+    }
+    echo '</div>';
 ?>
-	</table>
-
-
 </div>
 </body>
 </html>
+

@@ -5,12 +5,18 @@
 	require('/home/faver/bin/cred.php');
 	if(isset($_GET['molid'])){
 		$thismolid=(int)pg_escape_string($_GET['molid']);	
-	}else{
+	}elseif(isset($_GET['all'])){
+        $clearnotebook=(pg_escape_string($_GET['all'])=='y');
+    }
+    else{
 		returnhome();
 	}
 	session_start();
 
-	if(in_array($thismolid,$_SESSION['notebook_molids'])){
+    if($clearnotebook){
+        unset($_SESSION['notebook_molids']);
+        $_SESSION['notebook_molids']=Array();
+    }elseif(in_array($thismolid,$_SESSION['notebook_molids'])){
 		$i = array_search($thismolid,$_SESSION['notebook_molids']); 
 		unset($_SESSION['notebook_molids'][$i]);
 		$i = array_values($_SESSION['notebook_molids']);

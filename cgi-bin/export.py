@@ -58,22 +58,16 @@ if export=='spreadsheet':
 if export=='pdf':
     dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
     q = dbconn.cursor()
-    q.execute('select m.molid,\
-                      m.molname,\
-                      m.molweight,\
-                      m.molformula,\
-                      m.dateadded,\
-                      r.nickname,\
-                      t.type,\
-                      d.value,\
-                      t.units,\
-                      u.username \
-               from molecules m \
-            left join moldata d on m.molid=d.molid \
-            left join targets r on d.targetid=r.targetid \
-          left join datatypes t on t.datatypeid=d.datatype \
-              left join users u on u.userid=m.authorid \
-          where (t.units!=\'file\' or t.units is null) and m.molid in %s',[tuple(molids)])    
+    q.execute('WITH molinfo AS \
+                    (SELECT m.molid,m.molname,m.molweight,m.molformula,m.dateadded,u.username \
+                        FROM molecules m LEFT JOIN users u ON m.authorid=u.userid \
+                        WHERE m.molid in %s),\
+                    measurements AS \
+                    (SELECT d.molid,d.value,t.type,t.units,r.nickname \
+                        FROM moldata d LEFT JOIN targets r ON r.targetid=d.targetid \
+                        LEFT JOIN datatypes t ON t.datatypeid=d.datatype \
+                        WHERE d.molid in %s AND t.units!=\'file\')\
+                    SELECT * from molinfo mi LEFT OUTER JOIN measurements mm ON mi.molid=mm.molid',[tuple(molids),tuple(molids)])    
     response=q.fetchall()
 
     with open('../uploads/scratch/report-'+userid+'.html','w') as fout:
@@ -91,7 +85,7 @@ if export=='pdf':
                     molweight=str(row[2])
                     molformula=row[3]
                     dateadded=row[4].strftime('%b %d, %Y %I:%M%p')
-                    author=row[9]
+                    author=row[5]
                     break
             htmlstr+='<h1>'+molname+'</h1>'
             htmlstr+='<br /><br /><div id="infodiv"><table id="infotable">'
@@ -114,12 +108,16 @@ if export=='pdf':
             for row in response:
                 if str(row[0])!=mol:
                     continue
-                target=row[5]
+                target=row[10]
+                datatype=row[8]
+                value=str(row[7])
+                units=row[9]
+                if(not value or not datatype or not units):
+                    continue
+                if(units):
+                    units=units.decode('utf-8').encode('latin-1')
                 if(not target):
                     target='-'
-                datatype=row[6]
-                value=str(row[7])
-                units=row[8].decode('utf-8').encode('latin-1')
                 htmlstr+='<tr><td class="datatd datatdleft">'+datatype+'</td>'
                 htmlstr+='<td class="datatd">'+value+'</td>'
                 htmlstr+='<td class="datatd">'+units+'</td>'
