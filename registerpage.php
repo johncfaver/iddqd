@@ -19,16 +19,21 @@
 			echo 'That username exists already.<br />';
 		}
 	}
-    if(isset($_GET['nameisbad'])){
-        if((int)$_GET['nameisbad']==1){
+    if(isset($_GET['usernameisbad'])){
+        if((int)$_GET['usernameisbad']==1){
             echo 'That username was awful. Try again.<br />';
+        }
+    }
+    if(isset($_GET['passwordisbad'])){
+        if((int)$_GET['passwordisbad']==1){
+            echo 'That password was awful. Try again.<br />';
         }
     }
 ?>
 	<span id="regspan" style="text-align:right;float:right;margin-right:450px;margin-top:50px">
 	<form method="post" action="register.php" id="register" >
-		Username: <input type="text" id="desiredusername" name="desiredusername" size="8" /><br />
-		Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" /><br /><br />
+		Username  <input type="text" id="desiredusername" name="desiredusername" size="8" />  <br /><span style="font-size:0.7em;">(3-20 valid characters)</span><br /><br />
+		Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" /> <br /><span style="font-size:0.7em;">(5-20 characters)</span><br /><br />
 		<input type="submit" value="Register" />	
 	</form>
 	</span>

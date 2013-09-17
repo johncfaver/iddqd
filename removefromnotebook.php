@@ -5,6 +5,7 @@
 	require('/home/faver/bin/cred.php');
 	if(isset($_GET['molid'])){
 		$thismolid=(int)pg_escape_string($_GET['molid']);	
+        $clearnotebook=false;
 	}elseif(isset($_GET['all'])){
         $clearnotebook=(pg_escape_string($_GET['all'])=='y');
     }

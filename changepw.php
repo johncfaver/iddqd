@@ -18,7 +18,7 @@
 		$nameexists=True;
 	}
 	if($nameexists){
-		$q = $dbconn->prepare("UPDATE users set password = crypt(:pass,gen_salt('md5')) where username=:name returning username,userid");
+		$q = $dbconn->prepare("UPDATE users set password = crypt(:pass,gen_salt('bf')) where username=:name returning username,userid");
 		$q->bindparam(":name",$desiredusername,PDO::PARAM_STR);
 		$q->bindparam(":pass",$desiredpassword,PDO::PARAM_STR);
 		$q->execute();
