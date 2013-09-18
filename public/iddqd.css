@@ -1,0 +1,363 @@
+A:link{text-decoration:none;}
+A:visited{text-decoration:none;}
+A:active{text-decoration:none;}
+A:hover{text-decoration:none;}
+
+
+body{
+	background-color:white;	
+	font-family:"Arial",sans-serif;
+}
+img{
+	border:0px;
+}
+#div_left{
+    position:absolute;
+	top:0px;
+	margin-left:15px;
+	width:150px;
+    height:660px;
+	background-color:black;
+	color:white;
+	text-align:center;
+	float:left;
+}
+#left_links{
+	font-size:1.2em;
+	position:absolute;
+	height:100px;
+	margin-top:125px;
+	width:100%;
+	border:0px solid red;
+}
+#div_top{
+	position:absolute;
+	top:45px;
+	left:50px;
+	width:1100px;
+	height:3px;
+	background-color:black;
+}
+#div_notebook{
+	position:absolute;
+	right:200px;
+	bottom:3px;
+	border:0px solid black;
+	font-size:0.8em;
+}
+#div_login{
+	position:absolute;
+	right:5px;
+	bottom:3px;
+	border-left:0px solid black;
+	padding:0px;
+	font-size:0.8em;
+}
+#span_loggedin{
+	float:right;
+	margin-bottom:0px;
+	font-size:0.9em;
+}
+#div_main{
+	position:absolute;
+	top:55px;
+	left:175px;
+	text-align:center;
+	width:900px;
+	height:550px;
+	border:0px solid green;
+}
+
+#div_draw{
+	position:absolute;
+	width:550px;
+	height:500px;
+	border:0px solid red;
+	font-size:0.8em;
+	left:0px;
+	top:5px;
+}
+#div_ad{
+	position:absolute;
+	text-align:center;
+	margin:auto;
+	bottom:5px;
+	left:15px;
+}
+#div_datainput{
+	position:absolute;
+	border:0px solid blue;
+	width:385px;
+	height:500px;
+	top:0px;
+	left:550px;
+	font-size:0.9em;
+}
+#div_datainput_inner{
+	text-align:center;
+	border:0px solid black;
+	margin-top:25px;
+	margin-left:20px;
+	width:300px;
+	height:400px;
+}
+#inputtable{
+	width:200px;
+	text-align:right;
+	border:0px solid green;
+	margin:auto;
+	font-size:1.0em;
+}
+#div_molecules_prev{
+	position:absolute;
+	width:100px;
+	text-align:left;
+	top:10px;
+	left:300px;
+	font-size:1.2em;
+}
+#div_molecules_next{
+	position:absolute;
+	width:100px;
+	text-align:right;
+	top:10px;
+	right:300px;
+	font-size:1.2em;
+}
+.moleculetable{
+	position:absolute;
+	width:900px;
+	top:60px;
+	left:15px;
+	font-size:0.9em;
+}
+.molth{
+	background:#bbbbff;
+	text-align:center;
+	padding:5px;
+    border-bottom:1px solid #333333;
+    border-top:1px solid #333333;
+}
+.moltd{
+	text-align:center;
+    vertical-align:middle;
+}
+.moltdcolor{
+	background:#e4e4ef;
+}
+.moltdborderright{
+    border-right:1px solid #333333;
+}
+.moltdpadding{
+    padding:5px;
+}
+#div_molnotes{
+	position:absolute;
+	text-align:center;
+	width:350px;
+	height:100px;	
+	left:-450px; 
+	top:430px;
+	border:0px solid gray;
+}
+#div_datanotes{
+	position:absolute;
+	text-align:center;
+	width:350px;
+	height:100px;	
+	left:575px; /* 500+200-125=700-125=575  */
+	top:420px;
+	border:0px solid gray;
+}
+.table_data{
+	width:100%;
+	text-align:center;
+	border-collapse:collapse;
+	font-size:0.8em;
+}
+.datatableth{
+	border-left:1px solid black;
+	border-bottom:1px solid black;
+	border-right:1px solid black;
+}
+.datatablethleft{
+	border-bottom:1px solid black;
+}
+.datatablethright{
+	border-bottom:1px solid black;
+}
+.datatabletdleft{
+	border-right:1px solid black;
+}
+.datatabletd{
+	border-right:1px solid black;
+	border-left:1px solid black;
+}
+.datatabletdright{
+	border-left:1px solid black;
+}
+#button_uploaddata{
+	position:absolute;
+	top:450px;
+	left:128px; /*355/2-50*/
+	width:100px;
+	height:30px;
+}
+#button_moledit{
+	position:absolute;
+	top:450px;
+	left:78px; /*355/2-50*/
+	width:100px;
+	height:30px;
+}
+#button_cancelmoledit{
+	position:absolute;
+	top:450px;
+	left:198px; /*355/2-50*/
+	width:100px;
+	height:30px;
+}
+#div_dataentry{
+	position:absolute;
+	top:130px;
+	width:100%;
+	height:250px;
+	left:0px;
+	border:0px solid yellow;
+	text-align:left;
+}
+.div_tab_datatype{
+	position:absolute;
+	height:15px;
+	font-size:0.8em;
+	width:34%;
+	border:1px solid black;
+	background:#ffffff;
+	float:left;
+	text-align:center;
+    line-height:1.5em;
+}
+#div_tab_datatype_bindingdata{
+	width:33%;
+	background:#bbbbff;
+}
+#div_tab_datatype_propertydata{
+	left:33%;
+}
+#div_tab_datatype_docdata{
+	left:67%;
+}
+
+#div_input_datatype_bindingdata{
+	position:absolute;
+	display:block;
+	width:100%;
+	height:250px;
+	border:0px solid black;
+	text-align:center;
+	top:15px;
+}
+.div_bindingdata{
+}
+.select_bindingdata_target{
+    width:160px;
+}
+.select_bindingdata_datatype{
+    width:95px;
+}
+.input_bindingdata_value{
+    width:55px;
+}
+.img_bindingdata_notes{
+    height:20px;
+    margin-left:10px;
+}
+.img_bindingdata_delete{
+    height:20px;
+    margin-left:10px;
+}
+#div_input_datatype_propertydata{
+	position:absolute;
+	display:none;
+	width:100%;
+	height:250px;
+	border:0px solid black;
+	text-align:center;
+	top:15px;
+}
+.div_propertydata{
+}
+.select_propertydata_datatype{
+    width:170px;
+}
+.input_propertydata_value{
+    width:80px;
+}
+.img_propertydata_notes{
+    height:20px;
+    margin-left:15px;
+}
+.img_propertydata_delete{
+    height:20px;
+    margin-left:18px;
+}
+
+#div_input_datatype_docdata{
+	position:absolute;
+	top:15px; 
+	display:none;
+	width:100%;
+	height:250px;
+	border:0px solid black;
+	text-align:center;
+}
+.div_notespopup{
+	display:none;
+	position:fixed;
+	border:1px solid black;
+	text-align:center;
+	width:600px;
+	height:250px;
+	top:200px;
+	left:350px;
+	background:#ccccff;
+	z-index:2;
+}
+.textarea_notespopup{
+	position:absolute;
+	top:50px;
+	left:30px;
+	width:540px;
+	height:175px;
+	text-align:justify;
+}
+.span_closenotespopup{
+	position:absolute;
+	border:0px solid red;
+	right:10px;
+	top:5px;
+	font-size:1.4em;
+}
+.span_closenotespopup A:link{text-decoration:none;color:black;}
+.span_closenotespopup A:visited{text-decoration:none;color:black;}
+.span_closenotespopup A:active{text-decoration:none;color:black;}
+.span_closenotespopup A:hover{text-decoration:none;color:black;}
+
+.nonlinks A:link{text-decoration:none;color:black;}
+.nonlinks A:visited{text-decoration:none;color:black;}
+.nonlinks A:active{text-decoration:none;color:black;}
+.nonlinks A:hover{text-decoration:none;color:black;}
+
+.molth A:link{text-decoration:none;color:black;}
+.molth A:visited{text-decoration:none;color:black;}
+.molth A:active{text-decoration:none;color:black;}
+.molth A:hover{text-decoration:none;color:black;}
+
+.img_inline{
+	display:inline;
+}
+
+.span_export{
+    width:300px;
+    float:left;
+}
