@@ -68,7 +68,7 @@ else:
 if 'molid' in keys:
     molid=int(form['molid'].value)
 else:
-    molid=-1
+    molid=0
 if 'userid' in keys:
     authorid=form['userid'].value
 else:
@@ -94,6 +94,11 @@ if 'olddocdataids' in keys:
 else:
     olddocdataids=0
 
+##CHECK INPUTS - EMPTY MOLNAME NOT VALID
+if(not molname):
+    print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)
+    print
+    sys.exit()
 
 bindingdatas=[]
 propertydatas=[]

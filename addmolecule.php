@@ -12,6 +12,8 @@
 
     $loggedin = isset($_SESSION['username']);
     if(!$loggedin) returnhome();
+    
+    $emptyname = (isset($_GET['emptyname']))?(int)$_GET['emptyname']:0;
 
     $fileupload = isset($_FILES['sdffileupload']);
     if($fileupload){
@@ -109,12 +111,12 @@
         <div id="div_datainput_inner"><span style="font-size:1.2em;">Input Data:</span><br />
             <br />
             <span style="font-size:0.8em;float:right;text-align:right;">
-                WLJID:
+                Name:
                 <input type="text" name="molname" id="molname" size=10 style="width:80px;margin-right:45px;" <?php if($fileupload) echo 'value="'.$thismolfilename.'"'; ?>/>
                 IUPAC: <input type="text" name="iupacname" id="iupacname" style="width:80px;float:right" size=10 value="" />
             </span>
             <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
-                <span style="font-style:italic;color:#4444bb;margin-right:45px;" id="molnameRecommendation"></span>
+                <span style="font-style:italic;color:#884444;margin-right:45px;" id="molnameRecommendation"><?php if($emptyname) echo 'Name can not be empty.';?></span>
                 CAS#: <input type="text" name="cas" id="cas" size=10 style="width:80px;float:right" value="" />
             </span>
             <br /><br />

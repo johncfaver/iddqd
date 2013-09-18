@@ -49,7 +49,7 @@ molfig64=form['molfig'].value.split(',')[1]
 if 'molname' in keys:
     molname=form['molname'].value.replace(' ','_')
 else:
-    molname='Nameless'
+    molname=0
 if 'iupacname' in keys:
     iupacname=form['iupacname'].value
 else:
@@ -70,6 +70,16 @@ if 'username' in keys:
     author=form['username'].value
 else:
     author=0
+
+#CHECK INPUTS
+if(not molname):
+    print 'Location: ../addmolecule.php?emptyname=1'
+    print
+    sys.exit()
+if(not authorid or not author):
+    print 'Location: ../index.php?status=error'
+    print
+    sys.exit()
 
 bindingdatas=[]
 propertydatas=[]
@@ -104,7 +114,7 @@ for i in xrange(maxdata):
 #########################################
 
 
-#CHECK IF MOLNAME (WLJID) EXISTS
+#CHECK IF MOLNAME EXISTS
 dbconn = psycopg2.connect("dbname=iddqddb user=iddqd password=loblaw")
 q = dbconn.cursor()
 q.execute('SELECT molid FROM molecules WHERE molname=%s',[molname]) 

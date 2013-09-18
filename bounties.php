@@ -49,14 +49,13 @@
     <div id="div_post_bounty"><button type="button" style="width:120px;height:25px;" onclick="window.location='postbounty.php'">Post Bounty</button></span></div>
 <table class="moleculetable">
     <tr>
-        <th class="molth moltdborderright">Bounty</th>
+        <th class="molth moltdborderright">BountyID</th>
+        <th class="molth moltdborderright">Structure</th>
         <th class="molth moltdborderright">Target</th>
         <th class="molth moltdborderright">Posted By</th>
-        <th class="molth moltdborderright">Posted</th>
         <th class="molth moltdborderright">Pursued By</th>
-        <th class="molth moltdborderright">Pursued</th>
         <th class="molth moltdborderright">Claimed</th>
-        <th class="molth ">WLJID</th>
+        <th class="molth ">Name</th>
     </tr>
 
 <?php
@@ -88,6 +87,10 @@
         echo '<tr>';
             echo '<td class="moltd '.$tdcolor.' moltdborderright">';
                 echo '<a href="bountypage.php?bid='.$bounty['bountyid'].'">';
+                echo $bounty['bountyid'].'</a>';
+            echo '</td>';
+            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
+                echo '<a href="bountypage.php?bid='.$bounty['bountyid'].'">';
                 echo '<img src="uploads/bounties/'.$bounty['bountyid'].'.jpg" style="height:60px;"/></a>';
             echo '</td>';
             echo '<td class="moltd '.$tdcolor.' moltdborderright">';
@@ -95,15 +98,11 @@
             echo '</td>';
             echo '<td class="moltd '.$tdcolor.' moltdborderright">';
                 echo $bounty['posted_by'];
-            echo '</td>';
-            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-                echo parsetimestamp($bounty['date_posted']);
+                //echo '<br /><br /> ('.parsetimestamp($bounty['date_posted']).')';
             echo '</td>';
             echo '<td class="moltd '.$tdcolor.' moltdborderright">';
                 echo $bounty['pursued_by'];
-            echo '</td>';
-            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-                echo parsetimestamp($bounty['date_pursued']);
+                //echo '<br /><br />('.parsetimestamp($bounty['date_pursued']).')';
             echo '</td>';
             echo '<td class="moltd '.$tdcolor.' moltdborderright">';
                 echo parsetimestamp($bounty['date_claimed']);

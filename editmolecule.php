@@ -13,6 +13,7 @@
 	$loggedin = isset($_SESSION['username']);
 	$thismolid = (isset($_GET['molid']))?(int)$_GET['molid']:-1;
 	if(!$loggedin or $thismolid==-1 ) returnhome();
+    $emptyname = (isset($_GET['emptyname']))?(int)$_GET['emptyname']:0;
 
 	$q = $dbconn->prepare("SELECT molname,iupac,cas FROM molecules WHERE molid=:num");
 	$q->bindParam(":num",$thismolid,PDO::PARAM_INT);
@@ -111,11 +112,12 @@
 			<span style="font-size:1.2em;">Edit Data:</span><br />	
 			<br />
             <span style="font-size:0.8em;float:right;text-align:right;">
-			    WLJID:
+			    Name:
 			    <input type="text" name="molname" id="molname" size=10 style="width:80px;margin-right:45px;" value="<?php echo $thismolname;?>" />
 			    IUPAC: <input type="text" name="iupacname" id="iupacname" size=10 style="width:80px;float:right" value="<?php echo $thisiupac;?>" />	
             </span>
             <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
+                <span style="font-style:italic;color:#884444;margin-right:45px;" id="editmoleculeerror"><?php if($emptyname) echo 'Name can not be empty.';?></span>
 			    CAS#: <input type="text" name="cas" id="cas" size=10 style="width:80px;float:right" value="<?php echo $thiscas;?>" /><br />
 			</span>
             <br /><br />
@@ -199,7 +201,7 @@
 		<span style="position:absolute;top:50px;left:45px">
 			Are you sure you want to delete this data?
 		</span><br /><br />
-		<input type="submit" value="Yes" style="position:absolute;width:100px;height:30px;left:50px;top:200px;"/>
+		<input type="submit" value="Delete" style="position:absolute;width:100px;height:30px;left:50px;top:200px;"/>
 		<input type="button" value="Cancel" style="position:absolute;width:100px;height:30px;right:50px;top:200px;" onclick="closedeletecheck();"/>
 	</form>
 </div>

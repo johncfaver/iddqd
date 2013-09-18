@@ -53,14 +53,14 @@
 			echo '</form>';
 		}
  		if(isset($_GET['status'])){
-               		echo '<span style="font-size:0.8em;position:fixed;top:60px;left:960px;margin:0px;">';
-	                if($_GET['status']=='badpw'){
-                        	echo 'Invalid username/password.';
-                        }elseif($_GET['status']=='error'){
+            echo '<span style="font-size:0.8em;position:fixed;top:60px;left:960px;margin:0px;">';
+	        if($_GET['status']=='badpw'){
+           	    echo 'Invalid username/password.';
+            }elseif($_GET['status']=='error'){
 				echo 'An error occurred.';	
 			}
 			echo '</span>';
-                }
+        }
 		echo '</div>';
 ?>	
 </div>

@@ -47,7 +47,7 @@ if export=='spreadsheet':
 
     dl='../uploads/scratch/spreadsheet-'+userid+'.csv'
     with open(dl,'w') as f:
-        f.write('WLJID,MW,TARGET,DATATYPE,VALUE,UNITS\n')
+        f.write('NAME,MW,TARGET,DATATYPE,VALUE,UNITS\n')
         for i in r:
             for j in i:
                 f.write(str(j)+',')

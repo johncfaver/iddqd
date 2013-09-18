@@ -73,7 +73,7 @@
 		<ul>
 			<li><b>Substructure</b></li>Draw the substructure query in the sketch window, and select "substructure" below (it is selected by default).<br/><br />
 			<li><b>Similarity</b></li>Similar to substructure search, but select "similarity" below the sketch window. Results will be ordered by Tanimoto coefficient, which measures similarity. It ranges from 0 to 1, where 1 represents idential structures. Structures below a Tanimoto coefficient of 0.3 are omitted from the results. You can change this cutoff to 0.1 by adding &similaritythreshold=0.1 to the URL. <br /><br/>
-			<li><b>Name</b></li>Search by WLJID, CAS, or IUPAC name. CAS and IUPAC are not always available, but most database entries have a WLJID, e.g. JLJ0422.<br /><br />
+			<li><b>Name</b></li>Search by Name, CAS, or IUPAC name. CAS and IUPAC are not always available, but most database entries have a Name consisting of a short target code and a number, e.g. JLJ0422.<br /><br />
 			<li><b>Molecular weight</b></li>Search by molecular weight. Enter one value to view compounds closest to that molecular weight, or enter a range to view compounds within that molecular weight range.<br/><br/>
 			<li><b>Target</b></li>Filter results by returning only compounds with binding data associated with the selected target.<br/><br/>
 		</ul>
@@ -88,8 +88,8 @@
 			Keep in mind 2D structures work much better than 3D. 
 			The sketcher will flatten 3D structures out into a 2D representation.<br/>
 			<li><b>Enter the associated data.</b></li>
-			Fill in name data in the available fields for WLJID, IUPAC, and CAS#. 
-			None are required, but WLJID is highly recommended. Below the name fields are three tabs: <i>Binding, Properties, </i>and <i>Documents.</i> 
+			Fill in name data in the available fields for Name, IUPAC, and CAS#. 
+			None are required, but Name is required. As you select a target for the molecule, a name will be automatically suggested below the text box. Below the name fields are three tabs: <i>Binding, Properties, </i>and <i>Documents.</i> 
 			Click the <i>Binding</i> tab to enter binding data. Select the target from the dropdown menu, and the binding data type from the second dropdown menu.
 			Enter the value of the measurement in the text field, minding the units shown in the datatype dropdown menu. 	
 			Finally, if there are any notes you would like to leave concerning this measurement, click the note icon at the right.
