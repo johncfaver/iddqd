@@ -209,7 +209,8 @@
 						if($r['datacomment']){
 							echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
 							echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",htmlentities($r['datacomment'])).'\');">';
-							echo '<img src="info_icon.png" height=15 title="Notes Available" />';
+                            echo htmlentities(substr($r['datacomment'],0,20));
+                            if(strlen($r['datacomment'])>20) echo '...<a href="#">(more)</a>';
 						}else{
 							echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
 							echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');">';

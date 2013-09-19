@@ -155,9 +155,9 @@
 .viewmolecule_datatable{
 	position:absolute;
 	text-align:center;
-	width:500px;
+	width:600px;
 	top:30px;
-	left:150px;
+	left:100px;
 	border-collapse:collapse;
 }
 
