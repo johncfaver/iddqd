@@ -7,9 +7,11 @@
         echo 'Database connection failed: '. $e->getMessage();
     }
 	$dbconn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING );
+    
     session_start();
     $loggedin = isset($_SESSION['username']);
     if(!$loggedin) returnhome();
+
 
 	$nummol=(isset($_POST['nummol']) and $_POST['nummol']>0)?(int)$_POST['nummol']:8;
 	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;
@@ -17,12 +19,12 @@
 	$sortdir=(isset($_GET['sortdir']))?(int)$_GET['sortdir']:0;
 	$similaritythreshold=(isset($_GET['similaritythreshold']))?(real)$_GET['similaritythreshold']:0.3;
 	
-	$q = $dbconn->query("SELECT MIN(molid),MAX(molid),COUNT(molid) FROM molecules");
-	$r = $q->fetch();
-	$dbminmol = $r['min'];
-	$dbmaxmol = $r['max'];
-	$dbcountmol = $r['count'];
-	
+	$q = $dbconn->query("SELECT molid FROM molecules");
+	while($r = $q->fetch(PDO::FETCH_ASSOC){;
+        array_push($all_molids,$r['molid']);
+    }
+    $dbcountmol = count($all_molids);	
+
     $query_molname  =(isset($_POST['query_molname']))?pg_escape_string($_POST['query_molname']):0;
     $query_molweight=(isset($_POST['query_molweight']))?pg_escape_string($_POST['query_molweight']):0;
 	$moltext=(isset($_POST['moltext']))?explode("\n",str_replace("\r",'',$_POST['moltext'])):0;
