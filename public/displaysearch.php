@@ -1,4 +1,6 @@
 <?php
+
+//Display search results which are held in $_SESSION['search_results']
     
     $debug=0;
     require('../private/cred.php');
@@ -13,9 +15,11 @@
     $loggedin = isset($_SESSION['username']);
     if(!$loggedin) returnhome();
 
+    $numdisplay = (isset($_GET['numdisplay']))?(int)$_GET['numdisplay']:8;
 	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;
 	$sortby=(isset($_GET['sortby']))?pg_escape_string($_GET['sortby']):'dateadded';
 	$sortdir=(isset($_GET['sortdir']))?(int)$_GET['sortdir']:0;
+  
     $similaritysearch=(isset($_GET['similarity']))?(int)$_GET['similarity']:false;	
     $numresults = (isset($_SESSION['search_results']))?count($_SESSION['search_results']):0;
 
@@ -57,15 +61,17 @@
 </div>
 <div id="div_main">
 <?php
-	/*if($molstart>=$nummol){
-		echo '<div id="div_molecules_prev"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart-$nummol).'&sortby='.$sortby.'"> << previous </a></span></div>';
+	if($molstart>=$numdisplay){
+		echo '<div id="div_molecules_prev" class="nonlinks">';
+        echo '<a href="displaysearch.php?molstart='.($molstart-$numdisplay).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> << previous </a></div>';
 	}
-	if($molstart+$nummol<$dbcountmol){
-		echo '<div id="div_molecules_next"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart+$nummol).'&sortby='.$sortby.'"> next>></a></span></div>';
-	}*/
+	if($molstart+$numdisplay<$numresults){
+		echo '<div id="div_molecules_next" class="nonlinks">';
+        echo '<a href="displaysearch.php?molstart='.($molstart+$numdisplay).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> next>></a></div>';
+	}
 ?>
 
-    <span style="font-size:0.8em;">Found <?php echo $numresults;?> results.</span>
+    <div id="div_molecules_numresults" class="nonlinks">Found <?php echo $numresults;?> results.</div>
 
 <?php
     if($numresults>0){
@@ -80,7 +86,18 @@
 	        }
 	    }
 	    $qstr = rtrim($qstr,',').')';
+
+        if($sortby=='dateadded') $qstr.=' order by m.dateadded';
+        if($sortby=='molweight') $qstr.=' order by m.molweight';
+        if($sortby=='molname')   $qstr.=' order by m.molname';
+        if($sortby=='username')  $qstr.=' order by u.username';
+        if($sortdir) $qstr.=' DESC';
+
+        $qstr.= ' limit :num1 offset :num2';
+
 	    $q = $dbconn->prepare($qstr);
+        $q->bindParam(":num1",$numdisplay,PDO::PARAM_INT);
+        $q->bindParam(":num2",$molstart,PDO::PARAM_INT);
 	    $q->execute();
     }
 ?>
@@ -88,10 +105,11 @@
     <table class="moleculetable">
         <tr class="moltr">
         <th class="molth moltdborderright">Structure</th> 
-        <th class="molth moltdborderright">Name</th> 
-        <th class="molth moltdborderright">MW</th> 
-        <th class="molth moltdborderright">Author</th> 
-        <th class="molth <?php if($similaritysearch) echo 'moltdborderright';?>">Date Added</th> 
+        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=molname&sortdir=<?php echo ($sortdir)?0:1;?>">Name</a></th> 
+        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=molweight&sortdir=<?php echo ($sortdir)?0:1;?>">MW</a></th> 
+        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=username&sortdir=<?php echo ($sortdir)?0:1;?>">Author</a></th> 
+        <th class="molth <?php if($similaritysearch) echo 'moltdborderright';?>">
+            <a href="displaysearch.php?sortby=dateadded&sortdir=<?php echo ($sortdir)?0:1;?>">Date Added</a></th> 
         <?php if($similaritysearch) echo '<th class="molth">Similarity</th>';?>
 
         </tr>
