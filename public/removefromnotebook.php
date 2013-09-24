@@ -13,6 +13,7 @@
 		returnhome();
 	}
 	session_start();
+    if(!$_SESSION['notebook_molids']) returnhome();
 
     if($clearnotebook){
         unset($_SESSION['notebook_molids']);
