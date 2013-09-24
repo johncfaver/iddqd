@@ -20,7 +20,7 @@
 	$sortby=(isset($_GET['sortby']))?pg_escape_string($_GET['sortby']):'dateadded';
 	$sortdir=(isset($_GET['sortdir']))?(int)$_GET['sortdir']:0;
   
-    $similaritysearch=(isset($_GET['similarity']))?(int)$_GET['similarity']:false;	
+    $similaritysearch=(isset($_GET['similaritysearch']))?(int)$_GET['similaritysearch']:0;	
     $numresults = (isset($_SESSION['search_results']))?count($_SESSION['search_results']):0;
 
 ?>
@@ -63,15 +63,15 @@
 <?php
 	if($molstart>=$numdisplay){
 		echo '<div id="div_molecules_prev" class="nonlinks">';
-        echo '<a href="displaysearch.php?molstart='.($molstart-$numdisplay).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> << previous </a></div>';
+        echo '<a href="displaysearch.php?molstart='.($molstart-$numdisplay).'&sortby='.$sortby.'&sortdir='.$sortdir.'&similaritysearch='.$similaritysearch.'"> << previous </a></div>';
 	}
 	if($molstart+$numdisplay<$numresults){
 		echo '<div id="div_molecules_next" class="nonlinks">';
-        echo '<a href="displaysearch.php?molstart='.($molstart+$numdisplay).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> next>></a></div>';
+        echo '<a href="displaysearch.php?molstart='.($molstart+$numdisplay).'&sortby='.$sortby.'&sortdir='.$sortdir.'&similaritysearch='.$similaritysearch.'"> next>></a></div>';
 	}
 ?>
 
-    <div id="div_molecules_numresults" class="nonlinks">Found <?php echo $numresults;?> results.</div>
+    <div id="div_molecules_numresults" class="nonlinks">Found <?php echo $numresults;?> result<?php if($numresults!=1) echo 's';?>.</div>
 
 <?php
     if($numresults>0){
@@ -105,11 +105,11 @@
     <table class="moleculetable">
         <tr class="moltr">
         <th class="molth moltdborderright">Structure</th> 
-        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=molname&sortdir=<?php echo ($sortdir)?0:1;?>">Name</a></th> 
-        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=molweight&sortdir=<?php echo ($sortdir)?0:1;?>">MW</a></th> 
-        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=username&sortdir=<?php echo ($sortdir)?0:1;?>">Author</a></th> 
+        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=molname&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>">Name</a></th> 
+        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=molweight&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>">MW</a></th> 
+        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=username&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>">Author</a></th> 
         <th class="molth <?php if($similaritysearch) echo 'moltdborderright';?>">
-            <a href="displaysearch.php?sortby=dateadded&sortdir=<?php echo ($sortdir)?0:1;?>">Date Added</a></th> 
+            <a href="displaysearch.php?sortby=dateadded&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>">Date Added</a></th> 
         <?php if($similaritysearch) echo '<th class="molth">Similarity</th>';?>
 
         </tr>
@@ -134,9 +134,6 @@
     }
 ?>  
     </table>
-<?php
-    if($numresults==0) echo '<br/><br/>No results.';
-?>
 
 </div>
 </body>

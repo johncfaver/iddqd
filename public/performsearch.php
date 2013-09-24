@@ -170,7 +170,7 @@
             }
             //$similarities now is an associative array with molid=>similarity.
             $_SESSION['search_results']=$similarities;
-            header('Location: displaysearch.php?similarity=1');
+            header('Location: displaysearch.php?similaritysearch=1');
             exit;
         }elseif($searchtype=='substructure'){
             $superstructures= Array(); 
