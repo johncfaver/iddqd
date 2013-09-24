@@ -57,42 +57,30 @@
 	$sortdir=(isset($_GET['sortdir']))?(int)$_GET['sortdir']:1;
 	
 	if($molstart>=$nummol){
-		echo '<div id="div_molecules_prev"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart-$nummol).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> << previous </a></span></div>';
+		echo '<div id="div_molecules_prev" class="nonlinks"><a href="molecules.php?molstart='.($molstart-$nummol).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> << previous </a></div>';
 	}
 	if($molstart+$nummol<$ntotmol){
-		echo '<div id="div_molecules_next"><span class="nonlinks"><a href="molecules.php?molstart='.($molstart+$nummol).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> next>></a></span></div>';
+		echo '<div id="div_molecules_next" class="nonlinks"><a href="molecules.php?molstart='.($molstart+$nummol).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> next>></a></div>';
 	}
 ?>
+ <div id="div_molecules_numresults" class="nonlinks">Found <?php echo $ntotmol;?> results.</div>
+
 <table class="moleculetable" >
-	<tr>
-		<th class="molth moltdborderright">Structure </th>
-		<?php
-			echo '<th class="molth moltdborderright"><a href="molecules.php?sortby=molname';
-			if($sortby=='molname' && $sortdir==0) echo '&sortdir=1';
-			if($sortby=='molname' && $sortdir) echo '&sortdir=0';
-			echo '">Name</a></th>';
-
-			echo '<th class="molth moltdborderright"><a href="molecules.php?sortby=molweight';
-			if($sortby=='molweight' && $sortdir==0) echo '&sortdir=1';
-			if($sortby=='molweight' && $sortdir) echo '&sortdir=0';
-			echo'">MW</a></th>';
-	
-			echo '<th class="molth moltdborderright"><a href="molecules.php?sortby=username';
-			if($sortby=='username' && $sortdir==0) echo '&sortdir=1';
-			if($sortby=='username' && $sortdir) echo '&sortdir=0';
-			echo'">Author</a></th>';
-
-			echo '<th class="molth"><a href="molecules.php?sortby=dateadded';
-			if($sortby=='dateadded' && $sortdir==0) echo '&sortdir=1';
-			if($sortby=='dateadded' && $sortdir) echo '&sortdir=0';
-			echo '">Date Added</a></tr>';
-		?>
+	<tr class="moltr">
+		<th class="molth moltdborderright">Structure</th> 
+        <th class="molth moltdborderright"><a href="molecules.php?sortby=molname&sortdir=<?php echo ($sortdir)?0:1;?>">Name</a></th> 
+        <th class="molth moltdborderright"><a href="molecules.php?sortby=molweight&sortdir=<?php echo ($sortdir)?0:1;?>">MW</a></th> 
+        <th class="molth moltdborderright"><a href="molecules.php?sortby=username&sortdir=<?php echo ($sortdir)?0:1;?>">Author</a></th> 
+        <th class="molth moltdborderright"><a href="molecules.php?sortby=dateadded&sortdir=<?php echo ($sortdir)?0:1;?>">Date Added</a></th> 
 	</tr>
 <?php
-	$qstr = 'SELECT a.molid,a.molname,a.dateadded,b.username,a.molweight from molecules a, users b where b.userid=a.authorid order by '.$sortby;	
-	if($sortdir){
-		$qstr.=' DESC';
-	}
+	$qstr = 'SELECT m.molid,m.molname,m.dateadded,u.username,m.molweight from molecules m, users u where u.userid=m.authorid ';	
+    if($sortby=='dateadded') $qstr.=' order by m.dateadded';
+    if($sortby=='molweight') $qstr.=' order by m.molweight';
+    if($sortby=='molname') $qstr.=' order by m.molname';
+    if($sortby=='username') $qstr.=' order by u.username';
+    if($sortdir) $qstr.=' DESC';
+
 	$qstr.=' limit :num1 offset :num2';
 	$q = $dbconn->prepare($qstr); 
 	$q->bindParam(":num1",$nummol,PDO::PARAM_INT);

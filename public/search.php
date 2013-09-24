@@ -68,38 +68,36 @@
 	</div>
 	
 	<div id="div_datainput">
-	<div id="div_datainput_inner" style="position:absolute;text-align:right;top:50px;float:right;">
-		<form action="searchresult.php" method="post" >
+	<div id="div_datainput_inner" style="position:absolute;text-align:right;top:100px;float:right;">
+		<form action="performsearch.php" method="post" >
 			Name:<input type="text" id="query_molname" name="query_molname" size=15 />
-				<span style="font-size:0.6em;"><br />e.g. "JLJ0294", "propan-2-amine", "9072-35-9"</span>
+				<span style="font-size:0.7em;"><br />e.g. "JLJ0294", "propan-2-amine", "DN%2"</span>
 			<br /><br /><br />
-			Molecular Weight:<input type="text" id="query_molweight" name="query_molweight" size=15 />
-			<span style="font-size:0.6em;"><br />e.g. "340", "200-250"</span>
+			Molecular Weight:<input type="text" id="query_molweight" name="query_molweight" size=8 />
+			<span style="font-size:0.7em;"><br />e.g. "340", "200-250"</span>
 			<br /><br />
-			<!--Molecular Formula:<input type="text" id="query_molformula" name="query_molformula" size=15 />
-			<span style="font-size:0.6em;"><br /></span><br /><br />-->
-
 			Target: <select name="query_targetid" id="query_targetid">
 			<option value="0">-</option>
 <?php
- 		$query=$dbconn->query("SELECT nickname,targetid FROM targets ORDER BY targetid");
-                foreach($query as $target){
+ 		$query=$dbconn->query("SELECT nickname,targetid FROM targets ORDER BY nickname");
+        foreach($query as $target){
 			echo '<option value="'.$target['targetid'].'">';
 			echo $target['nickname'].'</option>';
 		}
 ?>	
 			</select>
 		<br /><br/>
-		Number of results: <input type="text" id="query_nummol" name="nummol" value=8 size=2 />
+		Number of results: <input type="text" id="query_nummol" name="nummol" value=0 size=2 />
+            	<span style="font-size:0.7em;"><br />0: no limit</span><br/><br/>
 
-		<br /><br /><br /><br />
+
 		<div id="search_radio" style="position:absolute;border:0px solid red;left:-450px;top:325px;width:350px">
 			<span style="float:left;"><input type="radio" name="searchtype" value="substructure" checked>Substructure</span>
 			<span style="float:right;"><input type="radio" name="searchtype" value="similarity">Similarity</span>
 		</div>
 		<input type="hidden" name="moltext" id="moltext" value="" />
 		<input type="hidden" name="molfig" id="molfig" value="" />
-		<input type="submit" value="Search" onclick="getmolecule();" />
+		<input type="submit" value="Search" style="margin-top:50px;" onclick="getmolecule();" />
 		</form>	
 	</div>
 	</div>

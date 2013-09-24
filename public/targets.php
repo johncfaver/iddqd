@@ -53,7 +53,7 @@
 	</tr>
 <?php
 		$icount=0;
-		$q=$dbconn->query("select t.targetid,t.fullname,t.nickname,t.targetclass,t.series,count(m.molid) from targets t left join moldata m on t.targetid=m.targetid group by t.targetid order by count desc;");
+		$q=$dbconn->query("select t.targetid,t.fullname,t.nickname,t.targetclass,t.series,count(distinct m.molid) from targets t left join moldata m on t.targetid=m.targetid group by t.targetid order by count desc;");
 		foreach($q as $row){
 			$color=($icount%2==0)?'moltdcolor':'';
 			echo '<tr>';

@@ -113,7 +113,7 @@ img{
 	width:100px;
 	text-align:left;
 	top:10px;
-	left:300px;
+	left:250px;
 	font-size:1.2em;
 }
 #div_molecules_next{
@@ -121,8 +121,17 @@ img{
 	width:100px;
 	text-align:right;
 	top:10px;
-	right:300px;
+	right:250px;
 	font-size:1.2em;
+}
+#div_molecules_numresults{
+	position:absolute;
+	width:150px;
+	text-align:right;
+	top:10px;
+	right:370px;
+	font-size:1.2em;
+    text-align:center;
 }
 .moleculetable{
 	position:absolute;
