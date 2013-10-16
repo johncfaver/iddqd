@@ -74,7 +74,7 @@
             $qstr = 'SELECT DISTINCT m.molid FROM molecules m WHERE molname IS NOT NULL';    
         }
         if($query_molname){
-            $qstr.=' AND (m.molname ~* :str1 OR m.iupac ~* :str1 OR m.cas ~* :str1) ';
+            $qstr.=' AND (m.molname ilike :str1 OR m.iupac ilike :str1 OR m.cas ilike :str1) ';
         }
         if($query_molweight_range){
             $qstr.=' AND m.molweight BETWEEN :num1 and :num2 ';
