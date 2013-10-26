@@ -5,7 +5,7 @@
 import psycopg2,cgi,cgitb
 cgitb.enable()
 from sys import exit
-import credentials
+import config
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -28,7 +28,7 @@ if(not molid):
     print ''
     exit()
 try:
-    dbconn=psycopg2.connect(credentials.dsn)
+    dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
     q.execute("INSERT INTO molcomments (molid,molcomment,dateadded,authorid) VALUES(%s,%s,localtimestamp,%s)",[molid,comment,userid])
     dbconn.commit()

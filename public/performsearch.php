@@ -7,7 +7,7 @@
 //       search was performed. In this case, it is an associative array of
 //       molid=>similarity
 
-    require('../private/cred.php');
+    require('config.php');
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);
     }catch(PDOException $e){

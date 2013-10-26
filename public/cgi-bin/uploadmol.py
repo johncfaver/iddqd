@@ -6,7 +6,7 @@
 
 import cgi, os, cgitb, base64, psycopg2, subprocess,sys
 cgitb.enable()
-import credentials
+import config
 
 #MOVE TO UPLOAD DIRECTORY
 os.chdir('../uploads/')
@@ -116,7 +116,7 @@ for i in xrange(maxdata):
 
 
 #CHECK IF MOLNAME EXISTS
-dbconn = psycopg2.connect(credentials.dsn)
+dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 q.execute('SELECT molid FROM molecules WHERE molname=%s',[molname]) 
 r=q.fetchall()

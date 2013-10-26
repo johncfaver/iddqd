@@ -1,6 +1,6 @@
 <?php
 
-	require('../private/cred.php');
+	require('config.php');
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){

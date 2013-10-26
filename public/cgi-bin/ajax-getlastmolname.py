@@ -9,14 +9,14 @@
 import psycopg2,cgi,cgitb
 cgitb.enable()
 from sys import exit
-import credentials
+import config
 
 form=cgi.FieldStorage()
 keys=form.keys()
 
 try:
     targetid=int(form['targetid'].value)
-    dbconn=psycopg2.connect(credentials.dsn)
+    dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
    
     #Retrieve series prefix. If there are multiple prefies, prefer first entry.

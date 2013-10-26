@@ -6,7 +6,7 @@
 import psycopg2,cgi,cgitb
 cgitb.enable()
 from sys import exit
-import credentials 
+import config 
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -30,7 +30,7 @@ if(not bid):
     print ''
     exit()
 try:
-    dbconn=psycopg2.connect(credentials.dsn)
+    dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
     q.execute("INSERT INTO bountycomments (bountyid,bountycomment,dateadded,authorid) VALUES(%s,%s,localtimestamp,%s)",[bid,comment,userid])
     dbconn.commit()

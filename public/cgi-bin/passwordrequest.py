@@ -4,33 +4,39 @@
 import psycopg2,cgi,cgitb,string,random
 from sys import exit
 cgitb.enable()
-import credentials
+import config
 
 form=cgi.FieldStorage()
 keys=form.keys()
 
-if 'username' in keys:
-    username = form['username'].value
-else:
-    username=0
 if 'email' in keys:
     email = form['email'].value
 else:
     email=0
-if not email or not username:
+if not email:
     print 'Location: ../index.php?status=error'
     print ''
     exit()
 
 try:
-    dbconn=psycopg2.connect(credentials.dsn)
+    dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
 #Get userid
-    q.execute('SELECT userid FROM users WHERE username=%s and email=%s',[username,email])
+    q.execute('SELECT userid,username FROM users WHERE email=%s',[email])
+    if(q.rowcount==0):
+        print 'Location: ../changepasswordrequestpage.php?status=bademail'
+        print ''
+        exit()    
     r = q.fetchone() 
-    assert(len(r) == 1), "Username and email don't match."
     userid = str(r[0])
-#End past requests. Unused requests get datechanged set to localtime while changed=false.
+    username = r[1]
+#Check for open request from this user in the last 24 hours.
+    q.execute('SELECT daterequested from passwordchanges p where p.userid=%s and p.datechanged is null and extract(day from localtimestamp-p.daterequested) < 1', [userid])
+    if(q.rowcount!=0):
+        print 'Location: ../changepasswordrequestpage.php?status=openrequest'
+        print ''
+        exit()
+#End past requests. Unused requests get datechanged set to localtime and changed remains false.
     q.execute('UPDATE passwordchanges SET datechanged=localtimestamp WHERE userid=%s',[userid])
 #Create new request
     changekey = ''.join(random.choice(string.ascii_letters + string.digits) for x in range(50))
@@ -39,12 +45,12 @@ try:
     q.close()
     dbconn.close()
 #Send email to user
-    mailstr="Dear "+username+", \n"
-    mailstr+="\tHere is a URL for your password reset to IDDQD: \n\n"
-    mailstr+=credentials.domain
-    mailstr+="/changepasswordpage.php?key="+changekey+" \n\n"
-    mailstr+="This was an automated message from "+credentials.domain
-    credentials.sendemail(email,mailstr)  
+    mailstr="Hi "+username+", \n"
+    mailstr+="\tBelow is a URL for your password reset at "+config.domain+". It will expire in 24 hours. \n\n"
+    mailstr+=config.domain
+    mailstr+="/changepasswordpage.php?key="+changekey+" \n\n\n\n"
+    mailstr+="(This was an automated message from "+config.domain+")"
+    config.sendemail(email,mailstr)  
     print 'Location: ../index.php'
     print ''
 except: 

@@ -1,5 +1,5 @@
 <?php
-	require('../private/cred.php');
+	require('config.php');
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
@@ -7,11 +7,11 @@
 	}
     $key = (isset($_GET['key']))?pg_escape_string($_GET['key']):0;
    
-    $q = $dbconn->prepare("SELECT p.userid,p.daterequested,p.datechanged,u.username from passwordchanges p left join users u on p.userid=u.userid where p.changekey=:str");
+    $q = $dbconn->prepare("SELECT p.userid,p.daterequested,u.username from passwordchanges p left join users u on p.userid=u.userid where p.changekey=:str and p.datechanged is null");
     $q->bindParam(":str",$key,PDO::PARAM_STR);
     $q->execute();
     $r = $q->fetch(PDO::FETCH_ASSOC);  
-    if(sizeof($r) != 4){
+    if(sizeof($r) != 3){
         $key=0; 
     }
     
@@ -37,12 +37,11 @@
 
 <?php
     if(!$key){
-        echo 'No key provided!';
+        echo 'No valid key provided!';
     }else{
         if(isset($_GET['passwordisbad'])){
             echo 'That password was invalid.<br /><br/>';
         }
-        
 	    echo '<form method="post" action="changepw.php" id="register" >';
 		echo 'Username: '.$r['username'].'<br /><br/>';
         echo 'New Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" /><br /><br />';

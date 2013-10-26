@@ -2,7 +2,7 @@
 /*
     Main page for drawing molecules and entering data into the database.
 */
-    require('../private/cred.php');
+    require('config.php');
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);    
     }catch(PDOException $e){

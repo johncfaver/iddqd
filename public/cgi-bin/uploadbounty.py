@@ -7,7 +7,7 @@
 
 import cgi, os, cgitb, base64, psycopg2, subprocess,sys
 cgitb.enable()
-import credentials
+import config
 
 #MOVE TO UPLOAD DIRECTORY
 os.chdir('../uploads/')
@@ -46,7 +46,7 @@ if 'select_targetid' in keys:
 else:
     targetid=0
 #########################################
-dbconn = psycopg2.connect(credentials.dsn)
+dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
 

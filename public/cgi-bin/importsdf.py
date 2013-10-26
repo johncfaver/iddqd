@@ -6,12 +6,12 @@
 #
 import psycopg2,sys,os,shutil
 from molecule import molecule
-import credentials
+import config
 if(len(sys.argv)!=2 or sys.argv[1][-4:]!='.mol'):
     print 'Usage: importsdf.py [*.mol]'
     sys.exit()
 
-dbconn = psycopg2.connect(credentials.dsn)
+dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
 molfilename=sys.argv[1]

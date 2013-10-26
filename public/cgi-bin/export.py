@@ -7,7 +7,7 @@
 import os, cgi, cgitb, shutil, psycopg2, subprocess
 cgitb.enable()
 from sys import exit
-import credentials
+import config
 
 uploaddir='../uploads/'
 
@@ -41,7 +41,7 @@ if export=='structures':
     exit()
 
 if export=='spreadsheet':
-    dbconn = psycopg2.connect(credentials.dsn)
+    dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
     q.execute('select m.molname,m.molweight,r.nickname,t.type,d.value,t.units from molecules m left join moldata d on m.molid=d.molid left join targets r on d.targetid=r.targetid left join datatypes t on t.datatypeid=d.datatype where value is not null and m.molid in %s',[tuple(molids)])    
     r=q.fetchall()
@@ -57,7 +57,7 @@ if export=='spreadsheet':
     exit()
 
 if export=='pdf':
-    dbconn = psycopg2.connect(credentials.dsn)
+    dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
     q.execute('WITH molinfo AS \
                     (SELECT m.molid,m.molname,m.molweight,m.molformula,m.dateadded,u.username \

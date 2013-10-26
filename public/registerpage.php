@@ -16,12 +16,17 @@
 <?php
 	if(isset($_GET['nameexists'])){
 		if((int)$_GET['nameexists']==1){
-			echo 'That username exists already.<br />';
+			echo 'That username or email exists already.<br />';
 		}
 	}
     if(isset($_GET['usernameisbad'])){
         if((int)$_GET['usernameisbad']==1){
             echo 'That username was awful. Try again.<br />';
+        }
+    }
+    if(isset($_GET['emailisbad'])){
+        if((int)$_GET['emailisbad']==1){
+            echo 'That email was awful. Try again.<br />';
         }
     }
     if(isset($_GET['passwordisbad'])){
@@ -33,8 +38,9 @@
 	<span id="regspan" style="text-align:right;float:right;margin-right:450px;margin-top:50px">
 	<form method="post" action="register.php" id="register" >
 		Username  <input type="text" id="desiredusername" name="desiredusername" size="8" />  <br /><span style="font-size:0.7em;">(3-20 valid characters)</span><br /><br />
-		Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" /> <br /><span style="font-size:0.7em;">(5-20 characters)</span><br /><br />
-		<input type="submit" value="Register" />	
+	    Email  &nbsp;&nbsp; <input type="text" id="desiredemail" name="desiredemail" size="8" />  <br /><span style="font-size:0.7em;">(for password recovery)</span><br /><br />
+	    Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" /> <br /><span style="font-size:0.7em;">(5-20 characters)</span><br /><br />
+    	<input type="submit" value="Register" />	
 	</form>
 	</span>
 </div>

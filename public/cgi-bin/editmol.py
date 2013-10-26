@@ -7,7 +7,7 @@
 
 import cgi, os, cgitb, base64, psycopg2, subprocess, sys
 from urllib import unquote_plus
-import credentials
+import config
 cgitb.enable()
 
 #MOVE TO UPLOAD DIRECTORY
@@ -181,7 +181,7 @@ for i in xrange(1,maxdata+1):
 #########################################
 
 
-dbconn = psycopg2.connect(credentials.dsn)
+dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
 ###UPDATE MOLECULE TABLE###########

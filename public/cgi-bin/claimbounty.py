@@ -6,7 +6,7 @@
 #
 import psycopg2,cgi,cgitb,subprocess,shutil,sys,os
 cgitb.enable()
-import credentials
+import config
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -22,7 +22,7 @@ if(not bid):
     print ''
     sys.exit()
 try:
-    dbconn=psycopg2.connect(credentials.dsn)
+    dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
     q.execute('SELECT pursued_by_id from bounties where bountyid=%s',[bid])
     pid = q.fetchone()[0]

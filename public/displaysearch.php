@@ -3,7 +3,7 @@
 //Display search results which are held in $_SESSION['search_results']
     
     $debug=0;
-    require('../private/cred.php');
+    require('config.php');
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);
     }catch(PDOException $e){

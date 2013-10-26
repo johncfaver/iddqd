@@ -7,7 +7,7 @@
 import cgi, os, cgitb, psycopg2, subprocess, sys
 cgitb.enable()
 from urllib import unquote_plus
-import credentials
+import config
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -20,7 +20,7 @@ if 'username' in keys:
     username=unquote_plus(form['username'].value).replace('\'','').replace(';','')
 else:
     username=0
-dbconn = psycopg2.connect(credentials.dsn)
+dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 q.execute('SELECT username FROM bounties b LEFT JOIN users u ON b.placed_by_id=u.userid where bountyid=%s',[bid])
 authorname=q.fetchone()[0]

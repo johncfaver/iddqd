@@ -8,9 +8,9 @@
 #
 import os, psycopg2, subprocess, sys, json
 from molecule import molecule
-import credentials
+import config
 
-babeldir = credentials.babeldir
+babeldir = config.babeldir
 
 cgidir=os.getcwd()
 os.chdir('../uploads/structures')
@@ -25,7 +25,7 @@ subprocess.Popen(['/bin/rm',str(molid)+'-3dt.mol'],stdout=open(os.devnull,'w'),s
 molobj = molecule(str(molid)+'-3d.mol')
 
 ####UPATE MOLECULE DATA IN DATABASE############
-dbconn = psycopg2.connect(credentials.dsn)
+dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 query = 'UPDATE molecules SET molweight=%s,molformula=%s WHERE molid=%s'
 options = [str(molobj.molweight),molobj.formula(),str(molid)]

@@ -1,5 +1,5 @@
 <?php
-	require '../private/cred.php';
+	require 'config.php';
 
 	$inputusername=pg_escape_string($_POST['enteredusername']);
 	$inputpassword=pg_escape_string($_POST['enteredpassword']);

@@ -6,7 +6,7 @@
 import psycopg2,cgi,cgitb
 from sys import exit
 cgitb.enable()
-import credentials
+import config
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -22,7 +22,7 @@ if(not bid):
     print ''
     exit()
 try:
-    dbconn=psycopg2.connect(credentials.dsn)
+    dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
     q.execute("UPDATE bounties set pursued_by_id=%s, date_pursued=localtimestamp where bountyid=%s",[userid,bid])
     dbconn.commit()

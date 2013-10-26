@@ -3,7 +3,7 @@
 	Given a molid, add the molecule to the notebook_molids session array.
 	Return the user to a specified destination, or default to viewmolecule page.
 */
-	require('../private/cred.php');
+	require('config.php');
 	if(isset($_GET['molid'])){
 		$addmolid=(int)pg_escape_string($_GET['molid']);	
 	}else{

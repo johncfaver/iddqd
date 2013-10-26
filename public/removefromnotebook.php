@@ -2,7 +2,7 @@
 /* Remove molid from notebook, by removing it from the session variable "notebook_molids"
    Go to either the notebook page or the molecule page depending on the GET variable "dest"
 */
-	require('../private/cred.php');
+	require('config.php');
 	if(isset($_GET['molid'])){
 		$thismolid=(int)pg_escape_string($_GET['molid']);	
         $clearnotebook=false;

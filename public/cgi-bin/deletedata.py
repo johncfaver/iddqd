@@ -5,7 +5,7 @@
 #
 import cgi, os, cgitb, psycopg2,subprocess
 cgitb.enable()
-import credentials
+import config
 
 docdir='../uploads/documents/'
 
@@ -29,7 +29,7 @@ if 'userid' in keys:
     userid=int(form['userid'].value)
 else:
     userid=0
-dbconn = psycopg2.connect(credentials.dsn)
+dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 q.execute('DELETE FROM moldata WHERE moldataid=%s and authorid=%s returning molid',[dataid,userid])
 success=len(q.fetchone())

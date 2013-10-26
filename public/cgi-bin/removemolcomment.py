@@ -6,7 +6,7 @@
 
 import cgi,cgitb,psycopg2
 cgitb.enable()
-import credentials
+import config
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -14,7 +14,7 @@ keys=form.keys()
 try:
     molcommentid=int(form['molcommentid'].value)
     molid=int(form['molid'].value)
-    dbconn=psycopg2.connect(credentials.dsn)
+    dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
     q.execute('DELETE FROM molcomments WHERE molcommentid=%s ',[str(molcommentid)])
     dbconn.commit()
