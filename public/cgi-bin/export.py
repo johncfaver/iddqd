@@ -5,7 +5,7 @@
 #
 
 import os, cgi, cgitb, shutil, psycopg2, subprocess
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 from sys import exit
 import config
 

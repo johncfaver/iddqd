@@ -5,7 +5,7 @@
 #
 
 import cgi, os, cgitb, base64, psycopg2, subprocess,sys
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 import config
 
 #MOVE TO UPLOAD DIRECTORY

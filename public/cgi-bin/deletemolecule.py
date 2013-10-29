@@ -5,7 +5,7 @@
 #
 
 import cgi, os, cgitb, psycopg2, subprocess, sys
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 from urllib import unquote_plus
 import config
 

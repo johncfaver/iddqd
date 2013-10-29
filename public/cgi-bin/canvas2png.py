@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import cgi, cgitb
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 from base64 import decodestring
 
 form = cgi.FieldStorage()

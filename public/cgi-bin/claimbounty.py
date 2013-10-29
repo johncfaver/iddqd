@@ -5,7 +5,7 @@
 # Sends to molcule page
 #
 import psycopg2,cgi,cgitb,subprocess,shutil,sys,os
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 import config
 
 form=cgi.FieldStorage()

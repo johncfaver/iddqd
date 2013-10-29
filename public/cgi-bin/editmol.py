@@ -8,7 +8,7 @@
 import cgi, os, cgitb, base64, psycopg2, subprocess, sys
 from urllib import unquote_plus
 import config
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 
 #MOVE TO UPLOAD DIRECTORY
 os.chdir('../uploads/')

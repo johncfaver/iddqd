@@ -5,7 +5,7 @@
 #
 import psycopg2,cgi,cgitb
 from sys import exit
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 import config
 
 form=cgi.FieldStorage()

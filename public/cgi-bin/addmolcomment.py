@@ -3,7 +3,7 @@
 # Insert user comment into database.
 #
 import psycopg2,cgi,cgitb
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 from sys import exit
 import config
 

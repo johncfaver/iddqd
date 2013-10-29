@@ -1,0 +1,18 @@
+{
+    "domain":"https://address:port",
+    "babeldir":"/usr/local/bin/",
+    "postgresql": {
+        "host":"localhost",
+        "port":5432,
+        "database":"iddqddb",
+        "user":"iddqd",
+        "pass":"password"
+    },
+    "email": {
+        "from_address":"admin@admin.admin",
+        "host":"smtp.admin",
+        "port":587,
+        "user":"admin",
+        "pass":"password"
+    }
+}

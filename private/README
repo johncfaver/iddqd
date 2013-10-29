@@ -1,0 +1,7 @@
+Please update the iddqd-config.json.EXAMPLE file and rename to 
+iddqd-config.json in this directory.
+
+Domain should be wherever you are hosting the application. 
+Babeldir is where openbabel has been installed.
+postgresql is the database connection information.
+email is use for automated outgoing email for things like password retrieval.

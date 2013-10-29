@@ -4,7 +4,7 @@
 # Delete moldata from the editemolecule page.
 #
 import cgi, os, cgitb, psycopg2,subprocess
-cgitb.enable()
+cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
 import config
 
 docdir='../uploads/documents/'
