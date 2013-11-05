@@ -45,7 +45,7 @@ try:
     q.close()
     dbconn.close()
 #Send email to user
-    mailstr="Hi "+username+", \n"
+    mailstr="Hi, \n"
     mailstr+="\tBelow is a URL for your password reset at "+config.domain+". It will expire in 24 hours. \n\n"
     mailstr+=config.domain
     mailstr+="/changepasswordpage.php?key="+changekey+" \n\n\n\n"
