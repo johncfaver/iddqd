@@ -1,4 +1,4 @@
-Please update the iddqd-config.json.EXAMPLE file and rename to 
+Update the iddqd-config.json.EXAMPLE file and rename to 
 iddqd-config.json in this directory.
 
 Domain should be wherever you are hosting the application. 
