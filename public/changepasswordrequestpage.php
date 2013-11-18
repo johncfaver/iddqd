@@ -33,7 +33,7 @@
             echo 'An email was sent to that address earlier today. Try again tomorrow. <br /><br />';
         }
 ?>
-        <form method="post" action="cgi-bin/passwordrequest.py" id="register" >
+        <form method="post" action="../cgi-bin/passwordrequest.py" id="register" >
             Email: <input type="text" id="email" name="email" size="8" /><br /><br />
             <input type="submit" value="Request Password Change" />	
         </form>

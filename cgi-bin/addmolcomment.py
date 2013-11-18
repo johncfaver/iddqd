@@ -3,7 +3,7 @@
 # Insert user comment into database.
 #
 import psycopg2,cgi,cgitb
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 from sys import exit
 import config
 
@@ -16,15 +16,15 @@ if 'textarea_addmolcomment' in keys:
 else:
     comment=0
 if 'molid' in keys:
-    molid=form['molid'].value
+    molid=int(form['molid'].value)
 else:
     molid=''
-if(not comment):
-    print 'Location: ../viewmolecule.php?molid='+molid
+if(not molid or not userid):
+    print 'Location: ../index.php?status=error'
     print ''
     exit()
-if(not molid):
-    print 'Location: ../index.php?status=error'
+if(not comment):
+    print 'Location: ../viewmolecule.php?molid='+str(molid)
     print ''
     exit()
 try:
@@ -34,7 +34,7 @@ try:
     dbconn.commit()
     q.close()
     dbconn.close()
-    print 'Location: ../viewmolecule.php?molid='+molid
+    print 'Location: ../viewmolecule.php?molid='+str(molid)
     print ''
 except:
     print 'Location: ../index.php?status=error'

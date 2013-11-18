@@ -47,13 +47,13 @@
 <?php
     if($notebookcount>0){
 		echo '<span class="span_export">';
-		echo '<a href="cgi-bin/export.py?export=pdf&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'">Export PDF</a>';
+		echo '<a href="../cgi-bin/export.py?export=pdf&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'">Export PDF</a>';
 		echo '</span>';
 		echo '<span class="span_export">';
-		echo '<a href="cgi-bin/export.py?export=spreadsheet&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'" >Export Spreadsheet</a>';
+		echo '<a href="../cgi-bin/export.py?export=spreadsheet&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'" >Export Spreadsheet</a>';
 		echo '</span>';	
 		echo '<span class="span_export">';
-		echo '<a href="cgi-bin/export.py?export=structures&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'" >Export Structures</a>';
+		echo '<a href="../cgi-bin/export.py?export=structures&userid='.$_SESSION['userid'].'&molids='.implode(',',$_SESSION['notebook_molids']).'" >Export Structures</a>';
 		
         echo '</span>';
 		echo '<table class="moleculetable">';

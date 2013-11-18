@@ -104,7 +104,7 @@
 
 
     <div id="div_datainput">
-    <form id="datainput" enctype="multipart/form-data" action="cgi-bin/uploadmol.py?username=<?php echo $_SESSION['username'];?>&userid=<?php echo $_SESSION['userid'];?>" method="post">
+    <form id="datainput" enctype="multipart/form-data" action="../cgi-bin/uploadmol.py?username=<?php echo $_SESSION['username'];?>&userid=<?php echo $_SESSION['userid'];?>" method="post">
     <div id="div_molnotes">Notes about this molecule:<br /><textarea id="molnotes" name="molnotes" rows="4" cols="35" ></textarea></div>
 
 

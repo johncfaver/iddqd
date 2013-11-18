@@ -616,7 +616,7 @@ function getMolnameSuggestion(){
         }
     };
     if(tid>0){
-        xhr.open("GET","cgi-bin/ajax-getlastmolname.py?targetid="+tid,true);
+        xhr.open("GET","../cgi-bin/ajax-getlastmolname.py?targetid="+tid,true);
         xhr.send();
     }
 }

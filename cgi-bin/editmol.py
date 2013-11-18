@@ -5,13 +5,14 @@
 # Check if structure changed before doing any computations. 
 #
 
-import cgi, os, cgitb, base64, psycopg2, subprocess, sys
+import cgi, os, cgitb, base64, psycopg2, subprocess, filecmp, shutil
+from sys import exit, executable
 from urllib import unquote_plus
 import config
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 
 #MOVE TO UPLOAD DIRECTORY
-os.chdir('../uploads/')
+os.chdir('../public/uploads/')
 ##############OPTIONS####################
 debug=False
 maxdata=5
@@ -52,20 +53,20 @@ if debug:
     print 'Received the following:\n<br />'
     for i in keys:
         print i+'='+form[i].value+'<br />'
-    sys.exit()    
+    exit()    
 
 if 'molname' in keys:
     molname=form['molname'].value
 else:
-    molname=0
+    molname=''
 if 'iupacname' in keys:
     iupacname=form['iupacname'].value
 else:
-    iupacname=0
+    iupacname=''
 if 'cas' in keys:
     cas=form['cas'].value
 else:
-    cas=0
+    cas=''
 if 'molid' in keys:
     molid=int(form['molid'].value)
 else:
@@ -74,10 +75,6 @@ if 'userid' in keys:
     authorid=form['userid'].value
 else:
     authorid=0
-if 'username' in keys:
-    author=unquote_plus(form['username'].value)
-else:
-    author=0
 if 'oldcommentids' in keys:
     oldcommentids=form['oldcommentids'].value.split(',')[:-1]
 else:
@@ -99,7 +96,11 @@ else:
 if(not molname):
     print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)
     print
-    sys.exit()
+    exit()
+if(not authorid):
+    print 'Location: ../index.php?status=error'
+    print
+    exit()
 
 bindingdatas=[]
 propertydatas=[]
@@ -185,18 +186,8 @@ dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
 ###UPDATE MOLECULE TABLE###########
-query='UPDATE molecules SET molname=%s'
-if(iupacname):
-    query+=', iupac=%s'
-if(cas):
-    query+=', cas=%s'
-query+=' where molid=%s'
-options=[molname]
-if(iupacname):
-    options.append(iupacname)
-if(cas):
-    options.append(cas)
-options.append(molid)
+query='UPDATE molecules SET molname=%s, iupac=%s, cas=%s where molid=%s'
+options=[molname,iupacname,cas,molid]
 q.execute(query,options)
 ##############################
 
@@ -275,17 +266,21 @@ dbconn.close()
 
 
 #############FILE HANDLING - REPLACE STRUCTURE FILES/ WRITE NEW DOCUMENTS###############
+#Write a new temporary mol file. See if it differs from the one we have stored.
+#If it differs, then we need to redo calculations. 
 recalculate=False
 with open('/tmp/'+str(molid)+'.mol','w') as f:
     f.write(molname+' \n')
     for line in moltext[1:]:
         f.write(line+' \n')
 if os.path.isfile('structures/'+str(molid)+'.mol'):
-    moldif=subprocess.call(['/usr/bin/diff', '/tmp/'+str(molid)+'.mol','structures/'+str(molid)+'.mol'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-    if moldif==0:    
-        subprocess.call(['/bin/rm','/tmp/'+str(molid)+'.mol'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+    samefile = filecmp.cmp('/tmp/'+str(molid)+'.mol','structures/'+str(molid)+'.mol')
+    if samefile:    
+        os.remove('/tmp/'+str(molid)+'.mol')
     else:
-        subprocess.call(['/bin/mv','/tmp/'+str(molid)+'.mol', 'structures/'+str(molid)+'.mol'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))    
+        os.remove('structures/'+str(molid)+'.mol')
+        shutil.copyfile('/tmp/'+str(molid)+'.mol', 'structures/'+str(molid)+'.mol')
+        os.remove('/tmp/'+str(molid)+'.mol')
         recalculate=True
 
 with open('sketches/'+str(molid)+'.png','w') as f:
@@ -301,9 +296,12 @@ for i in xrange(len(olddocdataids),len(docdatas)):
 
 
 #############COMPUTATION##################
-subprocess.call(['/usr/bin/convert','sketches/'+str(molid)+'.png','-trim','sketches/'+str(molid)+'.jpg'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+subprocess.call([config.convertdir+'convert','sketches/'+str(molid)+'.png','-trim','sketches/'+str(molid)+'.jpg'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 if(recalculate):
-    subprocess.Popen([sys.executable,'../cgi-bin/computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+    os.chdir('../../cgi-bin')
+    subprocess.Popen([executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+
+
 ############################################
 
 print 'Location: ../viewmolecule.php?molid='+str(molid)

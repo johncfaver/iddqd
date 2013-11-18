@@ -5,11 +5,11 @@
 #
 
 import os, cgi, cgitb, shutil, psycopg2, subprocess
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 from sys import exit
 import config
 
-uploaddir='../uploads/'
+uploaddir='../public/uploads/'
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -18,7 +18,7 @@ if 'export' in keys:
 if 'molids' in keys:
     molids=form['molids'].value.split(',')
 if 'userid' in keys:
-    userid=form['userid'].value
+    userid=str(int(form['userid'].value))
 
 if export=='structures':
     dl='/tmp/structures-'+userid
@@ -45,15 +45,17 @@ if export=='spreadsheet':
     q = dbconn.cursor()
     q.execute('select m.molname,m.molweight,r.nickname,t.type,d.value,t.units from molecules m left join moldata d on m.molid=d.molid left join targets r on d.targetid=r.targetid left join datatypes t on t.datatypeid=d.datatype where value is not null and m.molid in %s',[tuple(molids)])    
     r=q.fetchall()
-
-    dl='../uploads/scratch/spreadsheet-'+userid+'.csv'
+   
+    q.close()
+    dbconn.close() 
+    dl='../public/uploads/scratch/spreadsheet-'+userid+'.csv'
     with open(dl,'w') as f:
         f.write('NAME,MW,TARGET,DATATYPE,VALUE,UNITS\n')
         for i in r:
             for j in i:
                 f.write(str(j)+',')
             f.write('\n')
-    print 'Location: '+dl+' \n\n'    
+    print 'Location: '+dl.replace('/public','')+' \n\n'    
     exit()
 
 if export=='pdf':
@@ -70,13 +72,14 @@ if export=='pdf':
                         WHERE d.molid in %s AND t.units!=\'file\')\
                     SELECT * from molinfo mi LEFT OUTER JOIN measurements mm ON mi.molid=mm.molid',[tuple(molids),tuple(molids)])    
     response=q.fetchall()
-
-    with open('../uploads/scratch/report-'+userid+'.html','w') as fout:
+    q.close()
+    dbconn.close()
+    with open('../public/uploads/scratch/report-'+userid+'.html','w') as fout:
         htmlstr="""
             <!DOCTYPE html>
             <html>
                 <head>
-                    <link rel="stylesheet" href="../../cgi-bin/report.css" type="text/css" /> 
+                    <link rel="stylesheet" href="../../../cgi-bin/report.css" type="text/css" /> 
                 </head>
                 <body>"""
         for mol in molids:
@@ -132,7 +135,7 @@ if export=='pdf':
             </html>
         """
         fout.write(htmlstr)
-    subprocess.call(['/usr/bin/wkhtmltopdf','../uploads/scratch/report-'+userid+'.html','../uploads/scratch/report-'+userid+'.pdf'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+    subprocess.call([config.wkhtmltopdfdir+'wkhtmltopdf','../public/uploads/scratch/report-'+userid+'.html','../public/uploads/scratch/report-'+userid+'.pdf'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 
     print 'Location: ../uploads/scratch/report-'+userid+'.pdf \n\n'
     exit()

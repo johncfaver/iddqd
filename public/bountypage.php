@@ -92,7 +92,7 @@
 			if($bdata['posted_by']==$_SESSION['username']){
 	            echo '<br />Posted by you on '; 
                 echo parsetimestamp($bdata['date_posted']);
-                echo '&nbsp;<a href="cgi-bin/deletebounty.py?bid='.$bid.'&username='.urlencode($_SESSION['username']).'">(delete)</a>';
+                echo '&nbsp;<a href="../cgi-bin/deletebounty.py?bid='.$bid.'&username='.urlencode($_SESSION['username']).'">(delete)</a>';
             }
 ?>
 		<table id="table_molinfo">
@@ -131,7 +131,7 @@
                         echo '<td class="molecules_td molecules_tdl molecules_tdr">Pursued by:</td>';
 				        echo '<td class="molecules_td molecules_tdr molecules_tdl">No one</td>';
     			        echo '<td class="molecules_td molecules_tdr">';
-                        echo '<a href="cgi-bin/pursuebounty.py?userid='.$_SESSION['userid'].'&bid='.$bid.'">(pursue)</a></td>';
+                        echo '<a href="../cgi-bin/pursuebounty.py?userid='.$_SESSION['userid'].'&bid='.$bid.'">(pursue)</a></td>';
 				        echo '<td class="molecules_td molecules_tdr molecules_tdl"></td>';
                     }
                ?>
@@ -147,7 +147,7 @@
                         echo '<td class="molecules_td molecules_tdr molecules_tdl">No</td>';
                         if($bdata['pursued_by']==$_SESSION['username']){
                             echo '<td class="molecules_td molecules_tdr">';
-                            echo '<a href="cgi-bin/claimbounty.py?userid='.$_SESSION['userid'].'&bid='.$bid.'">(claim)</a></td>';
+                            echo '<a href="../cgi-bin/claimbounty.py?userid='.$_SESSION['userid'].'&bid='.$bid.'">(claim)</a></td>';
 				            echo '<td class="molecules_td molecules_tdr molecules_tdl"></td>';
                         }else{
                             echo '<td class="molecules_td molecules_tdr"></td>';
@@ -177,7 +177,7 @@
 				echo '</div>';
 				echo '<div class="div_molcomment_text">'.str_replace("\r\n","<br />",htmlentities($row['bountycomment'])).'</div>';
 				if($row['username']==$_SESSION['username']){
-					echo '<div class="div_deletecomment" style="font-size:1.2em;"><span class="nonlinks"><a href="cgi-bin/removebountycomment.py?bid='.$bid.'&bountycommentid='.$row['bountycommentid'].'">X</a></span></div>';
+					echo '<div class="div_deletecomment" style="font-size:1.2em;"><span class="nonlinks"><a href="../cgi-bin/removebountycomment.py?bid='.$bid.'&bountycommentid='.$row['bountycommentid'].'">X</a></span></div>';
 				}
 				
 			echo '</div>';
@@ -186,7 +186,7 @@
 			echo '<br /><br />No comments.';
 		}
 		echo '<div id="div_addmolcomment" style="width:200px;position:absolute;border:0px solid red;left:200px;">';
-		echo '<form action="cgi-bin/addbountycomment.py?bid='.$bid.'&username='.$_SESSION['username'].'&userid='.$_SESSION['userid'].'" method="post">';
+		echo '<form action="../cgi-bin/addbountycomment.py?bid='.$bid.'&username='.$_SESSION['username'].'&userid='.$_SESSION['userid'].'" method="post">';
 		echo '<textarea name="textarea_addbountycomment" id="textarea_addmolcomment"></textarea><br />';
 		echo '<input type="submit" id="commentbutton" value="Add Comment" style="top:50px;left:225px;"/>';
 		echo '</form>';

@@ -48,7 +48,7 @@
 			var t = document.getElementById('viewerCanvas');
 			t.setAttribute('style','border:0px');
 	</script>
-	<form id="canvas2png" enctype="multipart/form-data" action="cgi-bin/canvas2png.py?molid=<?php echo $thismolid;?>" method="post">
+	<form id="canvas2png" enctype="multipart/form-data" action="../cgi-bin/canvas2png.py?molid=<?php echo $thismolid;?>" method="post">
 	<input type="hidden" name="molfig" id="molfig" value="default" />
 	</form>	
 

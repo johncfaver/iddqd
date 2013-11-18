@@ -3,10 +3,13 @@
 import json
 
 #Parse JSON config file
-with open('../../private/iddqd-config.json') as configfile:
+with open('../config/iddqd-config.json') as configfile:
     conf = json.load(configfile)
+
 domain = conf['domain']
 babeldir = conf['babeldir'].encode('utf-8')
+wkhtmltopdfdir = conf['wkhtmltopdfdir'].encode('utf-8')
+convertdir = conf['convertdir'].encode('utf-8')
 dbhost = conf['postgresql']['host'].encode('utf-8')
 dbport = str(conf['postgresql']['port'])
 dbname = conf['postgresql']['database'].encode('utf-8')

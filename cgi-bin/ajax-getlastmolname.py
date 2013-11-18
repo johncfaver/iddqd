@@ -7,7 +7,7 @@
 #     then we suggest XXY145
 
 import psycopg2,cgi,cgitb
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 from sys import exit
 import config
 
@@ -29,7 +29,7 @@ try:
         seriesprefix=r[0]
         nickname=r[1]
 
-    #Retrive last entry. Sorted by number.
+    #Retrive last entry. Sorted by series number (molname).
     if (seriesprefix):
         q.execute("SELECT molname FROM molecules WHERE molname ~ %s ORDER BY molname DESC LIMIT 1",[seriesprefix])
         r=q.fetchone()

@@ -5,11 +5,11 @@
 #
 
 import cgi, os, cgitb, base64, psycopg2, subprocess,sys
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 import config
 
 #MOVE TO UPLOAD DIRECTORY
-os.chdir('../uploads/')
+os.chdir('../public/uploads/')
 ##############OPTIONS####################
 debug=False
 maxdata=5
@@ -44,6 +44,8 @@ if debug:
     for i in keys:
         print i+'='+form[i].value+'<br />'
     sys.exit()    
+
+
 moltext=form['moltext'].value.replace('\r','').split('\n')
 molfig64=form['molfig'].value.split(',')[1]
 
@@ -82,6 +84,7 @@ if(not authorid or not author):
     print
     sys.exit()
 
+#COLLECT INPUT DATA
 bindingdatas=[]
 propertydatas=[]
 docdatas=[]
@@ -129,7 +132,7 @@ if len(r)>0:
     sys.exit()
 
 
-###ADD TO MOLECULES TABLE###########
+###ADD TO MOLECULE AND MOLCOMMENT TABLES###########
 query='INSERT INTO molecules (molname,authorid,dateadded'
 if(cas):
     query+=',cas'
@@ -151,7 +154,7 @@ if(molnotes):
 ##############################
 
 
-######ADD TO DATA TABLE########### NOW THERE ARE UP TO (maxdata) VALUES OF PROPERTYDATA BINDNGDATA AND DOCDATA TYPES
+######ADD TO DATA TABLE########### THERE ARE UP TO (maxdata) VALUES EACH OF PROPERTYDATA BINDNGDATA AND DOCDATA TYPES
 for i in xrange(len(bindingdatas)):
     query='INSERT INTO moldata (molid,authorid,dateadded,targetid,datatype,value)'
     query+=' VALUES (%s, %s, localtimestamp, %s, %s, %s) RETURNING moldataid '
@@ -205,8 +208,8 @@ for i in xrange(len(docdatas)):
 ##########################################
 
 #############COMPUTATION##################
-subprocess.Popen(['/usr/bin/convert','sketches/'+str(molid)+'.png','-trim','sketches/'+str(molid)+'.jpg'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-subprocess.Popen([sys.executable,'../cgi-bin/computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+subprocess.Popen([config.convertdir+'convert','sketches/'+str(molid)+'.png','-trim','sketches/'+str(molid)+'.jpg'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+subprocess.Popen([sys.executable,'../../cgi-bin/computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 ############################################
 
 print 'Location: ../addmolecule.php?success=True'

@@ -2,6 +2,7 @@
 
 #
 # Utility script for convering sdf file to individual mol files.
+# Assumes that individual molecules are separted by $$$$ lines
 #
 import sys, os
 

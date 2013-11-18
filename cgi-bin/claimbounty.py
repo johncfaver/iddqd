@@ -5,7 +5,7 @@
 # Sends to molcule page
 #
 import psycopg2,cgi,cgitb,subprocess,shutil,sys,os
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 import config
 
 form=cgi.FieldStorage()
@@ -13,7 +13,7 @@ keys=form.keys()
 
 userid=form['userid'].value
 if 'bid' in keys:
-    bid=form['bid'].value
+    bid=int(form['bid'].value)
 else:
     bid=''
 
@@ -33,9 +33,9 @@ try:
         dbconn.commit()
     q.close()
     dbconn.close()
-    shutil.copyfile('../uploads/bounties/'+str(bid)+'.mol','../uploads/structures/'+str(molid)+'.mol')
-    shutil.copyfile('../uploads/bounties/'+str(bid)+'.png','../uploads/sketches/'+str(molid)+'.png')
-    shutil.copyfile('../uploads/bounties/'+str(bid)+'.jpg','../uploads/sketches/'+str(molid)+'.jpg')
+    shutil.copyfile('../public/uploads/bounties/'+str(bid)+'.mol','../public/uploads/structures/'+str(molid)+'.mol')
+    shutil.copyfile('../public/uploads/bounties/'+str(bid)+'.png','../public/uploads/sketches/'+str(molid)+'.png')
+    shutil.copyfile('../public/uploads/bounties/'+str(bid)+'.jpg','../public/uploads/sketches/'+str(molid)+'.jpg')
     subprocess.Popen([sys.executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
     print 'Location: ../viewmolecule.php?molid='+str(molid)
     print ''

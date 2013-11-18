@@ -6,15 +6,15 @@
 #
 
 import cgi,cgitb,psycopg2
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 import config
 
 form=cgi.FieldStorage()
 keys=form.keys()
 
 try:
-    bountycommentid=int(form['bountycommentid'].value)
     bid=int(form['bid'].value)
+    bountycommentid=int(form['bountycommentid'].value)
     dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
     q.execute('DELETE FROM bountycomments WHERE bountycommentid=%s ',[str(bountycommentid)])

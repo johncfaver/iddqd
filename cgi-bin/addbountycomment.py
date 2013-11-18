@@ -4,7 +4,7 @@
 # Return to bountypage
 #
 import psycopg2,cgi,cgitb
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 from sys import exit
 import config 
 
@@ -12,21 +12,21 @@ form=cgi.FieldStorage()
 keys=form.keys()
 
 username=form['username'].value
-userid=form['userid'].value
+userid=int(form['userid'].value)
 if 'textarea_addbountycomment' in keys:
     comment=form['textarea_addbountycomment'].value
 else:
     comment=0
 if 'bid' in keys:
-    bid=form['bid'].value
+    bid=int(form['bid'].value)
 else:
     bid=''
-if(not comment):
-    print 'Location: ../bountypage.php?bid='+bid
+if(not bid or not userid):
+    print 'Location: ../index.php?status=error'
     print ''
     exit()
-if(not bid):
-    print 'Location: ../index.php?status=error'
+if(not comment):
+    print 'Location: ../bountypage.php?bid='+str(bid)
     print ''
     exit()
 try:
@@ -36,7 +36,7 @@ try:
     dbconn.commit()
     q.close()
     dbconn.close()
-    print 'Location: ../bountypage.php?bid='+bid
+    print 'Location: ../bountypage.php?bid='+str(bid)
     print ''
 except:
     print 'Location: ../index.php?status=error'

@@ -5,7 +5,7 @@
 #
 import psycopg2,cgi,cgitb
 from sys import exit
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 import config
 
 form=cgi.FieldStorage()
@@ -13,7 +13,7 @@ keys=form.keys()
 
 userid=int(form['userid'].value)
 if 'bid' in keys:
-    bid=form['bid'].value
+    bid=str(int(form['bid'].value))
 else:
     bid=0
 

@@ -97,7 +97,7 @@
 
 
 	<div id="div_datainput">
-	<form id="datainput" enctype="multipart/form-data" action="cgi-bin/uploadbounty.py?username=<?php echo $_SESSION['username'];?>&userid=<?php echo $_SESSION['userid'];?>" method="post">
+	<form id="datainput" enctype="multipart/form-data" action="../cgi-bin/uploadbounty.py?username=<?php echo $_SESSION['username'];?>&userid=<?php echo $_SESSION['userid'];?>" method="post">
 	<div id="div_postbounty_notes">Notes about this bounty:<br /><textarea id="molnotes" name="molnotes" rows="5" cols="40" ></textarea></div>
 
 

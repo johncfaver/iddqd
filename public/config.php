@@ -1,6 +1,6 @@
 <?php
 //Read config file then load data.
-    $configfile = file_get_contents("../private/iddqd-config.json");
+    $configfile = file_get_contents("../config/iddqd-config.json");
     $config = json_decode($configfile,true); 
     $dbname=$config['postgresql']['database'];
 	$dbhost=$config['postgresql']['host'];

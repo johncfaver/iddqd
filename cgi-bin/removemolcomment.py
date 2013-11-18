@@ -2,10 +2,11 @@
 
 #
 # Remove selcted molecule comment from database.
+# Return to molecule page
 #
 
 import cgi,cgitb,psycopg2
-cgitb.enable(display=0,logdir="../../private/errorlog/",format="text")
+cgitb.enable(display=0,logdir="../log/",format="text")
 import config
 
 form=cgi.FieldStorage()

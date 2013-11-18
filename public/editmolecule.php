@@ -105,7 +105,7 @@
 
 <!-- DATA INPUT -->
 <?php
-	echo '<form id="datainput" enctype="multipart/form-data" action="cgi-bin/editmol.py?username='.urlencode($_SESSION['username']).'&userid='.$_SESSION['userid'].'" method="post">';
+	echo '<form id="datainput" enctype="multipart/form-data" action="../cgi-bin/editmol.py?userid='.$_SESSION['userid'].'" method="post">';
 ?>	
 	<div id="div_datainput">
 		<div id="div_datainput_inner">
@@ -195,7 +195,7 @@
 </div>
 
 <div id="div_deletecheck" class="div_notespopup" style="text-align:center;">
-	<form action="cgi-bin/deletedata.py?molid=<?php echo $thismolid; ?>&userid=<?php echo $_SESSION['userid'];?>" method="post">
+	<form action="../cgi-bin/deletedata.py?molid=<?php echo $thismolid; ?>&userid=<?php echo $_SESSION['userid'];?>" method="post">
 		<input type="hidden" name="deletedataid" id="deletedataid" value="" />
 		<input type="hidden" name="deletedocdatatype" id="deletedocdatatype" value="" />
 		<span style="position:absolute;top:50px;left:45px">
