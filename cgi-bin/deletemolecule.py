@@ -29,16 +29,16 @@ try:
     q = dbconn.cursor()
     q.execute('SELECT authorid FROM molecules WHERE molid=%s',[molid])
     authorid=q.fetchone()[0]
-    #Must be author to delete this molecule
-    if(userid!=authorid):
-        print 'Location: ../index.php?status=error\n\n'
-        exit()
+   
+    assert(userid==authorid) #Must be author to delete this molecule
+    
     q.execute('DELETE FROM molecules WHERE molid=%s',[molid])
     q.execute('DELETE FROM molcomments WHERE molid=%s',[molid])
     q.execute('DELETE FROM bounties WHERE molid=%s',[molid])
     q.execute('DELETE FROM moldata WHERE molid=%s RETURNING moldataid',[molid])
-    dataids = [ i[0] for i in q.fetchall() ]
-    q.execute('DELETE FROM datacomments WHERE dataid in %s',[tuple(dataids)])
+    if(q.rowcount > 0):
+        dataids = [ i[0] for i in q.fetchall() ]
+        q.execute('DELETE FROM datacomments WHERE dataid in %s',[tuple(dataids)])
     dbconn.commit()
     q.close()
     dbconn.close()
@@ -57,6 +57,6 @@ try:
                 pass
 
     print 'Location: ../index.php \n\n'
-except:
+except Exception:
     print 'Location: ../index.php?status=error \n\n'
 

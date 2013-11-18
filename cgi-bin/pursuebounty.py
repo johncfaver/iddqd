@@ -11,15 +11,17 @@ import config
 form=cgi.FieldStorage()
 keys=form.keys()
 
-userid=int(form['userid'].value)
+if 'userid' in keys:
+    userid=int(form['userid'].value)
+else:
+    userid=0
 if 'bid' in keys:
     bid=str(int(form['bid'].value))
 else:
     bid=0
 
-if(not bid):
-    print 'Location: ../index.php?status=error'
-    print ''
+if(not bid or not userid):
+    print 'Location: ../index.php?status=error \n\n'
     exit()
 try:
     dbconn=psycopg2.connect(config.dsn)
@@ -28,9 +30,6 @@ try:
     dbconn.commit()
     q.close()
     dbconn.close()
-    print 'Location: ../bountypage.php?bid='+bid
-    print ''
-except:
-    print 'Location: ../index.php?status=error'
-    print ''
-    exit()
+    print 'Location: ../bountypage.php?bid='+bid+' \n\n'
+except Exception:
+    print 'Location: ../index.php?status=error \n\n'

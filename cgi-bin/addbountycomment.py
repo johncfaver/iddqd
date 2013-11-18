@@ -11,7 +11,6 @@ import config
 form=cgi.FieldStorage()
 keys=form.keys()
 
-username=form['username'].value
 userid=int(form['userid'].value)
 if 'textarea_addbountycomment' in keys:
     comment=form['textarea_addbountycomment'].value
@@ -22,12 +21,10 @@ if 'bid' in keys:
 else:
     bid=''
 if(not bid or not userid):
-    print 'Location: ../index.php?status=error'
-    print ''
+    print 'Location: ../index.php?status=error \n\n'
     exit()
 if(not comment):
-    print 'Location: ../bountypage.php?bid='+str(bid)
-    print ''
+    print 'Location: ../bountypage.php?bid='+str(bid)+' \n\n'
     exit()
 try:
     dbconn=psycopg2.connect(config.dsn)
@@ -36,9 +33,6 @@ try:
     dbconn.commit()
     q.close()
     dbconn.close()
-    print 'Location: ../bountypage.php?bid='+str(bid)
-    print ''
-except:
-    print 'Location: ../index.php?status=error'
-    print ''
-    exit()
+    print 'Location: ../bountypage.php?bid='+str(bid)+' \n\n'
+except Exception:
+    print 'Location: ../index.php?status=error \n\n'

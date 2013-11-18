@@ -78,7 +78,7 @@ try:
     print 'Location: ../bounties.php?success=True'
     print ''
     sys.exit()
-except:
+except Exception:
     print 'Location: ../index.php?status=error'
     print ''
     sys.exit()
