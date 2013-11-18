@@ -64,9 +64,11 @@
 				}
 			}
 		}
-		if(is_numeric($ostr[sizeof(str_split($ostr))-1])){
-			$ostr.='</sub>';
-		}
+        if(count($ostr)>0){
+		    if(is_numeric($ostr[count(str_split($ostr))-1])){
+			    $ostr.='</sub>';
+		    }
+        }
 		return $ostr;
 	}
 

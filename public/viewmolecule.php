@@ -187,7 +187,7 @@
                         echo '</td></tr>';
                 }
                 if($count==0){    
-                    echo '<br /><br />No data.';
+                    echo '<tr><td></td><td><br /><br />No data.</td></tr>';
                 }
             ?>    
         </table>
@@ -214,7 +214,7 @@
                         echo '</td></tr>';
                 }
                 if($count==0){
-                    echo '<br /><br />No data.';
+                    echo '<tr><td></td><td><br /><br />No data.</td></tr>';
                 }
             ?>    
         </table>
@@ -244,7 +244,7 @@
                         echo '</td></tr>';
                 }
                 if($count==0){
-                    echo '<br /><br />No data.';
+                    echo '<tr><td></td><td><br /><br />No data.</td></tr>';
                 }
             ?>    
         </table>

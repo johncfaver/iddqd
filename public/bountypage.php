@@ -92,7 +92,7 @@
 			if($bdata['posted_by']==$_SESSION['username']){
 	            echo '<br />Posted by you on '; 
                 echo parsetimestamp($bdata['date_posted']);
-                echo '&nbsp;<a href="../cgi-bin/deletebounty.py?bid='.$bid.'&username='.urlencode($_SESSION['username']).'">(delete)</a>';
+                echo '&nbsp;<a href="../cgi-bin/deletebounty.py?bid='.$bid.'&userid='.$_SESSION['userid'].'">(delete)</a>';
             }
 ?>
 		<table id="table_molinfo">
@@ -177,7 +177,7 @@
 				echo '</div>';
 				echo '<div class="div_molcomment_text">'.str_replace("\r\n","<br />",htmlentities($row['bountycomment'])).'</div>';
 				if($row['username']==$_SESSION['username']){
-					echo '<div class="div_deletecomment" style="font-size:1.2em;"><span class="nonlinks"><a href="../cgi-bin/removebountycomment.py?bid='.$bid.'&bountycommentid='.$row['bountycommentid'].'">X</a></span></div>';
+					echo '<div class="div_deletecomment" style="font-size:1.2em;"><span class="nonlinks"><a href="../cgi-bin/removebountycomment.py?bid='.$bid.'&userid='.$_SESSION['userid'].'&bountycommentid='.$row['bountycommentid'].'">X</a></span></div>';
 				}
 				
 			echo '</div>';
