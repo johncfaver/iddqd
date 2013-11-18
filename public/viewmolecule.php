@@ -47,6 +47,7 @@
 <body>
 
 <div id="div_datapopup"></div>
+<div id="div_shade_window"></div>
 <div id="div_deletecheck" class="div_notespopup" >
     <form action="../cgi-bin/deletemolecule.py" method="post">
         <input type="hidden" name="molid" value="<?php echo $thismolid;?>" />
@@ -165,7 +166,7 @@
 
     <div id="div_bindingdata" class="div_data">
         <table id="bindingtable" class="viewmolecule_datatable">
-        <!--    <tr><th class="molecules_th">Datatype</th><th class="molecules_th">Value</th><th class="molecules_th">Target</th><th class="molecules_th">Notes</th></tr>-->
+            <tr><th class="molecules_th">Data Type</th><th class="molecules_th">Value</th><th class="molecules_th">Target</th><th class="molecules_th">Notes</th></tr>
             <?php
                 $count=0;
                 foreach($response as $r){
@@ -193,6 +194,7 @@
     </div>
     <div id="div_propertydata" class="div_data" style="display:none">
         <table id="propertytable" class="viewmolecule_datatable">
+            <tr><th class="molecules_th">Data Type</th><th class="molecules_th">Value</th><th class="molecules_th">Notes</th></tr>
             <?php
                 $count=0;
                 foreach($response as $r){
@@ -219,6 +221,7 @@
     </div>
     <div id="div_docdata" class="div_data" style="display:none">
         <table id="doctable" class="viewmolecule_datatable">
+            <tr><th class="molecules_th">Data Type</th><th class="molecules_th">Link</th><th class="molecules_th">Notes</th></tr>
             <?php
                 $count=0;
                 foreach($response as $r){
@@ -248,6 +251,7 @@
     </div>
     <div id="div_modelingdata" class="div_data" style="display:none">
         <table id="modelingtable" class="viewmolecule_datatable">
+        <tr><th class="molecules_th">Data Type</th><th class="molecules_th">Link</th></tr>
         <?php    
             if(file_exists('uploads/sketches/'.$thismolid.'.png')){
                 echo '<tr><td class="molecules_td molecules_tdl">PNG Image</td>';

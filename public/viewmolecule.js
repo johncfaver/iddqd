@@ -26,10 +26,14 @@ function switchdatadiv(selected){
 	t.style.display="block";
 }
 function deletecheck(){
+    var t = document.getElementById("div_shade_window");
+    t.style.display = 'block';
     var t = document.getElementById("div_deletecheck");
     t.style.display = 'block';
 }
 function closedeletecheck(){
-     var t = document.getElementById("div_deletecheck");
+    var t = document.getElementById("div_deletecheck");
+    t.style.display = 'none';
+    var t = document.getElementById("div_shade_window");
     t.style.display = 'none';
 }

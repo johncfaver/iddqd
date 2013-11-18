@@ -193,6 +193,7 @@
 	</div>
 </div>
 
+<div id="div_shade_window"></div>
 <div id="div_deletecheck" class="div_notespopup">
 	<form action="../cgi-bin/deletedata.py" method="post">
 		<input type="hidden" name="molid" value="<?php echo $thismolid; ?>" />
