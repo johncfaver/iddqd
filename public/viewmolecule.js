@@ -24,5 +24,12 @@ function switchdatadiv(selected){
 	t.style.display="none";
 	t = document.getElementById("div_"+selected);
 	t.style.display="block";
-
+}
+function deletecheck(){
+    var t = document.getElementById("div_deletecheck");
+    t.style.display = 'block';
+}
+function closedeletecheck(){
+     var t = document.getElementById("div_deletecheck");
+    t.style.display = 'none';
 }

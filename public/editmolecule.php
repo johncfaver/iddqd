@@ -104,9 +104,7 @@
 	</div>
 
 <!-- DATA INPUT -->
-<?php
-	echo '<form id="datainput" enctype="multipart/form-data" action="../cgi-bin/editmol.py?userid='.$_SESSION['userid'].'" method="post">';
-?>	
+	<form id="datainput" enctype="multipart/form-data" action="../cgi-bin/editmol.py" method="post">
 	<div id="div_datainput">
 		<div id="div_datainput_inner">
 			<span style="font-size:1.2em;">Edit Data:</span><br />	
@@ -177,6 +175,7 @@
 		<input type="hidden" name="moltext" id="moltext" value="default" />
 		<input type="hidden" name="molfig" id="molfig" value="default" />
 		<input type="hidden" value="<?php echo $thismolid;?>" name="molid" />
+        <input type="hidden" value="<?php echo $_SESSION['userid'];?>" name="userid" />
 		<input type="submit" id="button_moledit" value="Submit" onclick="getmolecule();" />
 		<input type="hidden" name="oldbindingdataids" id="input_oldbindingdataids" value=""/>
 		<input type="hidden" name="oldpropertydataids" id="input_oldpropertydataids" value=""/>
@@ -194,15 +193,17 @@
 	</div>
 </div>
 
-<div id="div_deletecheck" class="div_notespopup" style="text-align:center;">
-	<form action="../cgi-bin/deletedata.py?molid=<?php echo $thismolid; ?>&userid=<?php echo $_SESSION['userid'];?>" method="post">
+<div id="div_deletecheck" class="div_notespopup">
+	<form action="../cgi-bin/deletedata.py" method="post">
+		<input type="hidden" name="molid" value="<?php echo $thismolid; ?>" />
+		<input type="hidden" name="userid" value="<?php echo $_SESSION['userid']; ?>" />
 		<input type="hidden" name="deletedataid" id="deletedataid" value="" />
 		<input type="hidden" name="deletedocdatatype" id="deletedocdatatype" value="" />
-		<span style="position:absolute;top:50px;left:45px">
+		<span class="span_popup_main_text">
 			Are you sure you want to delete this data?
-		</span><br /><br />
-		<input type="submit" value="Delete" style="position:absolute;width:100px;height:30px;left:50px;top:200px;"/>
-		<input type="button" value="Cancel" style="position:absolute;width:100px;height:30px;right:50px;top:200px;" onclick="closedeletecheck();"/>
+		</span>
+		<input type="submit" value="Delete" class="button_popup button_popup_left" />
+		<input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();"/>
 	</form>
 </div>
 <!-- POPULATE DATA -->
@@ -215,7 +216,7 @@
 
 <?php
  		$q=$dbconn->query("SELECT nickname,targetid FROM targets ORDER BY targetid");
-                foreach($q as $target){
+        foreach($q as $target){
 			echo "\n".'targetnames.push("'.$target['nickname'].'");';
 			echo "\n".'targetids.push("'.$target['targetid'].'");';
 		}

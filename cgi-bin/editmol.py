@@ -92,11 +92,12 @@ if 'olddocdataids' in keys:
 else:
     olddocdataids=0
 
-##CHECK INPUTS - EMPTY MOLNAME NOT VALID
+##Check inputs - empty molname not valid
 if(not molname):
     print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)
     print
     exit()
+#Must be logged in.
 if(not authorid):
     print 'Location: ../index.php?status=error'
     print

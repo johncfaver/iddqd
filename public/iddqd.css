@@ -226,6 +226,23 @@ img{
 	width:100px;
 	height:30px;
 }
+.button_popup{
+    position:absolute;
+    width:100px;
+    height:30px;
+    top:200px;
+}
+.button_popup_left{
+    left:50px;
+}
+.button_popup_right{
+    right:50px;
+}
+.span_popup_main_text{
+    position:absolute;
+    top:80px;
+    left:45px;
+}
 #div_dataentry{
 	position:absolute;
 	top:130px;

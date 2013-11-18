@@ -31,7 +31,7 @@ if 'userid' in keys:
     userid=int(form['userid'].value)
 else:
     userid=0
-if (not dataid or not molid or not datatype or not userid):
+if (not dataid or not molid or not userid):
     print 'Location: ../index.php?status=error'
     print ''
     exit()   
