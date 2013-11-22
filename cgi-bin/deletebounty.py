@@ -28,7 +28,7 @@ try:
     q = dbconn.cursor()
     q.execute('SELECT placed_by_id FROM bounties WHERE bountyid=%s',[bid])
     authorid=q.fetchone()[0]
-    assert(userid!=authorid): #only the person who placed the bounty can delete it.
+    assert(userid==authorid) #only the person who placed the bounty can delete it.
     q.execute('DELETE FROM bounties WHERE bountyid=%s ',[bid])
     q.execute('DELETE FROM bountycomments WHERE bountyid=%s',[bid])
     dbconn.commit()
