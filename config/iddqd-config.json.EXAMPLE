@@ -1,6 +1,8 @@
 {
     "domain":"https://address:port",
     "babeldir":"/usr/local/bin/",
+    "wkhtmltopdfdir":"/usr/bin/",
+    "convertdir":"/usr/bin/",
     "postgresql": {
         "host":"localhost",
         "port":5432,
