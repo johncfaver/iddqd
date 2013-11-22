@@ -597,7 +597,7 @@ function deletedatacheck(dataid,datatype){
 	t.style.display='block';
 }
 function closedeletecheck(){
-	var t = document.getElementById("deletedataid");
+    var t = document.getElementById("deletedataid");
 	t.value = '';
 	t = document.getElementById("div_deletecheck");
 	t.style.display='none';

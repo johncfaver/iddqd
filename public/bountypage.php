@@ -10,11 +10,24 @@
     $bid = isset($_GET['bid'])?(int)pg_escape_string($_GET['bid']):-1;
 	if(!$loggedin or $bid<0) returnhome();
     
-    $qstr = 'SELECT t.nickname as target,u.username as posted_by,b.date_posted,u2.username as pursued_by,';
-    $qstr.= ' b.date_pursued,b.claimed,b.molid,b.date_claimed, m.molid, m.molname';
-    $qstr.= ' from bounties b join targets t on t.targetid=b.targetid join users u on b.placed_by_id=u.userid left join users u2 on u2.userid=b.pursued_by_id';
-    $qstr.= ' left join molecules m on b.molid=m.molid';
-    $qstr.= ' where b.bountyid=:num1';
+    $qstr = 'SELECT 
+                t.nickname as target,
+                u.username as posted_by,
+                b.date_posted,
+                u2.username as pursued_by,
+                b.date_pursued,
+                b.claimed,
+                b.molid,
+                b.date_claimed,
+                m.molid,
+                m.molname
+            FROM bounties b 
+                JOIN targets t ON t.targetid=b.targetid 
+                JOIN users u ON b.placed_by_id=u.userid 
+                LEFT JOIN users u2 ON u2.userid=b.pursued_by_id
+                LEFT JOIN molecules m ON b.molid=m.molid
+            WHERE b.bountyid=:num1';
+
     $q = $dbconn->prepare($qstr);
     $q->bindParam(":num1",$bid,PDO::PARAM_INT); 
     $q->execute();
@@ -34,8 +47,24 @@
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
 <script type="text/javascript" src="iddqd.js"></script>
+<script type="text/javascript" src="viewmolecule.js"></script>
 </head>
 <body>
+
+<div id="div_shade_window"></div>
+<div id="div_deletecheck" class="div_notespopup" >
+    <form action="../cgi-bin/deletebounty.py" method="post">
+        <input type="hidden" name="bid" value="<?php echo $bid;?>" />
+        <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" />
+        <span class="span_popup_main_text">
+            Are you sure you want to delete this Bounty?
+        </span>
+        <input type="submit" value="Delete" class="button_popup button_popup_left" />
+		<input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();"/>
+    </form>
+</div>
+
+
 
 <div id="div_left">
 	<div id="left_links">
@@ -92,7 +121,7 @@
 			if($bdata['posted_by']==$_SESSION['username']){
 	            echo '<br />Posted by you on '; 
                 echo parsetimestamp($bdata['date_posted']);
-                echo '&nbsp;<a href="../cgi-bin/deletebounty.py?bid='.$bid.'&userid='.$_SESSION['userid'].'">(delete)</a>';
+                echo '&nbsp;<a href="#" onclick="deletecheck();">(delete)</a>';
             }
 ?>
 		<table id="table_molinfo">
