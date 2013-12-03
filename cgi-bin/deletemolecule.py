@@ -63,4 +63,3 @@ try:
     print 'Location: ../index.php \n\n'
 except Exception:
     print 'Location: ../index.php?status=error \n\n'
-
