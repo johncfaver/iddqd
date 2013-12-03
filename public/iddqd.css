@@ -398,3 +398,17 @@ img{
     z-index:1;
     background: rgba(80,80,80,0.5);
 }
+#span_regspan{
+    text-align:right;
+    float:right;
+    margin-right:350px;
+    margin-top:50px;
+
+}
+#button_addtarget{
+    position:absolute;
+    width:120px;
+    height:25px;
+    top:15px;
+    left:400px;
+}

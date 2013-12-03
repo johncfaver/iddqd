@@ -46,7 +46,7 @@
 	</div>	
 </div>
 <div id="div_main">
-    <div id="div_post_bounty"><button type="button" style="width:120px;height:25px;" onclick="window.location='postbounty.php'">Post Bounty</button></span></div>
+    <div id="div_post_bounty"><button type="button" style="width:120px;height:25px;" onclick="window.location='postbounty.php'">Post Bounty</button></div>
   <?php
     $nummol=(isset($_GET['nummol']))?(int)$_GET['nummol']:8;
   	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;

@@ -33,7 +33,7 @@
 	</div>	
 </div>
 <div id="div_main">
-    <span id="regspan" style="text-align:right;float:right;margin-right:450px;margin-top:50px">
+    <span id="span_regspan">
 
 <?php
     if(!$key){

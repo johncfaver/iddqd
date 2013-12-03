@@ -7,7 +7,7 @@
 		$thismolid=(int)pg_escape_string($_GET['molid']);	
         $clearnotebook=false;
 	}elseif(isset($_GET['all'])){
-        $clearnotebook=(pg_escape_string($_GET['all'])=='y');
+        $clearnotebook=(pg_escape_string($_GET['all'])=='1');
     }
     else{
 		returnhome();
@@ -28,9 +28,11 @@
 		if($_GET['dest']=='nb'){
 			header('Location: notebook.php');	
             exit;
+		}elseif($_GET['dest']=='vm'){
+			header('Location: viewmolecule.php?molid='.$thismolid);	
+            exit;
 		}
 	}else{	
-		header('Location: viewmolecule.php?molid='.$thismolid);
-        exit;
+        returnhome();
 	}
 ?>

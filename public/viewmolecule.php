@@ -56,7 +56,7 @@
             Are you sure you want to delete this molecule?
         </span>
         <input type="submit" value="Delete" class="button_popup button_popup_left" />
-		<input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();"/>
+		<input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();return false"/>
     </form>
 </div>
 
@@ -120,7 +120,7 @@
         <br />Added by: <?php echo $moldata['username'];?> on <?php echo parsetimestamp($moldata['dateadded']);?>
 <?php
             if($moldata['username']==$_SESSION['username']){
-                echo '&nbsp;<a href="#" onclick="deletecheck();">(delete)</a>';
+                echo '&nbsp;<a href="#" onclick="deletecheck();return false;">(delete)</a>';
             }
 ?>
 
@@ -149,17 +149,17 @@
         $response=$q->fetchAll();
 ?>
     <span class="nonlinks">
-    <a href="#"><div id="div_tabbindingdata" class="datatab datatabopen" onclick="switchdatadiv('bindingdata');">Binding</div></a>
-    <a href="#"><div id="div_tabpropertydata" class="datatab" onclick="switchdatadiv('propertydata');">Properties</div></a>
-    <a href="#"><div id="div_tabdocdata" class="datatab" onclick="switchdatadiv('docdata');">Documents</div></a>
-    <a href="#"><div id="div_tabmodelingdata" class="datatab" onclick="switchdatadiv('modelingdata');">Modeling</div></a>
-    <a href="#"><div id="div_tabcommentdata" class="datatab" onclick="switchdatadiv('commentdata');">Comments</div></a>
+    <a href="#"><div id="div_tabbindingdata" class="datatab datatabopen" onclick="switchdatadiv('bindingdata');return false">Binding</div></a>
+    <a href="#"><div id="div_tabpropertydata" class="datatab" onclick="switchdatadiv('propertydata');return false">Properties</div></a>
+    <a href="#"><div id="div_tabdocdata" class="datatab" onclick="switchdatadiv('docdata');return false">Documents</div></a>
+    <a href="#"><div id="div_tabmodelingdata" class="datatab" onclick="switchdatadiv('modelingdata');return false">Modeling</div></a>
+    <a href="#"><div id="div_tabcommentdata" class="datatab" onclick="switchdatadiv('commentdata');return false">Comments</div></a>
     <a href="editmolecule.php?molid=<?php echo $thismolid;?>"><div id="div_editdata" class="datatab" >Edit</div></a>
 <?php
     if(!in_array($thismolid,$_SESSION['notebook_molids'])){
-        echo '<a href="addtonotebook.php?molid='.$thismolid.'"><div id="div_addtonotebook" class="datatab" >Add to Notebook</div></a>';
+        echo '<a href="addtonotebook.php?molid='.$thismolid.'&dest=vm"><div id="div_addtonotebook" class="datatab" >Add to Notebook</div></a>';
     }else{
-        echo '<a href="removefromnotebook.php?molid='.$thismolid.'"><div id="div_addtonotebook" class="datatab" >Remove from Notebook</div></a>';
+        echo '<a href="removefromnotebook.php?molid='.$thismolid.'&dest=vm"><div id="div_addtonotebook" class="datatab" >Remove from Notebook</div></a>';
     }
 ?>
     </span>
@@ -178,11 +178,11 @@
                         echo $r['nickname'].'</td>';
                         if($r['datacomment']){
                             echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n",'<br />',htmlentities($r['datacomment'])).'\');">';
+                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n",'<br />',htmlentities($r['datacomment'])).'\');return false">';
                             echo '<img src="info_icon.png" height=15 title="Notes Available" />';
                         }else{
                             echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');">';
+                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
                         }
                         echo '</td></tr>';
                 }
@@ -205,11 +205,11 @@
                         echo $r['value'].' '.$r['units'].' </td>';
                         if($r['datacomment']){
                             echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",htmlentities($r['datacomment'])).'\');">';
+                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",htmlentities($r['datacomment'])).'\');return false">';
                             echo '<img src="info_icon.png" height=15 title="Notes Available" />';
                         }else{
                             echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');">';
+                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
                         }
                         echo '</td></tr>';
                 }
@@ -234,12 +234,12 @@
                         echo '</td>';
                         if($r['datacomment']){
                             echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",htmlentities($r['datacomment'])).'\');">';
+                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",htmlentities($r['datacomment'])).'\');return false">';
                             echo htmlentities(substr($r['datacomment'],0,20));
                             if(strlen($r['datacomment'])>20) echo '...<a href="#">(more)</a>';
                         }else{
                             echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');">';
+                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
                         }
                         echo '</td></tr>';
                 }

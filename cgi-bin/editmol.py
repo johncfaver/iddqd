@@ -187,7 +187,7 @@ dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
 ###UPDATE MOLECULE TABLE###########
-query='UPDATE molecules SET molname=%s, iupac=%s, cas=%s where molid=%s'
+query='UPDATE molecules SET molname=%s, iupac=%s, cas=%s WHERE molid=%s'
 options=[molname,iupacname,cas,molid]
 q.execute(query,options)
 ##############################

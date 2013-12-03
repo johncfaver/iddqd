@@ -35,11 +35,11 @@
         }
     }
 ?>
-	<span id="regspan" style="text-align:right;float:right;margin-right:450px;margin-top:50px">
+	<span id="span_regspan">
 	<form method="post" action="register.php" id="register" >
-		Username  <input type="text" id="desiredusername" name="desiredusername" size="8" />  <br /><span style="font-size:0.7em;">(3-20 valid characters)</span><br /><br />
-	    Email  &nbsp;&nbsp; <input type="text" id="desiredemail" name="desiredemail" size="8" />  <br /><span style="font-size:0.7em;">(for password recovery)</span><br /><br />
-	    Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" /> <br /><span style="font-size:0.7em;">(5-20 characters)</span><br /><br />
+		Username  <input type="text" id="desiredusername" name="desiredusername" size="8" maxlength="20" required />  <br /><span style="font-size:0.7em;">(3-20 valid characters)</span><br /><br />
+	    Email  &nbsp;&nbsp; <input type="text" id="desiredemail" name="desiredemail" size="8" maxlength="40" required />  <br /><span style="font-size:0.7em;">(for password recovery)</span><br /><br />
+	    Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" maxlength="20" required /> <br /><span style="font-size:0.7em;">(5-20 characters)</span><br /><br />
     	<input type="submit" value="Register" />	
 	</form>
 	</span>

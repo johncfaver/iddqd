@@ -3,7 +3,7 @@
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);    
     }catch(PDOException $e){
-        echo 'Database connection failed: '. $e->getMessage();
+       // echo 'Database connection failed: '. $e->getMessage();
     }
     session_start();
     $loggedin = (isset($_SESSION['username']));
@@ -49,8 +49,8 @@
             echo '<a href="changepasswordrequestpage.php" style="float:right;margin-right:100px;font-size:0.8em;">Retrieve Password</a>';
             echo '<br />';
             echo '<form id="login" method="post" action="login.php"    >';
-            echo '<input type="text" value="username" name="enteredusername" id="enteredusername" onclick="clearuserbox();" size="7" />';
-            echo '<input type="password" name="enteredpassword" value="password" id="enteredpassword" onclick="clearpasswordbox();" size="7" />';
+            echo '<input type="text" value="username" name="enteredusername" id="enteredusername" onclick="clearuserbox();" size="7" maxlength="20" required />';
+            echo '<input type="password" name="enteredpassword" value="password" id="enteredpassword" onclick="clearpasswordbox();" size="7" required />';
             echo '<input type="submit" value="Log in"/>';
             echo '</form>';
             

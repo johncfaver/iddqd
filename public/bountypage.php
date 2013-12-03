@@ -60,7 +60,7 @@
             Are you sure you want to delete this Bounty?
         </span>
         <input type="submit" value="Delete" class="button_popup button_popup_left" />
-		<input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();"/>
+		<input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();return false"/>
     </form>
 </div>
 
@@ -121,7 +121,7 @@
 			if($bdata['posted_by']==$_SESSION['username']){
 	            echo '<br />Posted by you on '; 
                 echo parsetimestamp($bdata['date_posted']);
-                echo '&nbsp;<a href="#" onclick="deletecheck();">(delete)</a>';
+                echo '&nbsp;<a href="#" onclick="deletecheck();return false">(delete)</a>';
             }
 ?>
 		<table id="table_molinfo">

@@ -62,11 +62,11 @@
 <div id="div_main">
 	<h2>IDDQD-Help</h2><br />
 	<div id="helpbar" >
-		<div id="searching" onclick="selecthelp('searching')" class="helptab helptabselected nonlinks"><a href="#">Searching</a></div>
-		<div id="inserting" onclick="selecthelp('inserting')" class="helptab nonlinks"><a href="#">Inserting</a></div>
-		<div id="drawing" onclick="selecthelp('drawing')" class="helptab nonlinks"><a href="#">Drawing</a></div>
-		<div id="viewing" onclick="selecthelp('viewing')" class="helptab nonlinks"><a href="#">Viewing</a></div>
-		<div id="exporting" onclick="selecthelp('exporting')" class="helptab nonlinks"><a href="#">Exporting</a></div>
+		<div id="searching" onclick="selecthelp('searching');return false" class="helptab helptabselected nonlinks"><a href="#">Searching</a></div>
+		<div id="inserting" onclick="selecthelp('inserting');return false" class="helptab nonlinks"><a href="#">Inserting</a></div>
+		<div id="drawing" onclick="selecthelp('drawing');return false" class="helptab nonlinks"><a href="#">Drawing</a></div>
+		<div id="viewing" onclick="selecthelp('viewing');return false" class="helptab nonlinks"><a href="#">Viewing</a></div>
+		<div id="exporting" onclick="selecthelp('exporting');return false" class="helptab nonlinks"><a href="#">Exporting</a></div>
 	</div>
 	<div id="helpcontent_searching" class="help_content" style="display:block;"> 
 		<br/>Search By:

@@ -21,7 +21,7 @@ function opendatapopup(username,date,notes){
 	var pop = document.getElementById("div_datapopup");
 	var htmlstring='<span style="position:absolute;top:5px;left:10px;font-size:1.0em;">Submitted by '+username+' on '+date+':</span>';
 	htmlstring+='<span style="position:absolute;top:35px;left:20px;font-size:0.9em;width:560px;height:190px;background:white;border:1px solid black">'+notes+' </span>';
-	htmlstring+='<span class="span_closenotespopup" onclick="closedatapopup();"><a href="#">X</a></span>';
+	htmlstring+='<span class="span_closenotespopup" onclick="closedatapopup();return false"><a href="#">X</a></span>';
 	pop.innerHTML=htmlstring;
 	pop.style.display="block";
 }
@@ -114,7 +114,7 @@ function morebindingdata(){
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
 	newnotesicon.setAttribute('class','img_bindingdata_notes');
-	newnotesicon.setAttribute('onclick','popnotes(\'bindingdata_notes_new_'+i.toString()+'\');');
+	newnotesicon.setAttribute('onclick','popnotes(\'bindingdata_notes_new_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);
 
@@ -124,7 +124,7 @@ function morebindingdata(){
 	newnotesdiv.innerHTML='<br />Notes about this data:<br />';
 	newnotesdiv.innerHTML+='<textarea class="textarea_notespopup" id="textarea_bindingdata_notes_new_'+i.toString()+'" name="textarea_bindingdata_notes_new_'+i.toString()+'">';
 	newnotesdiv.innerHTML+='</textarea>';
-	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'bindingdata_notes_new_'+i.toString()+'\');"><a href="#">X</a></span>';	
+	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'bindingdata_notes_new_'+i.toString()+'\');return false"><a href="#">X</a></span>';	
 	newinputline.appendChild(newnotesdiv);		
 
 	t.appendChild(newinputline);
@@ -202,7 +202,7 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 	newnotesicon.setAttribute('src','notes_icon.png');
 	newnotesicon.setAttribute('class','img_bindingdata_notes');
 	if(comment.length==0) newnotesicon.setAttribute('style','opacity:0.45');
-	newnotesicon.setAttribute('onclick','popnotes(\'bindingdata_notes_'+i.toString()+'\');');
+	newnotesicon.setAttribute('onclick','popnotes(\'bindingdata_notes_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);
 
@@ -211,7 +211,7 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 	var deleteicon = document.createElement('img');
 	deleteicon.setAttribute('src','delete_icon.png');
 	deleteicon.setAttribute('class','img_bindingdata_delete');
-	deleteicon.setAttribute('onclick','deletecheck(\''+i.toString()+'\');');
+	deleteicon.setAttribute('onclick','deletecheck(\''+i.toString()+'\');return false');
 	deletelink.appendChild(deleteicon);	
 	newinputline.appendChild(deletelink);
 
@@ -221,7 +221,7 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 	newnotesdiv.innerHTML='<br />Notes about this data:<br />';
 	newnotesdiv.innerHTML+='<textarea class="textarea_notespopup" id="textarea_bindingdata_notes_'+i.toString()+'" name="textarea_bindingdata_notes_'+i.toString()+'">'+comment+'</textarea>';
 	newnotesdiv.innerHTML+='<input type="hidden" name="bindingdata_notesid_'+i.toString()+'" id="bindingdata_notesid_'+i.toString()+'" value="'+commentid.toString()+'" />';
-	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'bindingdata_notes_'+i.toString()+'\');"><a href="#">X</a></span>';	
+	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'bindingdata_notes_'+i.toString()+'\');return false"><a href="#">X</a></span>';	
 	newinputline.appendChild(newnotesdiv);		
 
 	t.appendChild(newinputline);
@@ -293,7 +293,7 @@ function morepropertydata(){
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
 	newnotesicon.setAttribute('class','img_propertydata_notes');
-	newnotesicon.setAttribute('onclick','popnotes(\'propertydata_notes_new_'+i.toString()+'\');');
+	newnotesicon.setAttribute('onclick','popnotes(\'propertydata_notes_new_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);
 
@@ -303,7 +303,7 @@ function morepropertydata(){
 	newnotesdiv.innerHTML='<br />Notes about this data:<br />';
 	newnotesdiv.innerHTML+='<textarea class="textarea_notespopup" id="textarea_propertydata_notes_new_'+i.toString()+'" name="textarea_propertydata_notes_new_'+i.toString()+'">';
 	newnotesdiv.innerHTML+='</textarea>';
-	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'propertydata_notes_new_'+i.toString()+'\');"><a href="#">X</a></span>';	
+	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'propertydata_notes_new_'+i.toString()+'\');return false"><a href="#">X</a></span>';	
 	newinputline.appendChild(newnotesdiv);		
 
 	t.appendChild(newinputline);
@@ -366,7 +366,7 @@ function populatepropertydata(dataid,datatype,value,commentid,comment){
 	if(comment.length<1){
 		 newnotesicon.setAttribute('style','opacity:.3');
 	}
-	newnotesicon.setAttribute('onclick','popnotes(\'propertydata_notes_'+i.toString()+'\');');
+	newnotesicon.setAttribute('onclick','popnotes(\'propertydata_notes_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);
 
@@ -376,7 +376,7 @@ function populatepropertydata(dataid,datatype,value,commentid,comment){
 	newnotesdiv.innerHTML='<br />Notes about this data:<br />';
 	newnotesdiv.innerHTML+='<textarea class="textarea_notespopup" name="textarea_propertydata_notes_'+i.toString()+'">'+comment+'</textarea>';
 	newnotesdiv.innerHTML+='<input type="hidden" name="propertydata_notesid_'+i.toString()+'" id="propertydata_notesid_'+i.toString()+'" value="'+commentid.toString()+'" />';
-	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'propertydata_notes_'+i.toString()+'\');"><a href="#">X</a></span>';	
+	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'propertydata_notes_'+i.toString()+'\');return false"><a href="#">X</a></span>';	
 	newinputline.appendChild(newnotesdiv);		
 
 	var deletelink = document.createElement('a');
@@ -384,7 +384,7 @@ function populatepropertydata(dataid,datatype,value,commentid,comment){
 	var deleteicon = document.createElement('img');
 	deleteicon.setAttribute('src','delete_icon.png');
 	deleteicon.setAttribute('class','img_propertydata_delete');
-	deleteicon.setAttribute('onclick','deletecheck(\''+i.toString()+'\');');
+	deleteicon.setAttribute('onclick','deletecheck(\''+i.toString()+'\');return false');
 	deletelink.appendChild(deleteicon);	
 	newinputline.appendChild(deletelink);
 
@@ -458,7 +458,7 @@ function populatedocdata(filename,dataid,datatype,commentid,comment){
 	if(comment.length<1){
 		 newnotesicon.setAttribute('style','opacity:.3');
 	}
-	newnotesicon.setAttribute('onclick','popnotes(\'docdata_notes_'+i.toString()+'\');');
+	newnotesicon.setAttribute('onclick','popnotes(\'docdata_notes_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);
 
@@ -469,7 +469,7 @@ function populatedocdata(filename,dataid,datatype,commentid,comment){
 	newnotesdiv.innerHTML+='<a href="'+filename+'">'+filename.replace('uploads/documents/','')+'</a><br />';
 	newnotesdiv.innerHTML+='<textarea class="textarea_notespopup" name="textarea_docdata_notes_'+i.toString()+'">'+comment+'</textarea>';
 	newnotesdiv.innerHTML+='<input type="hidden" name="docdata_notesid_'+i.toString()+'" id="docdata_notesid_'+i.toString()+'" value="'+commentid.toString()+'" />';
-	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'docdata_notes_'+i.toString()+'\');"><a href="#">X</a></span>';	
+	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'docdata_notes_'+i.toString()+'\');return false"><a href="#">X</a></span>';	
 	newinputline.appendChild(newnotesdiv);		
 
 	var deletelink = document.createElement('a');
@@ -478,7 +478,7 @@ function populatedocdata(filename,dataid,datatype,commentid,comment){
 	deleteicon.setAttribute('src','delete_icon.png');
 	deleteicon.setAttribute('height','20');
 	deleteicon.setAttribute('style','margin-left:18px;');
-	deleteicon.setAttribute('onclick','deletedatacheck(\''+i.toString()+'\',\''+datatype.toString()+'\');');
+	deleteicon.setAttribute('onclick','deletedatacheck(\''+i.toString()+'\',\''+datatype.toString()+'\');return false');
 	deletelink.appendChild(deleteicon);	
 	newinputline.appendChild(deletelink);
 
@@ -532,7 +532,7 @@ function moredocdata(){
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
 	newnotesicon.setAttribute('height','20');
-	newnotesicon.setAttribute('onclick','popnotes(\'docdata_notes_new_'+i.toString()+'\');');
+	newnotesicon.setAttribute('onclick','popnotes(\'docdata_notes_new_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);
 
@@ -542,7 +542,7 @@ function moredocdata(){
 	newnotesdiv.innerHTML='<br />Notes about this File:<br />';
 	newnotesdiv.innerHTML+='<textarea class="textarea_notespopup" id="textarea_docdata_notes_new_'+i.toString()+'" name="textarea_docdata_notes_new_'+i.toString()+'">';
 	newnotesdiv.innerHTML+='</textarea>';
-	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'docdata_notes_new_'+i.toString()+'\');"><a href="#">X</a></span>';	
+	newnotesdiv.innerHTML+='<span class="span_closenotespopup" onclick="closenotes(\'docdata_notes_new_'+i.toString()+'\');return false"><a href="#">X</a></span>';	
 	newinputline.appendChild(newnotesdiv);		
 
 	t.appendChild(newinputline);

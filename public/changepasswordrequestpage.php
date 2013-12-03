@@ -24,7 +24,7 @@
 	</div>	
 </div>
 <div id="div_main">
-    <span id="regspan" style="text-align:right;float:right;margin-right:450px;margin-top:50px">
+    <span id="span_regspan">
 <?php
         if($status==='bademail'){
             echo 'That email wasn\'t found.<br /><br/>';
@@ -34,7 +34,7 @@
         }
 ?>
         <form method="post" action="../cgi-bin/passwordrequest.py" id="register" >
-            Email: <input type="text" id="email" name="email" size="8" /><br /><br />
+            Email: <input type="text" id="email" name="email" size="8" required maxlength="40" /><br /><br />
             <input type="submit" value="Request Password Change" />	
         </form>
 	</span>

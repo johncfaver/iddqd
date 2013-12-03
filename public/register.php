@@ -6,6 +6,19 @@
 		echo 'Database connection failed: '. $e->getMessage();
 	}
 
+    if(!isset($_POST['desiredusername'])){
+        header('Location: registerpage.php?usernameisbad=1');
+        exit;
+    }
+    if(!isset($_POST['desiredpassword'])){
+        header('Location: registerpage.php?passwordisbad=1');
+        exit;
+    }
+    if(!isset($_POST['desiredemail'])){
+        header('Location: registerpage.php?emailisbad=1');
+        exit;
+    }
+
 	$desiredusername=pg_escape_string($_POST['desiredusername']);
 	$desiredpassword=pg_escape_string($_POST['desiredpassword']);
 	$desiredemail=pg_escape_string($_POST['desiredemail']);
@@ -28,7 +41,7 @@
     //Check desiredemail
     if(!filter_var($desiredemail, FILTER_VALIDATE_EMAIL)){
         header('Location: registerpage.php?emailisbad=1');
-            exit;
+        exit;
     }
     //Check desiredpassword 
     if($desiredpasswordlength < 5 or $desiredpasswordlength > 20){

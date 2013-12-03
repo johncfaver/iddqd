@@ -5,7 +5,7 @@
 # Returns to bounty page
 #
 
-import cgi, os, cgitb, base64, psycopg2, subprocess,sys
+import cgi, os, cgitb, base64, psycopg2, subprocess, sys
 cgitb.enable(display=0,logdir="../log/",format="text")
 import config
 
@@ -75,11 +75,6 @@ try:
     #############COMPUTATION##################
     subprocess.Popen([config.convertdir+'convert','bounties/'+str(bid)+'.png','-trim','bounties/'+str(bid)+'.jpg'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
     ############################################
-    print 'Location: ../bounties.php?success=True'
-    print ''
-    sys.exit()
+    print 'Location: ../bounties.php?success=True \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error'
-    print ''
-    sys.exit()
-
+    print 'Location: ../index.php?status=error \n\n'

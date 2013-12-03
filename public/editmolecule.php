@@ -111,24 +111,24 @@
 			<br />
             <span style="font-size:0.8em;float:right;text-align:right;">
 			    Name:
-			    <input type="text" name="molname" id="molname" size=10 style="width:80px;margin-right:45px;" value="<?php echo $thismolname;?>" />
-			    IUPAC: <input type="text" name="iupacname" id="iupacname" size=10 style="width:80px;float:right" value="<?php echo $thisiupac;?>" />	
+			    <input type="text" name="molname" id="molname" size=10 required maxlength="50" style="width:80px;margin-right:45px;" value="<?php echo $thismolname;?>" />
+			    IUPAC: <input type="text" name="iupacname" id="iupacname" size=10 maxlength="100" style="width:80px;float:right" value="<?php echo $thisiupac;?>" />	
             </span>
             <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
                 <span style="font-style:italic;color:#884444;margin-right:45px;" id="editmoleculeerror"><?php if($emptyname) echo 'Name can not be empty.';?></span>
-			    CAS#: <input type="text" name="cas" id="cas" size=10 style="width:80px;float:right" value="<?php echo $thiscas;?>" /><br />
+			    CAS#: <input type="text" name="cas" id="cas" size=10 maxlength="20" style="width:80px;float:right" value="<?php echo $thiscas;?>" /><br />
 			</span>
             <br /><br />
 
 		<div id="div_dataentry">
 			<span class="nonlinks">
-			<div id="div_tab_datatype_bindingdata" class="div_tab_datatype" onclick="switchinputdatatab('bindingdata');">
+			<div id="div_tab_datatype_bindingdata" class="div_tab_datatype" onclick="switchinputdatatab('bindingdata');return false">
 				<a href="#">Binding</a>
 			</div>
-			<div id="div_tab_datatype_propertydata" class="div_tab_datatype" onclick="switchinputdatatab('propertydata');">
+			<div id="div_tab_datatype_propertydata" class="div_tab_datatype" onclick="switchinputdatatab('propertydata');return false">
 				<a href="#">Properties</a>
 			</div>
-			<div id="div_tab_datatype_docdata" class="div_tab_datatype" onclick="switchinputdatatab('docdata');">
+			<div id="div_tab_datatype_docdata" class="div_tab_datatype" onclick="switchinputdatatab('docdata');return false">
 				<a href="#">Documents</a>
 			</div>
 			</span>
@@ -138,10 +138,10 @@
 				<div id="bindingdatainputlines"></div><br/>
 
 				<div id="button_morebindingdata" style="display:inline">
-					<span style="nonlink"><a href="#"><img src="add_icon.png" onclick="morebindingdata();" /></a></span>
+					<span style="nonlink"><a href="#"><img src="add_icon.png" onclick="morebindingdata();return false" /></a></span>
 				</div>
 				<div id="button_lessbindingdata" style="display:none;">
-					<span style="nonlink"><a href="#"><img src="minus_icon.png" onclick="lessbindingdata();" /></a></span>
+					<span style="nonlink"><a href="#"><img src="minus_icon.png" onclick="lessbindingdata();return false" /></a></span>
 				</div>
 			</div>
 			
@@ -150,10 +150,10 @@
 				<div id="propertydatainputlines"></div><br />
 	
 				<div id="button_morepropertydata" style="display:inline;">
-					<span class="nonlinks"><a href="#"><img src="add_icon.png" onclick="morepropertydata();" /></a></span>
+					<span class="nonlinks"><a href="#"><img src="add_icon.png" onclick="morepropertydata();return false" /></a></span>
 				</div>
 				<div id="button_lesspropertydata" style="display:none;">
-					<span class="nonlinks"><a href="#"><img src="minus_icon.png" onclick="lesspropertydata();" /></a></span>
+					<span class="nonlinks"><a href="#"><img src="minus_icon.png" onclick="lesspropertydata();return false" /></a></span>
 				</div>
 			</div>
 
@@ -163,10 +163,10 @@
 				</div><br />
 		
 				<div id="button_moredocdata" style="display:inline;">
-					<span class="nonlinks"><a href="#"><img src="add_icon.png" onclick="moredocdata();" /></a></span>
+					<span class="nonlinks"><a href="#"><img src="add_icon.png" onclick="moredocdata();return false" /></a></span>
 				</div>
 				<div id="button_lessdocdata" style="display:none;">
-					<span class="nonlinks"><a href="#"><img src="minus_icon.png" onclick="lessdocdata();" /></a></span>
+					<span class="nonlinks"><a href="#"><img src="minus_icon.png" onclick="lessdocdata();return false" /></a></span>
 				</div>
 
 			</div>
