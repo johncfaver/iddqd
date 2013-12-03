@@ -59,11 +59,8 @@
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="reset.css" type="text/css" />
-<link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css">
 <link rel="stylesheet" href="iddqd.css" type="text/css" />
 <link rel="stylesheet" href="viewtarget.css" type="text/css" />
-<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
-<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
 <script type="text/javascript" src="iddqd.js"></script>
 <script type="text/javascript" src="viewtarget.js"></script>
 <script type="text/javascript">

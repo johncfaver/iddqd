@@ -2,11 +2,12 @@
 
 #
 # Delete all information for given molecule
-# Only the molecule's author has can do this
+# Only the molecule's author can do this
 #
 
 import cgi, os, cgitb, psycopg2
 from sys import exit
+from glob import iglob
 cgitb.enable(display=0,logdir="../log/",format="text")
 import config
 
@@ -48,14 +49,17 @@ try:
         '../public/uploads/structures/'+str(molid)+'-3d.mol',
         '../public/uploads/sketches/'+str(molid)+'.png',
         '../public/uploads/sketches/'+str(molid)+'.jpg',
-        '../public/uploads/documents/'+str(molid)+'*',
         '../public/uploads/qikprop/'+str(molid)+'-QP.txt']:
         if os.path.isfile(i):
             try:
                 os.remove(i)
             except Exception:
                 pass
-
+    for i in iglob('../public/uploads/documents/'+str(molid)+'*'):
+        try:
+            os.remove(i)
+        except Exception:
+            pass
     print 'Location: ../index.php \n\n'
 except Exception:
     print 'Location: ../index.php?status=error \n\n'

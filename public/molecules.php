@@ -51,10 +51,10 @@
 </div>
 <div id="div_main">
 <?php
-	$nummol=(isset($_GET['nummol']))?(int)$_GET['nummol']:8;
-	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;
+	$nummol=(isset($_GET['nummol']))?(int)pg_escape_string($_GET['nummol']):8;
+	$molstart=(isset($_GET['molstart']))?(int)pg_escape_string($_GET['molstart']):0;
 	$sortby=(isset($_GET['sortby']))?pg_escape_string($_GET['sortby']):'dateadded';
-	$sortdir=(isset($_GET['sortdir']))?(int)$_GET['sortdir']:1;
+	$sortdir=(isset($_GET['sortdir']))?(int)pg_escape_string($_GET['sortdir']):1;
 	
 	if($molstart>=$nummol){
 		echo '<div id="div_molecules_prev" class="nonlinks"><a href="molecules.php?molstart='.($molstart-$nummol).'&sortby='.$sortby.'&sortdir='.$sortdir.'"> << previous </a></div>';

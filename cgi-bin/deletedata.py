@@ -39,19 +39,20 @@ try:
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
     #Only authors of data can delete data entries.
-    q.execute('DELETE FROM moldata WHERE moldataid=%s and authorid=%s returning molid',[dataid,userid])
-    success=len(q.fetchone())
-    if(success):
-        q.execute('DELETE FROM datacomments WHERE dataid=%s and authorid=%s',[dataid,userid])
-        dbconn.commit()
-        for i in iglob(str(molid)+'_'+str(datatype)+'_'+str(dataid)+'_'+'*'):
-            p=subprocess.Popen(['/bin/rm',i], stdout=open(os.devnull,'w'), stderr=open(os.devnull,'w'))
-    print 'Location: ../editmolecule.php?molid='+str(molid)
-    print ''
+    q.execute('SELECT authorid FROM moldata WHERE moldataid=%s',[dataid])
+    r = q.fetchone() 
+    if r[0] == userid:
+        q.execute('DELETE FROM moldata WHERE moldataid=%s and authorid=%s returning molid',[dataid,userid])
+        success=len(q.fetchone())
+        if(success):
+            q.execute('DELETE FROM datacomments WHERE dataid=%s and authorid=%s',[dataid,userid])
+            dbconn.commit()
+            for i in iglob(str(molid)+'_'+str(datatype)+'_'+str(dataid)+'_'+'*'):
+                os.remove(i)
+        print 'Location: ../editmolecule.php?molid='+str(molid)+' \n\n'
+    else:
+        print 'Location: ../editmolecule.php?molid='+str(molid)+'&status=notauthor \n\n'
     q.close()
     dbconn.close() 
 except:
-    print 'Location: ../index.php?status=error'
-    print ''
-    exit()   
-
+    print 'Location: ../index.php?status=error \n\n'

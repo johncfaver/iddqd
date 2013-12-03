@@ -8,8 +8,10 @@
 	session_start();
 	$loggedin = isset($_SESSION['username']);
 	if(!$loggedin) returnhome();
-    $notebookcount = count($_SESSION['notebook_molids']);
-    $molids=implode(',',$_SESSION['notebook_molids']);
+    $notebookcount = count($_SESSION['notebook_molids']); //number of molids in notebook
+    $molids=implode(',',$_SESSION['notebook_molids']);    //comma-separated string of molids in notebook
+    $molstart = isset($_GET['molstart'])?(int)pg_escape_string($_GET['molstart']):0;
+	$nummol=(isset($_GET['nummol']))?(int)pg_escape_string($_GET['nummol']):8;
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,7 +27,7 @@
 <div id="div_left">
 	<div id="left_links">
 		<span class="nonlinks">
-		<a href="index.php" style="color:#bbbbff">Home</a><br /><br />
+		<a href="index.php" style="color:white">Home</a><br /><br />
 		<a href="search.php" style="color:white">Search </a><br /><br />
 		<a href="molecules.php" style="color:white">View Library</a><br /><br />
 		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
@@ -47,17 +49,38 @@
 	<br />
 <?php
     if($notebookcount>0){
-		echo '<span class="span_export">';
-		echo '<a href="../cgi-bin/export.py?export=pdf&userid='.$_SESSION['userid'].'&molids='.$molids.'">Export PDF</a>';
-		echo '</span>';
-		echo '<span class="span_export">';
-		echo '<a href="../cgi-bin/export.py?export=spreadsheet&userid='.$_SESSION['userid'].'&molids='.$molids.'" >Export Spreadsheet</a>';
-		echo '</span>';	
-		echo '<span class="span_export">';
-		echo '<a href="../cgi-bin/export.py?export=structures&userid='.$_SESSION['userid'].'&molids='.$molids.'" >Export Structures</a>';
-		
-        echo '</span>';
-		echo '<table class="moleculetable">';
+		echo '<span class="span_export">
+		        <form action="../cgi-bin/export.py" method="POST">
+                    <input type="hidden" name="export" value="pdf" />
+                    <input type="hidden" name="molids" value="'.$molids.'" />
+                    <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                    <input type="submit" value="Export PDF" />
+                </form>
+		      </span>';
+		echo '<span class="span_export">
+		        <form action="../cgi-bin/export.py" method="POST">
+                    <input type="hidden" name="export" value="spreadsheet" />
+                    <input type="hidden" name="molids" value="'.$molids.'" />
+                    <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                    <input type="submit" value="Export CSV" />
+                </form>
+		      </span>';
+		echo '<span class="span_export">
+		        <form action="../cgi-bin/export.py" method="POST">
+                    <input type="hidden" name="export" value="structures" />
+                    <input type="hidden" name="molids" value="'.$molids.'" />
+                    <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                    <input type="submit" value="Export Structures" />
+                </form>
+		      </span>';
+    
+	    if($molstart>=$nummol){
+		    echo '<div id="div_molecules_prev" class="nonlinks" style="margin-top:50px;"><a href="notebook.php?molstart='.($molstart-$nummol).'"> << previous </a></div>';
+	    }
+	    if($molstart+$nummol<$notebookcount){
+		    echo '<div id="div_molecules_next" class="nonlinks" style="margin-top:50px;"><a href="notebook.php?molstart='.($molstart+$nummol).'"> next >> </a></div>';
+	    }
+		echo '<table class="moleculetable" style="margin-top:30px;">';
 		echo '<tr class="moltr">';
 		echo '<th class="molth moltdborderright">Structure</th>';
 		echo '<th class="molth moltdborderright">Name</th>';
@@ -67,9 +90,9 @@
         echo '<th class="molth"><a href="removefromnotebook.php?all=1&dest=nb" style="color:red" title="Remove All">Remove</a></th>';
 		echo '</tr>';
 	
-        $qmarks = str_repeat('?,',$notebookcount-1)."?";
+        $qmarks = str_repeat('?,',$notebookcount-1)."?"; // Need one ? for each molid in notebook for SQL statement preparation
         $q = $dbconn->prepare("SELECT a.molid,a.molname,a.dateadded,b.username,a.molweight from molecules a, users b where b.userid=a.authorid and a.molid in 
-                                (".$qmarks.")");
+                                (".$qmarks.") limit ".$nummol." offset ".$molstart);
         $q->execute($_SESSION['notebook_molids']);
 		$count=0;
         while($row = $q->fetch(PDO::FETCH_ASSOC)){
@@ -106,12 +129,12 @@
         }
         echo '</table>';
 	}	
-    echo '<br /><div style="margin-top:100px;">';
     if($notebookcount==0){
+        echo '<br /><div style="margin-top:100px;">';
         echo 'No notebook entries.';
+        echo '</div>';
     }
-    echo '</div>';
-?>
+   ?>
 </div>
 </body>
 </html>
