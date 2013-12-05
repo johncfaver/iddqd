@@ -69,17 +69,13 @@ if 'userid' in keys:
     authorid=form['userid'].value
 else:
     authorid=0
-if 'username' in keys:
-    author=form['username'].value
-else:
-    author=0
 
 #CHECK INPUTS
 if(not molname):
     print 'Location: ../addmolecule.php?emptyname=1'
     print
     sys.exit()
-if(not authorid or not author):
+if(not authorid): #This should never happen
     print 'Location: ../index.php?status=error'
     print
     sys.exit()

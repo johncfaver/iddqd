@@ -1,29 +1,33 @@
 <?php
 /*
+    editmolecule.php
     Main page for editing molecule information.
+    Sends data to cgi-bin/editmol.py which redirects
+        to viewmolecule
+    
 */
     require('config.php');
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);    
     }catch(PDOException $e){
-        echo 'Database connection failed: '. $e->getMessage();
+        //echo 'Database connection failed: '. $e->getMessage();
     }
     session_start();
-
     $loggedin = isset($_SESSION['username']);
     $thismolid = (isset($_GET['molid']))?(int)$_GET['molid']:-1;
     if(!$loggedin or $thismolid==-1 ) returnhome();
+    //If there was an error from previous try because molecule name was empty
     $emptyname = (isset($_GET['emptyname']))?(int)$_GET['emptyname']:0;
 
     $q = $dbconn->prepare("SELECT molname,iupac,cas FROM molecules WHERE molid=:num");
     $q->bindParam(":num",$thismolid,PDO::PARAM_INT);
     $q->execute();    
-    $r=$q->fetch();
+    $r=$q->fetch(PDO::FETCH_ASSOC);
     $thismolname=htmlentities($r['molname']);
     $thiscas=htmlentities($r['cas']);
     $thisiupac=htmlentities($r['iupac']);
 
-    //Read mol file and load into ChemDoodleWeb
+    //Read 2d mol file and load into ChemDoodleWeb
     $thismolfilelocation='uploads/structures/'.$thismolid.'.mol';
     if(file_exists($thismolfilelocation)){
         $handle=fopen($thismolfilelocation,'r');
@@ -38,20 +42,20 @@
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-<link rel="stylesheet" href="reset.css" type="text/css" />
-<link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css" />
-<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
-<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
-<link rel="stylesheet" href="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.css" type="text/css" />
-<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
-<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/ChemDoodleWeb-sketcher.js"></script>
-<script type="text/javascript" src="iddqd.js"></script>
-<link rel="stylesheet" href="iddqd.css" type="text/css" />
-<title>Editing <?php echo $thismolname;?></title>
-</head>
+    <head>
+	    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+	    <link rel="stylesheet" href="reset.css" type="text/css" />
+	    <link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css" />
+		<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
+		<script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
+		<link rel="stylesheet" href="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.css" type="text/css" />
+		<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
+		<script type="text/javascript" src="ChemDoodleWeb/install/sketcher/ChemDoodleWeb-sketcher.js"></script>
+		<script type="text/javascript" src="iddqd.js"></script>
+		<link rel="stylesheet" href="iddqd.css" type="text/css" />
+		<title>Editing <?php echo $thismolname;?></title>
+    </head>
 <body>
 
 <!-- LEFT COLUMN -->
@@ -111,12 +115,19 @@
             <br /><br />
             <span style="font-size:0.8em;float:right;text-align:right;">
                 Name:
-                <input type="text" name="molname" id="molname" size=10 required maxlength="50" style="width:80px;margin-right:45px;" value="<?php echo $thismolname;?>" />
-                IUPAC: <input type="text" name="iupacname" id="iupacname" size=10 maxlength="100" style="width:80px;float:right" value="<?php echo $thisiupac;?>" />    
+                <input type="text" name="molname" id="molname" size=10 required 
+                    maxlength="50" style="width:80px;margin-right:45px;" value="<?php echo $thismolname;?>" />
+                IUPAC: 
+                <input type="text" name="iupacname" id="iupacname" size=10 
+                    maxlength="100" style="width:80px;float:right" value="<?php echo $thisiupac;?>" />    
             </span>
             <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
-                <span style="font-style:italic;color:#884444;margin-right:45px;" id="editmoleculeerror"><?php if($emptyname) echo 'Name can not be empty.';?></span>
-                CAS#: <input type="text" name="cas" id="cas" size=10 maxlength="20" style="width:80px;float:right" value="<?php echo $thiscas;?>" /><br />
+                <span style="font-style:italic;color:#884444;margin-right:45px;" id="editmoleculeerror">
+                    <?php if($emptyname) echo 'Name can not be empty.';?>
+                </span>
+                CAS#: <input type="text" name="cas" id="cas" size=10 
+                            maxlength="20" style="width:80px;float:right" value="<?php echo $thiscas;?>" />
+                <br />
             </span>
             <br /><br />
 
@@ -137,14 +148,10 @@
                     <div id="bindingdatainputlines"></div>
                     <br/><br/>
                     <div id="button_morebindingdata" style="display:inline">
-                    <span style="nonlink">
-                        <a href="#"><img src="add_icon.png" onclick="morebindingdata();return false" /></a>
-                    </span>
+                        <a href="#"><img src="add_icon.png" class="nonlinks" onclick="morebindingdata();return false" /></a>
                     </div>
                     <div id="button_lessbindingdata" style="display:none;">
-                        <span style="nonlink">
-                            <a href="#"><img src="minus_icon.png" onclick="lessbindingdata();return false" /></a>
-                        </span>
+                        <a href="#"><img src="minus_icon.png" class="nonlinks" onclick="lessbindingdata();return false" /></a>
                     </div>
                 </div>
             
@@ -154,14 +161,10 @@
                     <div id="propertydatainputlines"></div>
                     <br/><br/>
                     <div id="button_morepropertydata" style="display:inline;">
-                        <span class="nonlinks">
-                            <a href="#"><img src="add_icon.png" onclick="morepropertydata();return false" /></a>
-                        </span>
+                        <a href="#"><img src="add_icon.png" class="nonlinks" onclick="morepropertydata();return false" /></a>
                     </div>
                     <div id="button_lesspropertydata" style="display:none;">
-                        <span class="nonlinks">
-                            <a href="#"><img src="minus_icon.png" onclick="lesspropertydata();return false" /></a>
-                        </span>
+                        <a href="#"><img src="minus_icon.png" class="nonlinks" onclick="lesspropertydata();return false" /></a>
                     </div>
                 </div>
 
@@ -171,14 +174,10 @@
                     <div id="docdatainputlines"></div>
                     <br/><br/>
                     <div id="button_moredocdata" style="display:inline;">
-                        <span class="nonlinks">
-                            <a href="#"><img src="add_icon.png" onclick="moredocdata();return false" /></a>
-                        </span>
+                        <a href="#"><img src="add_icon.png" class="nonlinks" onclick="moredocdata();return false" /></a>
                     </div>
                     <div id="button_lessdocdata" style="display:none;">
-                        <span class="nonlinks">
-                            <a href="#"><img src="minus_icon.png" onclick="lessdocdata();return false" /></a>
-                        </span>
+                        <a href="#"><img src="minus_icon.png" class="nonlinks" onclick="lessdocdata();return false" /></a>
                     </div>
                 </div>
             </div> <!-- close data_entry -->
@@ -196,7 +195,7 @@
 
         </form>
         
-        <form action="viewmolecule.php" method="get">
+        <form action="viewmolecule.php" method="GET">
             <input type="hidden" value="<?php echo $thismolid;?>" name="molid" />
             <input type="submit" value="Cancel" id="button_cancelmoledit" />
         </form>
@@ -205,7 +204,8 @@
     </div><!-- close data_input-->
 </div><!-- close main-->
 
-<div id="div_shade_window"></div>
+<div id="div_shade_window">
+</div>
 <div id="div_deletecheck" class="div_notespopup">
     <form action="../cgi-bin/deletedata.py" method="post">
         <input type="hidden" name="molid" value="<?php echo $thismolid; ?>" />
@@ -228,35 +228,41 @@
     var num_docdata = 0;
 
 <?php
-         $q=$dbconn->query("SELECT nickname,targetid FROM targets ORDER BY targetid");
+        $q=$dbconn->query("SELECT nickname,targetid FROM targets ORDER BY targetid");
         foreach($q as $target){
-            echo "\n".'targetnames.push("'.$target['nickname'].'");';
-            echo "\n".'targetids.push("'.$target['targetid'].'");';
+            echo 'targetnames.push("'.$target['nickname'].'");';
+            echo 'targetids.push("'.$target['targetid'].'");';
         }
         
-        $q=$dbconn->prepare("SELECT distinct targetid,value,datatype,datacomment,moldataid,datacommentid from moldata left join datacomments on moldata.moldataid=datacomments.dataid where molid=:num order by datatype");
+        $q=$dbconn->prepare("SELECT distinct 
+                                targetid,value,datatype,datacomment,moldataid,datacommentid
+                                FROM 
+                                    moldata d left join datacomments c 
+                                ON d.moldataid = c.dataid 
+                                WHERE molid=:num 
+                                ORDER BY datatype");
         $q->bindParam(":num",$thismolid,PDO::PARAM_INT);
         $q->execute();
-        while($row=$q->fetch()){
+        while($row=$q->fetch(PDO::FETCH_ASSOC)){
             $comment = htmlentities($row['datacomment']);
             if(in_array($row['datatype'],$bindingdataids)){
                 if($row['datacommentid']){
-                    echo "\n".'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');';
+                    echo 'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');';
                 }else{
-                    echo "\n".'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].',0,\'\');';
+                    echo 'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].',0,\'\');';
                 }
             }else if(in_array($row['datatype'],$propertydataids)){
                 if($row['datacommentid']){
-                    echo "\n".'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');';
+                    echo 'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');';
                 }else{
-                    echo "\n".'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].',0,\'\');';
+                    echo 'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].',0,\'\');';
                 }
             }else if(in_array($row['datatype'],$docdataids)){
                 $filename=exec('ls uploads/documents/'.$thismolid.'_'.$row['datatype'].'_'.$row['moldataid'].'_*');
                 if($row['datacommentid']){
-                    echo "\n".'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].','.$row['datacommentid'].',\''.str_replace("\r\n","\\n",addslashes($comment)).'\');';
+                    echo 'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].','.$row['datacommentid'].',\''.str_replace("\r\n","\\n",addslashes($comment)).'\');';
                 }else{
-                    echo "\n".'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].',0,\'\');';
+                    echo 'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].',0,\'\');';
                 }
             }
         }

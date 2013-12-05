@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
+# editmol.py
 #
-# Update given molecule based on input from editmolecule page.
-# Check if structure changed before doing any computations. 
+# Update given molecule based on input from editmolecule.php page.
+# Check if structure changed before doing any computations or rendering
+# Send to either pngwriter or viewmolecule depending on structure change.
 #
 
 import cgi, os, cgitb, base64, psycopg2, subprocess, filecmp, shutil
@@ -94,19 +96,18 @@ else:
 
 ##Check inputs - empty molname not valid
 if(not molname):
-    print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)
-    print
+    print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)+' \n\n'
     exit()
 #Must be logged in.
 if(not authorid):
-    print 'Location: ../index.php?status=error'
-    print
+    print 'Location: ../index.php?status=error \n\n'
     exit()
 
 bindingdatas=[]
 propertydatas=[]
 commentdatas=[]
 docdatas=[]
+
 #LOAD OLD DATA 
 for i in oldbindingdataids:
     if 'bindingdata_datatypeid_'+i in keys and 'bindingdata_value_'+i in keys and 'bindingdata_targetid_'+i in keys:    
@@ -147,6 +148,7 @@ for i in olddocdataids:
         if 'textarea_docdata_notes_'+i in keys:
             docdatas[-1].notes=form['textarea_docdata_notes_'+i].value
             docdatas[-1].notesid=form['docdata_notesid_'+i].value
+
 #LOAD NEW DATA
 for i in xrange(1,maxdata+1):
     if 'bindingdata_datatypeid_new_'+str(i) in keys and 'bindingdata_value_new_'+str(i) in keys and 'bindingdata_targetid_new_'+str(i) in keys:    
@@ -182,7 +184,6 @@ for i in xrange(1,maxdata+1):
 
 #########################################
 
-
 dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
@@ -193,6 +194,7 @@ q.execute(query,options)
 ##############################
 
 ######UPDATE OLD DATA#####################
+#timestamp is updated, editor becomes author
 for i in xrange(len(oldbindingdataids)):
     query='UPDATE moldata SET datatype=%s, targetid=%s, value=%s, dateadded=localtimestamp, authorid=%s where moldataid=%s'
     options=[bindingdatas[i].datatypeid,bindingdatas[i].targetid,bindingdatas[i].value,authorid,bindingdatas[i].moldataid]
@@ -268,7 +270,7 @@ dbconn.close()
 
 #############FILE HANDLING - REPLACE STRUCTURE FILES/ WRITE NEW DOCUMENTS###############
 #Write a new temporary mol file. See if it differs from the one we have stored.
-#If it differs, then we need to redo calculations. 
+#If it differs, then we need to redo calculations and image rendering.
 recalculate=False
 with open('/tmp/'+str(molid)+'.mol','w') as f:
     f.write(molname+' \n')
@@ -284,8 +286,7 @@ if os.path.isfile('structures/'+str(molid)+'.mol'):
         os.remove('/tmp/'+str(molid)+'.mol')
         recalculate=True
 
-with open('sketches/'+str(molid)+'.png','w') as f:
-    f.write(base64.decodestring(molfig64))
+#Check for newly uploaded documents.
 for i in xrange(len(olddocdataids),len(docdatas)):
     with open('documents/'+str(molid)+'_'+str(docdatas[i].datatypeid)+'_'+str(docdatas[i].moldataid)+'_'+str(docdatas[i].filename),'w') as f:
         while 1:
@@ -297,13 +298,13 @@ for i in xrange(len(olddocdataids),len(docdatas)):
 
 
 #############COMPUTATION##################
-subprocess.call([config.convertdir+'convert','sketches/'+str(molid)+'.png','-trim','sketches/'+str(molid)+'.jpg'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 if(recalculate):
     os.chdir('../../cgi-bin')
     subprocess.Popen([executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 
+###############REDIRECT####################
 
-############################################
-
-print 'Location: ../viewmolecule.php?molid='+str(molid)
-print ''
+if(recalculate):
+    print 'Location: ../pngwriter.php?molid='+str(molid)+'&dest=vm \n\n'
+else:
+    print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
