@@ -4,7 +4,7 @@
 # Inserts new molecule data into database.
 #
 
-import cgi, os, cgitb, base64, psycopg2, subprocess,sys
+import cgi, os, cgitb, base64, psycopg2, subprocess, sys
 cgitb.enable(display=0,logdir="../log/",format="text")
 import config
 
@@ -196,8 +196,6 @@ with open('structures/'+str(molid)+'.mol','w') as f:
     f.write(molname+' \n')
     for line in moltext[1:]:
         f.write(line+' \n')
-with open('sketches/'+str(molid)+'.png','w') as f:
-    f.write(base64.decodestring(molfig64))
 for i in xrange(len(docdatas)):
     with open('documents/'+str(molid)+'_'+str(docdatas[i].datatypeid)+'_'+str(docdatas[i].moldataid)+'_'+str(docdatas[i].filename),'w') as f:
         while 1:
@@ -208,9 +206,8 @@ for i in xrange(len(docdatas)):
 ##########################################
 
 #############COMPUTATION##################
-subprocess.Popen([config.convertdir+'convert','sketches/'+str(molid)+'.png','-trim','sketches/'+str(molid)+'.jpg'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-subprocess.Popen([sys.executable,'../../cgi-bin/computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+os.chdir('../../cgi-bin')
+subprocess.Popen([sys.executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 ############################################
 
-print 'Location: ../addmolecule.php?success=True'
-print ''
+print 'Location: ../pngwriter.php?molid='+str(molid)+'&dest=am \n\n'

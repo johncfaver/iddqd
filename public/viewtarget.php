@@ -66,7 +66,7 @@
 <script type="text/javascript">
 <?php 
     foreach($inhibitordata as $r){
-        echo 'inhibitors.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",htmlentities($r['datacomment'])).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
+        echo 'inhibitors.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",addslashes(htmlentities($r['datacomment']))).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
     }
 ?>
 </script>

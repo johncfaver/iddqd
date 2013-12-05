@@ -204,7 +204,7 @@
 					echo $row['username'];
 					echo ':<br/> ('.parsetimestamp($row['dateadded']).') ';
 				echo '</div>';
-				echo '<div class="div_molcomment_text">'.str_replace("\r\n","<br />",htmlentities($row['bountycomment'])).'</div>';
+				echo '<div class="div_molcomment_text">'.str_replace("\r\n","<br />",addslashes(htmlentities($row['bountycomment']))).'</div>';
 				if($row['username']==$_SESSION['username']){
 					echo '<div class="div_deletecomment" style="font-size:1.2em;"><span class="nonlinks"><a href="../cgi-bin/removebountycomment.py?bid='.$bid.'&userid='.$_SESSION['userid'].'&bountycommentid='.$row['bountycommentid'].'">X</a></span></div>';
 				}

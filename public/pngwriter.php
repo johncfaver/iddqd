@@ -1,13 +1,16 @@
 <?php
-    /* This file crawls through the molids, and generates images for them sequentially.
-    */
-    $thismolid=isset($_GET['molid'])?(int)pg_escape_string($_GET['molid']):0;
     
-    //If this molid structure doesn't exist or if we're past 1000, skip to next molid in sequence
-    if(!file_exists('uploads/structures/'.$thismolid.'.mol') and $thismolid<1000){
-        header("Location: ./pngwriter.php?molid=".($thismolid+1));
-        exit();
+    //This file is shown temporarily to generate better molecule sketches.
+    //render 2d structure with chemdoodle, then grab the canvas, send it to 
+    //cgi-bin/canvas2png.py. 
+    
+    $thismolid=isset($_GET['molid'])?(int)pg_escape_string($_GET['molid']):0;
+    if(!$thismolid or !file_exists('uploads/structures/'.$thismolid.'.mol')){
+        header("Location: index.php?status=error");
+        exit;
     }
+    $dest=isset($_GET['dest'])?pg_escape_string($_GET['dest']):'am';
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,14 +18,11 @@
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="ChemDoodleWeb/install/ChemDoodleWeb.css" type="text/css">
-<link rel="stylesheet" href="iddqd.css" type="text/css" />
-<link rel="stylesheet" href="viewmolecule.css" type="text/css" />
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb-libs.js"></script>
 <script type="text/javascript" src="ChemDoodleWeb/install/ChemDoodleWeb.js"></script>
-<script type="text/javascript" src="iddqd.js"></script>
-<script type="text/javascript" src="viewmolecule.js"></script>
-<script type="text/javascript">
 
+<script type="text/javascript">
+    
     //On body load, we'll grab the molecule image, put it in the form, then submit the form
     function getmolecule(){
         document.getElementById("molfig").value=document.getElementById("viewerCanvas").toDataURL("image/png");
@@ -30,6 +30,7 @@
     }
 
 </script>
+
 </head>
 <body onload="getmolecule()">
 
@@ -52,6 +53,7 @@
             t.setAttribute('style','border:0px');
     </script>
     <form id="canvas2png" enctype="multipart/form-data" action="../cgi-bin/canvas2png.py" method="POST">
+        <input type="hidden" name="dest" value="<?php echo $dest;?>" />
         <input type="hidden" name="molid" value="<?php echo $thismolid;?>" />
         <input type="hidden" name="molfig" id="molfig" value="default" />
     </form>    

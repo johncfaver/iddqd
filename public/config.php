@@ -36,22 +36,21 @@
         exit;
 	}
 
-//Convert "CH4" into "CH<sub>4</sub>", for example
+//Convert "C1H4" into "C<sub>1</sub>H<sub>4</sub>", for example
 	function parseformula($f){
 		$ostr='';
 		$f=str_split($f);
 		for($i=0;$i<sizeof($f);$i++){
-			if(is_numeric($f[$i])){
+			if($i>0 and is_numeric($f[$i])){
 				if(!is_numeric($f[$i-1])){
 					$ostr.='<sub>';
 				}
 				$ostr.=$f[$i];
-				continue;
 			}else{
-				if(strlen($ostr)>2){
-					if(is_numeric($ostr[strlen($ostr)-1])){
+                $olength = strlen($ostr);
+				if($olength > 1){
+					if(is_numeric($ostr[$olength-1])){
 						$ostr.='</sub>'.$f[$i];
-						continue;
 					}else{
 						$ostr.=strtolower($f[$i]);
 					}
@@ -64,11 +63,7 @@
 				}
 			}
 		}
-        if(count($ostr)>0){
-		    if(is_numeric($ostr[count(str_split($ostr))-1])){
-			    $ostr.='</sub>';
-		    }
-        }
+		$ostr.='</sub>';
 		return $ostr;
 	}
 

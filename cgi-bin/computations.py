@@ -10,15 +10,13 @@ import os, psycopg2, subprocess, sys, shutil
 from molecule import molecule
 import config
 
-babeldir = config.babeldir
-
 cgidir=os.getcwd()
 os.chdir('../public/uploads/structures')
 
 molid = int(sys.argv[1])
 
 ###GENERATE 3D MOL FILE WITH OBGEN###
-subprocess.call([babeldir+'obgen',str(molid)+'.mol'],stdout=open(str(molid)+'-3dt.mol','w'),stderr=open(os.devnull,'w'))
+subprocess.call([config.babeldir+'obgen',str(molid)+'.mol'],stdout=open(str(molid)+'-3dt.mol','w'),stderr=open(os.devnull,'w'))
 subprocess.call(['/bin/grep','-v','WARNING',str(molid)+'-3dt.mol'],stdout=open(str(molid)+'-3d.mol','w'),stderr=open(os.devnull,'w'))
 os.remove(str(molid)+'-3dt.mol')
 molobj = molecule(str(molid)+'-3d.mol')
@@ -41,5 +39,6 @@ shutil.copyfile('QP.out','../../public/uploads/qikprop/'+str(molid)+'-QP.txt')
 for i in ['QP.out','QPmyfits','QPwarning','Similar.name','QP.CSV','QPSA.out',str(molid)+'-3d.mol']:
     try:
         os.remove(i)
-    except:
+    except Exception:
         pass
+
