@@ -49,7 +49,7 @@ try:
             if l[i].find('CC50')>=0:
                 break
             try:
-                ec50s.append(eval(l[i]))
+                ec50s.append(float(l[i]))
             except:
                 pass
     if(cstart>0):
@@ -57,7 +57,7 @@ try:
             if l[i].find('$$$$')>=0:
                 break
             try:
-                cc50s.append(eval(l[i]))
+                cc50s.append(float(l[i]))
             except:
                 pass
 except:

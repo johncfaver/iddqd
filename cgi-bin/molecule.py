@@ -66,7 +66,7 @@ class molecule:
             if len(line.split())==1:    
                 self.charge=int(line)
             elif len(line.split())==2:
-                self.charge=int(eval(line.split()[1]))
+                self.charge=int(line.split()[1])
         except:
             print line.split(),filename
             print 'This XYZ format sucks. Put the charge on line 2.'

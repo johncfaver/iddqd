@@ -36,7 +36,7 @@
         exit;
 	}
 
-//Convert "C1H4" into "C<sub>1</sub>H<sub>4</sub>", for example
+//Convert "C1H4" into "CH<sub>4</sub>", for example
 	function parseformula($f){
 		$ostr='';
 		$f=str_split($f);
@@ -64,7 +64,9 @@
 			}
 		}
 		$ostr.='</sub>';
-		return $ostr;
+        $formula = str_replace("<sub>1</sub>","",$ostr);
+		return $formula;
+
 	}
 
 ?>

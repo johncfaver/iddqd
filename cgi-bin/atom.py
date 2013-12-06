@@ -11,9 +11,9 @@ class atom:
         self.atsym = atsym.upper()
         if len(self.atsym)>1:
             self.atsym=self.atsym[0].upper()+self.atsym[1].lower()
-        self.x=eval(str(x))
-        self.y=eval(str(y))
-        self.z=eval(str(z))
+        self.x=float(str(x))
+        self.y=float(str(y))
+        self.z=float(str(z))
         self.atnum = self.atsym2atnum(atsym)
         self.name=name.strip()
 

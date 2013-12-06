@@ -117,7 +117,7 @@ for i in oldbindingdataids:
         bindingdatas[-1].datatypeid=form['bindingdata_datatypeid_'+i].value
         bindingdatas[-1].targetid=form['bindingdata_targetid_'+i].value
         try:
-            bindingdatas[-1].value=eval(form['bindingdata_value_'+i].value)
+            bindingdatas[-1].value=float(form['bindingdata_value_'+i].value)
         except:
             bindingdatas[-1].value=0
         bindingdatas[-1].moldataid=i
@@ -131,7 +131,7 @@ for i in oldpropertydataids:
         propertydatas.append(propertydata())
         propertydatas[-1].datatypeid=form['propertydata_datatypeid_'+i].value
         try:
-            propertydatas[-1].value=eval(form['propertydata_value_'+i].value)
+            propertydatas[-1].value=float(form['propertydata_value_'+i].value)
         except:
             propertydatas[-1].value=0
         propertydatas[-1].moldataid=i
@@ -158,7 +158,7 @@ for i in xrange(1,maxdata+1):
         bindingdatas[-1].datatypeid=form['bindingdata_datatypeid_new_'+str(i)].value
         bindingdatas[-1].targetid=form['bindingdata_targetid_new_'+str(i)].value
         try:
-            bindingdatas[-1].value=eval(form['bindingdata_value_new_'+str(i)].value)
+            bindingdatas[-1].value=float(form['bindingdata_value_new_'+str(i)].value)
         except:
             bindingdatas[-1].value=0
         if 'textarea_bindingdata_notes_new_'+str(i) in keys and form['textarea_bindingdata_notes_new_'+str(i)].value!='':
@@ -169,7 +169,7 @@ for i in xrange(1,maxdata+1):
         propertydatas.append(propertydata())
         propertydatas[-1].datatypeid=form['propertydata_datatypeid_new_'+str(i)].value
         try:
-            propertydatas[-1].value=eval(form['propertydata_value_new_'+str(i)].value)
+            propertydatas[-1].value=float(form['propertydata_value_new_'+str(i)].value)
         except:
             propertydatas[-1].value=0
         if 'textarea_propertydata_notes_new_'+str(i) in keys and form['textarea_propertydata_notes_new_'+str(i)].value!='':

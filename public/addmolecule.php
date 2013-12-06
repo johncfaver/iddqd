@@ -54,8 +54,8 @@
         var num_bindingdata = 0;
         var num_propertydata = 0;
         var num_docdata = 0;
-        targetnames.push("&nbsp;&nbsp;&nbsp;[---Select target---]");
-        targetids.push("-1");
+        //targetnames.push("&nbsp;&nbsp;&nbsp;[---Select target---]");
+        //targetids.push("-1");
 
 <?php
         $query=$dbconn->query("SELECT nickname,targetid FROM targets ORDER BY targetid");
