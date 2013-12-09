@@ -10,7 +10,10 @@
         exit;
     }
     $dest=isset($_GET['dest'])?pg_escape_string($_GET['dest']):'am';
-
+    if(!file_exists('uploads/structures/'.$thismolid.'.mol')){
+        header("Location: index.php");
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,10 +45,13 @@
             viewerCanvas.specs.atoms_font_families_2D = ["Helvetica", "Arial", "sans-serif"];
             viewerCanvas.specs.atoms_displayTerminalCarbonLabels_2D = true;
             var molfile='<?php
-                        $fileContents=file_get_contents('uploads/structures/'.$thismolid.'.mol');
-                            if($fileContents){
-                                echo str_replace(array("\r\n", "\n", "\r", "'"), array("\\n", "\\n", "\\n", "\\'"), $fileContents);
-                            }?>';
+                        if(file_exists('uploads/structures/'.$thismolid.'.mol')){
+                            $fileContents=file_get_contents('uploads/structures/'.$thismolid.'.mol');
+                                if($fileContents){
+                                    echo str_replace(array("\r\n", "\n", "\r", "'"), array("\\n", "\\n", "\\n", "\\'"), $fileContents);
+                                }
+                        }
+                        ?>';
             var thismol = ChemDoodle.readMOL(molfile);
             thismol.scaleToAverageBondLength(20.0);
             viewerCanvas.loadMolecule(thismol);
