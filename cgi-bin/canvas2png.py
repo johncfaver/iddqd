@@ -37,6 +37,8 @@ try:
         print 'Location: ../addmolecule.php \n\n'
     elif dest=='vm':
         print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
+    elif dest=='troll':
+        print 'Location: ../pngwriter.php?molid='+str(molid+1)+'&dest=troll \n\n' 
     else:
         print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
 
