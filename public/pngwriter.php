@@ -10,10 +10,6 @@
         exit;
     }
     $dest=isset($_GET['dest'])?pg_escape_string($_GET['dest']):'am';
-    if(!file_exists('uploads/structures/'.$thismolid.'.mol')){
-        header("Location: index.php");
-        exit;
-    }
 ?>
 <!DOCTYPE html>
 <html>
