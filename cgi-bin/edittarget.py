@@ -50,7 +50,7 @@ try:
     q.execute(query,[targetid])
     r = q.fetchone()
     if (r[0]!=userid): #must be author to edit
-        print 'Location: ../edittarget.php?status=notauthor\n\n'
+        print 'Location: ../edittarget.php?targetid='+str(targetid)+'&status=notauthor\n\n '
         sys.exit()
     query = "UPDATE targets SET nickname=%s, fullname=%s, targetclass=%s, series=%s WHERE targetid=%s"
     options = [nickname,fullname,class_,series,targetid]

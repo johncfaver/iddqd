@@ -55,6 +55,9 @@
             if($_GET['status']=='nonickname'){
                 echo "<span style=\"color:red;margin-right:50px;\">Nickname is required.</span><br/><br/>";
             }
+            elseif($_GET['status']=='notauthor'){
+                echo "<span style=\"color:red;margin-right:50px;\">You don't have permission to edit this target.</span><br/><br/>";
+            }
         }
     ?>
     <form action="cgi-bin/edittarget.py" method="post" >
