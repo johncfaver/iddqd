@@ -6,7 +6,7 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Database connection failed: '. $e->getMessage();
+		//echo 'Database connection failed: '. $e->getMessage();
 	}
 
 	$username=pg_escape_string($_POST['username']);

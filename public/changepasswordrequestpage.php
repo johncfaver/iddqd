@@ -3,7 +3,7 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Database connection failed: '. $e->getMessage();
+		//echo 'Database connection failed: '. $e->getMessage();
 	}
     $status = isset($_GET['status'])?pg_escape_string($_GET['status']):0;
 ?>

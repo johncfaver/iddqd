@@ -4,7 +4,7 @@
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
 	}catch(PDOException $e){
-		echo 'Database connection failed: '. $e->getMessage();
+		//echo 'Database connection failed: '. $e->getMessage();
 	}
 	session_start();
 	$loggedin = isset($_SESSION['username']);

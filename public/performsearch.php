@@ -11,7 +11,7 @@
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);
     }catch(PDOException $e){
-        echo 'Database connection failed: '. $e->getMessage();
+       // echo 'Database connection failed: '. $e->getMessage();
     }
     $dbconn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING );
   
