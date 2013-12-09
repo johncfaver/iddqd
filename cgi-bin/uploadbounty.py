@@ -37,10 +37,6 @@ if 'userid' in keys:
     authorid=form['userid'].value
 else:
     authorid=0
-if 'username' in keys:
-    author=form['username'].value
-else:
-    author=0
 if 'select_targetid' in keys:
     targetid=form['select_targetid'].value
 else:
