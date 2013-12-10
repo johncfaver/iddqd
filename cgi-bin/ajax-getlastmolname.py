@@ -52,5 +52,5 @@ try:
     print suggestion,
     exit()
 
-except:
+except Exception:
    exit()

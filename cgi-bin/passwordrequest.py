@@ -54,7 +54,7 @@ try:
     config.sendemail(email,mailstr)  
     print 'Location: ../index.php'
     print ''
-except: 
+except Exception: 
     print 'Location: ../index.php?errorcode=34'
     print ''
 

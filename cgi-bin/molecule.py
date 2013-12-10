@@ -35,7 +35,7 @@ class molecule:
     def readPDBfile(self,filename):
         try:    
             f=open(filename)
-        except:
+        except Exception:
             print 'ERROR LOADING ',filename
             exit()
         atomlist=[]
@@ -57,7 +57,7 @@ class molecule:
     def readXYZfile(self,filename):
         try:    
             f=open(filename)
-        except:
+        except Exception:
             print 'ERROR LOADING ',filename
             return 1
         natoms=int(f.readline().strip())
@@ -67,7 +67,7 @@ class molecule:
                 self.charge=int(line)
             elif len(line.split())==2:
                 self.charge=int(line.split()[1])
-        except:
+        except Exception:
             print line.split(),filename
             print 'This XYZ format sucks. Put the charge on line 2.'
             exit()    
@@ -78,7 +78,7 @@ class molecule:
             try:
                 atomlist.append(atom(fl[i].split()[0],fl[i].split()[1],fl[i].split()[2],fl[i].split()[3]))    
                 self.molweight+=mass(atomlist[-1].atsym)
-            except:
+            except Exception:
                 print 'This XYZ format sucks. Check line', str(fl.index(i)+3),' of ',filename,'.'
                 break
         return atomlist
@@ -86,7 +86,7 @@ class molecule:
     def readMOLfile(self,filename):
         try:
             f=open(filename)
-        except:
+        except Exception:
             print 'ERROR LOADING ',filename
             return 1
         for i in xrange(3):
@@ -98,7 +98,7 @@ class molecule:
                 line=f.readline()
                 atomlist.append(atom(line.split()[3],line.split()[0],line.split()[1],line.split()[2]))
                 self.molweight+=mass(atomlist[-1].atsym)
-            except:
+            except Exception:
                 print 'This MOL file sucks!', line.split()
                 break
         f.close()

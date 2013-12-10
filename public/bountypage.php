@@ -57,6 +57,7 @@
     <form action="../cgi-bin/deletebounty.py" method="post">
         <input type="hidden" name="bid" value="<?php echo $bid;?>" />
         <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" />
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
         <span class="span_popup_main_text">
             Are you sure you want to delete this Bounty?
         </span>
@@ -194,37 +195,47 @@
 
     <div id="commentholder" style="width:95%;position:absolute;top:220px;left:25px;margin:auto;text-align:center;border-top:1px solid gray;font-size:0.8em;">
 <?php
-		$q = $dbconn->prepare("select bountycommentid,bountycomment,dateadded,username from bountycomments left join users on users.userid=bountycomments.authorid where bountycomments.bountyid=:num order by dateadded");
+		$q = $dbconn->prepare("SELECT 
+                                bountycommentid,bountycomment,dateadded,username 
+                               FROM 
+                                bountycomments c left join users u on u.userid=c.authorid 
+                               WHERE c.bountyid=:num 
+                               ORDER BY dateadded");
 		$q->bindParam(":num",$bid,PDO::PARAM_INT);
 		$q->execute();
 		$count=0;
 		while($row=$q->fetch()){
 			$count++;
-			echo '<div id="div_molcomment_'.$count.'" class="div_molcommentblock">';
-				echo '<div class="div_molcomment_author" id="div_molcomment_author_'.$count.'">';
-					echo $row['username'];
-					echo ':<br/> ('.parsetimestamp($row['dateadded']).') ';
-				echo '</div>';
-				echo '<div class="div_molcomment_text">'.str_replace("\r\n","<br />",addslashes(htmlentities($row['bountycomment']))).'</div>';
+			echo '<div id="div_molcomment_'.$count.'" class="div_molcommentblock">
+				    <div class="div_molcomment_author" id="div_molcomment_author_'.$count.'">'
+					    .$row['username'].'
+					    :<br/> ('.parsetimestamp($row['dateadded']).') 
+				    </div>
+				    <div class="div_molcomment_text">
+                        '.str_replace("\r\n","<br />",addslashes(htmlentities($row['bountycomment'])))
+                  .'</div>';
 				if($row['username']==$_SESSION['username']){
-					echo '<div class="div_deletecomment" style="font-size:1.2em;"><span class="nonlinks"><a href="../cgi-bin/removebountycomment.py?bid='.$bid.'&userid='.$_SESSION['userid'].'&bountycommentid='.$row['bountycommentid'].'">X</a></span></div>';
+					echo '<div class="div_deletecomment" style="font-size:1.2em;">
+                            <span class="nonlinks">
+                                <a href="../cgi-bin/removebountycomment.py?bid='.$bid.'&userid='.$_SESSION['userid'].'&bountycommentid='.$row['bountycommentid'].'">X</a>
+                            </span>
+                          </div>';
 				}
-				
 			echo '</div>';
 		}
 		if($count==0){
 			echo '<br /><br />No comments.';
 		}
-		echo '<div id="div_addmolcomment" style="width:200px;position:absolute;border:0px solid red;left:200px;">';
-		echo '<form action="../cgi-bin/addbountycomment.py?bid='.$bid.'&username='.$_SESSION['username'].'&userid='.$_SESSION['userid'].'" method="post">';
-		echo '<textarea name="textarea_addbountycomment" id="textarea_addmolcomment"></textarea><br />';
-		echo '<input type="submit" id="commentbutton" value="Add Comment" style="top:50px;left:225px;"/>';
-		echo '</form>';
-		echo '</div>';
 ?>
- 
-    </div>
 
+        <div id="div_addmolcomment" style="width:200px;position:absolute;border:0px solid red;left:200px;">
+            <form action="../cgi-bin/addbountycomment.py?bid='.$bid.'&username='.$_SESSION['username'].'&userid='.$_SESSION['userid'].'" method="post">
+            <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
+            <textarea name="textarea_addbountycomment" id="textarea_addmolcomment"></textarea><br />
+            <input type="submit" id="commentbutton" value="Add Comment" style="top:50px;left:225px;"/>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

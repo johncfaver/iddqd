@@ -187,6 +187,7 @@
         <input type="hidden" name="molfig" id="molfig" value="default" />
         <input type="hidden" value="<?php echo $thismolid;?>" name="molid" />
         <input type="hidden" value="<?php echo $_SESSION['userid'];?>" name="userid" />
+        <input type="hidden" value="<?php echo $_SESSION['token'];?>" name="token" />
         <input type="hidden" name="oldbindingdataids" id="input_oldbindingdataids" value=""/>
         <input type="hidden" name="oldpropertydataids" id="input_oldpropertydataids" value=""/>
         <input type="hidden" name="olddocdataids" id="input_olddocdataids" value=""/>
@@ -211,6 +212,7 @@
     <form action="../cgi-bin/deletedata.py" method="post">
         <input type="hidden" name="molid" value="<?php echo $thismolid; ?>" />
         <input type="hidden" name="userid" value="<?php echo $_SESSION['userid']; ?>" />
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
         <input type="hidden" name="deletedataid" id="deletedataid" value="" />
         <input type="hidden" name="deletedocdatatype" id="deletedocdatatype" value="" />
         <span class="span_popup_main_text">

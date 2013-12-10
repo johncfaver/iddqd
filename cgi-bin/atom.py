@@ -4,7 +4,7 @@ def isanum(x):
     try:
         float(x)
         return True
-    except:    
+    except Exception:    
         return False
 class atom:
     def __init__(self,atsym,x,y,z,name='none'):

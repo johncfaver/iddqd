@@ -206,6 +206,7 @@
             <input type="hidden" name="moltext" id="moltext" value="default" />
             <input type="hidden" name="molfig" id="molfig" value="default" />
             <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" /> 
+            <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
             <input type="submit" id="button_moledit" value="Submit" onclick="getmolecule();" />
             </form>
             <form action="addmolecule.php">

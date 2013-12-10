@@ -63,6 +63,7 @@
     ?>
     <form action="cgi-bin/edittarget.py" method="post" >
 	    <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" />
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
         <input type="hidden" name="targetid" value="<?php echo $targetid;?>" />
 	    *Nickname: <input type="text" name="nickname" maxlength="25" required value="<?php echo $targetdata['nickname'];?>" /> <br/><br/>
 	    Full Name: <input type="text" name="fullname" maxlength="100" value="<?php echo $targetdata['fullname'];?>" /><br/><br/>

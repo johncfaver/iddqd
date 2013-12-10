@@ -1,11 +1,16 @@
 <?php
 	require('config.php');
+    session_start();
+   
     try{
         $dbconn = new PDO("pgsql:host=$dbhost;dbname=$dbname;port=$dbport",$dbuser,$dbpass);
-        $dbconn->query("DELETE FROM tokens WHERE userid=".$_SESSION['userid']);
+        $q = $dbconn->prepare("DELETE FROM tokens WHERE userid=:num");
+        $q->bindParam(":num",$_SESSION['userid'],PDO::PARAM_INT);
+        $q->execute();
     }catch(PDOException $e){
+        returnhome(43);
     }
-	session_start();
+	
     session_unset();
     session_destroy();
     returnhome(0);

@@ -21,7 +21,7 @@ try:
     dbconn.commit()
     q.close()
     dbconn.close()
-except:
+except Exception:
     pass    
 
 

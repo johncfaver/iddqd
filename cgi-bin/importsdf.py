@@ -50,7 +50,7 @@ try:
                 break
             try:
                 ec50s.append(float(l[i]))
-            except:
+            except Exception:
                 pass
     if(cstart>0):
         for i in range(cstart,len(l)):
@@ -58,9 +58,9 @@ try:
                 break
             try:
                 cc50s.append(float(l[i]))
-            except:
+            except Exception:
                 pass
-except:
+except Exception:
     print 'Problem reading experimental data.'
     sys.exit()    
 
@@ -69,7 +69,7 @@ try:
     molobj=molecule(molfilename)
     molweight=molobj.molweight
     molformula=molobj.formula()
-except:
+except Exception:
     print 'Problem loading mol file.'
     sys.exit()
 
@@ -78,7 +78,7 @@ try:
     options = [molfilename[:-4],1,molweight,molformula]
     q.execute(query,options)
     molid=q.fetchone()[0]
-except:
+except Exception:
     print 'Problem inserting molecule into database.'
     sys.exit()
 
@@ -91,13 +91,13 @@ try:
         query = 'INSERT INTO moldata (molid, authorid, dateadded, value, datatype) VALUES (%s,%s,localtimestamp,%s,%s)'
         options = [molid,authorid,i,4]
         q.execute(query,options)
-except:
+except Exception:
     print 'Problem inserting experimental data into database.'
     sys.exit()
         
 try:
     shutil.copyfile(molfilename,'../public/uploads/structures/'+str(molid)+'-3d.mol')
-except:
+except Exception:
     print 'Problem moving mol file to structure directory.'
     sys.exit()
 
@@ -105,7 +105,7 @@ try:
     query = 'INSERT INTO molcomments (molid,molcomment,dateadded,authorid) VALUES (%s,%s,localtimestamp,%s)'
     options = [molid,molcomment,authorid]
     q.execute(query,options)
-except:
+except Exception:
     print 'Problem loading molcomment into database.'
     sys.exit()
 

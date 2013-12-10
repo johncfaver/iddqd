@@ -31,12 +31,16 @@ if 'userid' in keys:
     userid = int(form['userid'].value)
 else:
     userid=0
+if 'token' in keys:
+    token = form['token'].value
+else:
+    token=0
 if 'targetid' in keys:
     targetid = int(form['targetid'].value)
 else:
     targetid=0
 
-if (not targetid):
+if (not targetid or not userid or not token):
     print 'Location: ../index.php?errorcode=31 \n\n'
     sys.exit()
 if (not nickname):
@@ -46,12 +50,17 @@ if (not nickname):
 try:
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
-    query = "SELECT authorid from targets where targetid=%s"
-    q.execute(query,[targetid])
+        #Must be author to edit
+    q.execute("SELECT authorid FROM targets WHERE targetid=%s",[targetid])
     r = q.fetchone()
-    if (r[0]!=userid): #must be author to edit
+    if (r[0]!=userid):
         print 'Location: ../edittarget.php?targetid='+str(targetid)+'&status=notauthor\n\n '
         sys.exit()
+        #Must have valid token.
+    q.execute("SELECT token FROM tokens WHERE userid=%s",[userid])
+    r = q.fetchone()
+    assert(r[0]==token)
+
     query = "UPDATE targets SET nickname=%s, fullname=%s, targetclass=%s, series=%s WHERE targetid=%s"
     options = [nickname,fullname,class_,series,targetid]
     q.execute(query,options)

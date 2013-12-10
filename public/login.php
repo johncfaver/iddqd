@@ -24,15 +24,22 @@
         $_SESSION['notebook_bountyids']=Array();
         $token = bin2hex(openssl_random_pseudo_bytes(20));
         $_SESSION['token'] = $token;
-        $q2 = $dbconn->query("DELETE FROM tokens WHERE userid=".$userarray['userid']);
-        $q3 = $dbconn->query("INSERT INTO tokens (userid,token,startdate,enddate) VALUES 
-                                  (".$userarray['userid'].",".$token.",localtimestamp, localtimestamp+interval '1 day') ");
-        $dbconn->commit();
+        $q2 = $dbconn->prepare("DELETE FROM tokens WHERE userid=:num");
+        $q2->bindParam(":num",$userarray['userid'],PDO::PARAM_INT);
+        $q2->execute();
+        $q3 = $dbconn->prepare("INSERT INTO tokens (userid,token,startdate,enddate) VALUES 
+                                  (:num,:str,localtimestamp, localtimestamp+interval '1 day') ");
+        $q3->bindParam(":num",$userarray['userid'],PDO::PARAM_INT);
+        $q3->bindParam(":str",$token,PDO::PARAM_STR);
+        $q3->execute();
+        
         $dbconn=null;
         if($q3 !== false){
 		    $loggedin=True;	
             returnhome(0);
         }else{
+            session_unset();
+            session_destroy();
             returnhome(1);
             exit;
         }

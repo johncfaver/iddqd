@@ -53,6 +53,7 @@
     ?>
     <form action="cgi-bin/addtarget.py" method="post" >
 	    <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" />
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
 	    *Short Name: <input type="text" name="nickname" maxlength="25" required /> <br/><br/>
 	    Full Name: <input type="text" name="fullname" maxlength="25" /><br/><br/>
 	    Class: <input type="text" name="class"  maxlength="25" /><br/><br/>

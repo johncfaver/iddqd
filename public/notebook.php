@@ -54,6 +54,7 @@
                     <input type="hidden" name="export" value="pdf" />
                     <input type="hidden" name="molids" value="'.$molids.'" />
                     <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                    <input type="hidden" name="token" value="'.$_SESSION['token'].'" />
                     <input type="submit" value="Export PDF" />
                 </form>
 		      </span>';
@@ -62,6 +63,7 @@
                     <input type="hidden" name="export" value="spreadsheet" />
                     <input type="hidden" name="molids" value="'.$molids.'" />
                     <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                    <input type="hidden" name="token" value="'.$_SESSION['token'].'" />
                     <input type="submit" value="Export CSV" />
                 </form>
 		      </span>';
@@ -70,6 +72,7 @@
                     <input type="hidden" name="export" value="structures" />
                     <input type="hidden" name="molids" value="'.$molids.'" />
                     <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                    <input type="hidden" name="token" value="'.$_SESSION['token'].'" />
                     <input type="submit" value="Export Structures" />
                 </form>
 		      </span>';

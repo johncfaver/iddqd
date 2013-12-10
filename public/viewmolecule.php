@@ -52,6 +52,7 @@
     <form action="../cgi-bin/deletemolecule.py" method="post">
         <input type="hidden" name="molid" value="<?php echo $thismolid;?>" />
         <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" />
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
         <span class="span_popup_main_text">
             Are you sure you want to delete this molecule?
         </span>
@@ -289,33 +290,35 @@
         $count=0;
         while($row=$q->fetch()){
             $count++;
-            echo '<div id="div_molcomment_'.$count.'" class="div_molcommentblock">';
-                echo '<div class="div_molcomment_author" id="div_molcomment_author_'.$count.'">';
-                    echo $row['username'];
-                    echo ':<br/> ('.parsetimestamp($row['dateadded']).') ';
-                echo '</div>';
-                echo '<div class="div_molcomment_text">'.str_replace("\r\n","<br />",htmlentities($row['molcomment'])).'</div>';
+            echo '<div id="div_molcomment_'.$count.'" class="div_molcommentblock">
+                    <div class="div_molcomment_author" id="div_molcomment_author_'.$count.'">
+                    '.$row['username'].'
+                    :<br/> ('.parsetimestamp($row['dateadded']).') 
+                    </div>
+                    <div class="div_molcomment_text">
+                        '.str_replace("\r\n","<br />",htmlentities($row['molcomment'])).'
+                    </div>';
                 if($row['username']==$_SESSION['username']){
-                    echo '<div class="div_deletecomment"><span class="nonlinks"><a href="../cgi-bin/removemolcomment.py?molid='.$thismolid.'&molcommentid='.$row['molcommentid'].'">X</a></span></div>';
+                    echo '<div class="div_deletecomment">
+                            <span class="nonlinks">
+                                <a href="../cgi-bin/removemolcomment.py?molid='.$thismolid.'&molcommentid='.$row['molcommentid'].'">X</a>
+                            </span>
+                          </div>';
                 }
-                
             echo '</div>';
         }
         if($count==0){
             echo '<br /><br />No comments.';
         }
-        echo '<div id="div_addmolcomment">';
-        echo '<form action="../cgi-bin/addmolcomment.py?molid='.$thismolid.'&userid='.$_SESSION['userid'].'" method="post">';
-        echo '<textarea name="textarea_addmolcomment" id="textarea_addmolcomment" ></textarea><br />';
-        echo '<input type="submit" id="commentbutton" value="Add Comment" />';
-        echo '</form>';
-        echo '</div>';
 ?>
-
-    </div>
-    
-
-
+            <div id="div_addmolcomment">
+                <form action="../cgi-bin/addmolcomment.py?molid='.$thismolid.'&userid='.$_SESSION['userid'].'" method="post">
+                    <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
+                    <textarea name="textarea_addmolcomment" id="textarea_addmolcomment" ></textarea><br />
+                    <input type="submit" id="commentbutton" value="Add Comment" />
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </body>

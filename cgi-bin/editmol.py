@@ -77,6 +77,11 @@ if 'userid' in keys:
     authorid=form['userid'].value
 else:
     authorid=0
+if 'token' in keys:
+    token=form['token'].value
+else:
+    token=0
+
 if 'oldcommentids' in keys:
     oldcommentids=form['oldcommentids'].value.split(',')[:-1]
 else:
@@ -99,7 +104,7 @@ if(not molname):
     print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)+' \n\n'
     exit()
 #Must be logged in.
-if(not authorid):
+if(not authorid or not token):
     print 'Location: ../index.php?errorcode=30 \n\n'
     exit()
 
@@ -118,7 +123,7 @@ for i in oldbindingdataids:
         bindingdatas[-1].targetid=form['bindingdata_targetid_'+i].value
         try:
             bindingdatas[-1].value=float(form['bindingdata_value_'+i].value)
-        except:
+        except Exception:
             bindingdatas[-1].value=0
         bindingdatas[-1].moldataid=i
         if 'textarea_bindingdata_notes_'+i in keys:
@@ -132,7 +137,7 @@ for i in oldpropertydataids:
         propertydatas[-1].datatypeid=form['propertydata_datatypeid_'+i].value
         try:
             propertydatas[-1].value=float(form['propertydata_value_'+i].value)
-        except:
+        except Exception:
             propertydatas[-1].value=0
         propertydatas[-1].moldataid=i
         if 'textarea_propertydata_notes_'+i in keys:
@@ -159,7 +164,7 @@ for i in xrange(1,maxdata+1):
         bindingdatas[-1].targetid=form['bindingdata_targetid_new_'+str(i)].value
         try:
             bindingdatas[-1].value=float(form['bindingdata_value_new_'+str(i)].value)
-        except:
+        except Exception:
             bindingdatas[-1].value=0
         if 'textarea_bindingdata_notes_new_'+str(i) in keys and form['textarea_bindingdata_notes_new_'+str(i)].value!='':
             bindingdatas[-1].notes=form['textarea_bindingdata_notes_new_'+str(i)].value
@@ -170,7 +175,7 @@ for i in xrange(1,maxdata+1):
         propertydatas[-1].datatypeid=form['propertydata_datatypeid_new_'+str(i)].value
         try:
             propertydatas[-1].value=float(form['propertydata_value_new_'+str(i)].value)
-        except:
+        except Exception:
             propertydatas[-1].value=0
         if 'textarea_propertydata_notes_new_'+str(i) in keys and form['textarea_propertydata_notes_new_'+str(i)].value!='':
             propertydatas[-1].notes=form['textarea_propertydata_notes_new_'+str(i)].value
@@ -186,6 +191,13 @@ for i in xrange(1,maxdata+1):
 
 dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
+
+#Check for token.
+q.execute('SELECT token FROM tokens WHERE userid=%s',[token])
+dbtoken = q.fetchone()[0]
+if(dbtoken != token):
+    print 'Location: ../index.php&errorcode=43 \n\n'
+    exit()
 
 ###UPDATE MOLECULE TABLE###########
 query='UPDATE molecules SET molname=%s, iupac=%s, cas=%s WHERE molid=%s'

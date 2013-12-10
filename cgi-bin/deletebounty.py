@@ -20,15 +20,27 @@ if 'userid' in keys:
     userid=int(form['userid'].value)
 else:
     userid=0
-if (not userid or not bid):
+if 'token' in keys:
+    token=form['token'].value
+else:
+    token=0
+
+if (not userid or not bid or not token):
     print 'Location: ../index.php?errorcode=24 \n\n'
     exit()
 try:
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
+
+        #Only the person who placed the bounty can delete it.
     q.execute('SELECT placed_by_id FROM bounties WHERE bountyid=%s',[bid])
     authorid=q.fetchone()[0]
-    assert(userid==authorid) #only the person who placed the bounty can delete it.
+    assert(userid==authorid)
+        #Must have valid token.
+    q.execute('SELECT token FROM tokens WHERE userid=%s',[userid])
+    dbtoken = q.fetchone()[0]
+    assert(token==dbtoken)
+
     q.execute('DELETE FROM bounties WHERE bountyid=%s ',[bid])
     q.execute('DELETE FROM bountycomments WHERE bountyid=%s',[bid])
     dbconn.commit()

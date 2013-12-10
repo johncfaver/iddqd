@@ -22,7 +22,12 @@ if 'userid' in keys:
     userid=int(form['userid'].value)
 else:
     userid=0
-if (not userid or not molid):
+if 'token' in keys:
+    token=form['token'].value
+else:
+    token=0
+
+if (not userid or not molid or not token):
     print 'Location: ../index.php?errorcode=28 \n\n'
     exit()
 try:
@@ -33,6 +38,11 @@ try:
    
     assert(userid==authorid) #Must be author to delete this molecule
     
+    q.execute('SELECT token FROM tokens WHERE userid=%s',[userid]) 
+    dbtoken = q.fetchone()[0]
+    
+    assert(token==dbtoken) #Must have valid token. 
+     
     q.execute('DELETE FROM molecules WHERE molid=%s',[molid])
     q.execute('DELETE FROM molcomments WHERE molid=%s',[molid])
     q.execute('DELETE FROM bounties WHERE molid=%s',[molid])
