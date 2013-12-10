@@ -8,9 +8,9 @@
 
     session_start();
     $loggedin = isset($_SESSION['username']) and isset($_SESSION['userid']);
+    if(!$loggedin) returnhome(0);
     $thismolid = isset($_GET['molid'])?(int)pg_escape_string($_GET['molid']):-1;
-
-    if(!$loggedin or $thismolid<0) returnhome();
+    if($thismolid < 0) returnhome(10);
 
     $q = $dbconn->prepare("SELECT 
                             m.molname,
@@ -26,7 +26,7 @@
                           ");
     $q->bindParam(":num",$thismolid,PDO::PARAM_INT);
     $q->execute();
-    if($q->rowCount() != 1) returnhome();
+    if($q->rowCount() != 1) returnhome(11);
     $moldata=$q->fetch(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>

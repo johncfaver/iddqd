@@ -6,7 +6,7 @@
     
     $thismolid=isset($_GET['molid'])?(int)pg_escape_string($_GET['molid']):0;
     if(!$thismolid or !file_exists('uploads/structures/'.$thismolid.'.mol')){
-        header("Location: index.php?status=error");
+        header("Location: index.php?errorcode=42");
         exit;
     }
     $dest=isset($_GET['dest'])?pg_escape_string($_GET['dest']):'am';

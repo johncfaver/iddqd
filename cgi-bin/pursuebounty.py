@@ -21,7 +21,7 @@ else:
     bid=0
 
 if(not bid or not userid):
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=35 \n\n'
     exit()
 try:
     dbconn=psycopg2.connect(config.dsn)
@@ -32,4 +32,4 @@ try:
     dbconn.close()
     print 'Location: ../bountypage.php?bid='+bid+' \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=36 \n\n'

@@ -23,7 +23,7 @@ if 'userid' in keys:
 else:
     userid=0
 if (not userid or not molid):
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=28 \n\n'
     exit()
 try:
     dbconn = psycopg2.connect(config.dsn)
@@ -62,4 +62,4 @@ try:
             pass
     print 'Location: ../index.php \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=29 \n\n'

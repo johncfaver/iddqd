@@ -45,7 +45,7 @@
 			$dbconn=null;	
 			header("Location: index.php");
         }catch(Exception $e){
-            header("Location: index.php?status=error ");
+            header("Location: index.php?errorcode=41 ");
         }
 	    exit;
 	}else{

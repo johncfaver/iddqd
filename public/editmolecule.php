@@ -14,8 +14,9 @@
     }
     session_start();
     $loggedin = isset($_SESSION['username']);
+    if(!$loggedin) returnhome(0);
     $thismolid = (isset($_GET['molid']))?(int)$_GET['molid']:-1;
-    if(!$loggedin or $thismolid==-1 ) returnhome();
+    if($thismolid < 0 ) returnhome(4);
     //If there was an error from previous try because molecule name was empty
     $emptyname = (isset($_GET['emptyname']))?(int)$_GET['emptyname']:0;
 
@@ -37,7 +38,7 @@
         }
         fclose($handle);
     }else{
-        returnhome();
+        returnhome(5);
     }
 ?>
 <!DOCTYPE html>

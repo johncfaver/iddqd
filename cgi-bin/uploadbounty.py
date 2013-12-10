@@ -73,4 +73,4 @@ try:
     ############################################
     print 'Location: ../bounties.php?success=True \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=38 \n\n'

@@ -35,7 +35,7 @@ if (not nickname):
     print 'Location: ../addtarget.php?status=nonickname\n\n'
     sys.exit()
 if (not authorid):
-    print 'Location: ../index.php?status=error\n\n'
+    print 'Location: ../index.php?errorcode=18 \n\n'
     sys.exit()
 
 try:
@@ -49,5 +49,5 @@ try:
     dbconn.close()
     print 'Location: ../targets.php \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=19 \n\n'
 

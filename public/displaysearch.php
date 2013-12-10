@@ -13,7 +13,7 @@
     
     session_start();
     $loggedin = isset($_SESSION['username']);
-    if(!$loggedin) returnhome();
+    if(!$loggedin) returnhome(0);
 
     $numdisplay = (isset($_GET['numdisplay']))?(int)$_GET['numdisplay']:8;
 	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;

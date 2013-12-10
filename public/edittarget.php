@@ -7,12 +7,13 @@
 	}
 	session_start();
 	$loggedin = isset($_SESSION['username']);
+    if(!$loggedin) returnhome(0);
     $targetid = isset($_GET['targetid'])?(int)pg_escape_string($_GET['targetid']):-1;
-	if(!$loggedin or $targetid<0) returnhome();
+	if($targetid < 0) returnhome(6);
     $q = $dbconn->prepare("SELECT nickname,fullname,targetclass,series FROM targets WHERE targetid = :num");
     $q->bindParam(":num",$targetid,PDO::PARAM_INT);
     $q->execute();
-    if($q->rowCount() != 1) returnhome();
+    if($q->rowCount() != 1) returnhome(7);
     $targetdata = $q->fetch(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>

@@ -10,10 +10,10 @@
         $clearnotebook=(pg_escape_string($_GET['all'])=='1');
     }
     else{
-		returnhome();
+		returnhome(9);
 	}
 	session_start();
-    if(!$_SESSION['notebook_molids']) returnhome();
+    if(!$_SESSION['notebook_molids']) returnhome(0);
 
     if($clearnotebook){
         unset($_SESSION['notebook_molids']);
@@ -27,12 +27,10 @@
 	if(isset($_GET['dest'])){
 		if($_GET['dest']=='nb'){
 			header('Location: notebook.php');	
-            exit;
 		}elseif($_GET['dest']=='vm'){
 			header('Location: viewmolecule.php?molid='.$thismolid);	
-            exit;
 		}
 	}else{	
-        returnhome();
+	    header('Location: notebook.php');	
 	}
 ?>

@@ -17,7 +17,7 @@
         try{
             $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);    
         }catch(PDOException $e){
-            header("Location: index.php?status=error");
+            header("Location: index.php?errorcode=40");
             exit;
         }
         $q = $dbconn->prepare("SELECT DISTINCT molid FROM MOLDATA WHERE targetid=:num "); 
@@ -29,22 +29,20 @@
 	        }
         }
     }else{
-		returnhome();
+		returnhome(2);
 	}
 	
 
 	if(isset($_GET['dest'])){
 		if($_GET['dest']=='nb'){	    // Intended destination is notebook.php
 			header('Location: notebook.php');	
-            exit;
 		}elseif($_GET['dest']=='vm'){   // Intended destination is viewmolecule.php
             header('Location: viewmolecule.php?molid='.$addmolid);
-            exit;
         }elseif($_GET['dest']=='vt'){   // Intended destination is viewtarget.php
             header('Location: viewtarget.php?targetid='.$addtargetid);
-            exit;
         }
-	}else{	
-        returnhome();
+	}else{	//notebook.php is the default destination.
+	    header('Location: notebook.php');	
 	}
+    exit;
 ?>

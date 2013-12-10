@@ -7,8 +7,9 @@
 	}
 	session_start();
 	$loggedin = isset($_SESSION['username']);
+    if(!$loggedin) returnhome(0);
     $bid = isset($_GET['bid'])?(int)pg_escape_string($_GET['bid']):-1;
-	if(!$loggedin or $bid<0) returnhome();
+	if($bid<0) returnhome(3);
     
     $qstr = 'SELECT 
                 t.nickname as target,

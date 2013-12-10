@@ -14,7 +14,7 @@ if 'email' in keys:
 else:
     email=0
 if not email:
-    print 'Location: ../index.php?status=error'
+    print 'Location: ../index.php?errorcode=33'
     print ''
     exit()
 
@@ -55,6 +55,6 @@ try:
     print 'Location: ../index.php'
     print ''
 except: 
-    print 'Location: ../index.php?status=error'
+    print 'Location: ../index.php?errorcode=34'
     print ''
 

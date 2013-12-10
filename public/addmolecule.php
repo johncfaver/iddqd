@@ -14,7 +14,7 @@
     }
     session_start();
     $loggedin = isset($_SESSION['username']);
-    if(!$loggedin) returnhome();
+    if(!$loggedin) returnhome(0);
     
     //If there was a previous failure due to no molecule name given
     $emptyname = (isset($_GET['emptyname']))?(int)$_GET['emptyname']:0;

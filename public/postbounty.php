@@ -8,7 +8,7 @@
     session_start();
 
     $loggedin = isset($_SESSION['username']);
-    if(!$loggedin) returnhome();
+    if(!$loggedin) returnhome(0);
 
     $fileupload = isset($_FILES['sdffileupload']);
     if($fileupload){
@@ -20,6 +20,8 @@
                 $thismolfilecontents.=rtrim($line).'\n';
             }
             fclose($handle);
+        }else{
+            returnhome(8);
         }
     }
 ?>

@@ -21,7 +21,7 @@ if 'bid' in keys:
 else:
     bid=''
 if(not bid or not userid):
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=14 \n\n'
     exit()
 if(not comment):
     print 'Location: ../bountypage.php?bid='+str(bid)+' \n\n'
@@ -35,4 +35,4 @@ try:
     dbconn.close()
     print 'Location: ../bountypage.php?bid='+str(bid)+' \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=15 \n\n'

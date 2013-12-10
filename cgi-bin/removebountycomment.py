@@ -26,7 +26,7 @@ if 'userid' in keys:
 else:
     userid=0
 if(not userid or not bid or not cid):
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=37 \n\n'
     exit()
 try:
     dbconn=psycopg2.connect(config.dsn)

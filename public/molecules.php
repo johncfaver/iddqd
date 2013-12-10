@@ -8,7 +8,7 @@
 	}
 	session_start();
 	$loggedin = isset($_SESSION['username']);
-	if(!$loggedin) returnhome();	
+	if(!$loggedin) returnhome(0);	
 	
 	$q = $dbconn->query("SELECT COUNT(molid) FROM molecules");
 	$r = $q->fetch();

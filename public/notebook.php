@@ -7,7 +7,7 @@
 	}
 	session_start();
 	$loggedin = isset($_SESSION['username']);
-	if(!$loggedin) returnhome();
+	if(!$loggedin) returnhome(0);
     $notebookcount = count($_SESSION['notebook_molids']); //number of molids in notebook
     $molids=implode(',',$_SESSION['notebook_molids']);    //comma-separated string of molids in notebook
     $molstart = isset($_GET['molstart'])?(int)pg_escape_string($_GET['molstart']):0;

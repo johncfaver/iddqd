@@ -31,8 +31,13 @@
 	}
 
 //Send back to index.php
-	function returnhome(){
-		header('Location: index.php');	
+	function returnhome($errorcode){
+        $errorcode = (int)$errorcode;
+        if($errorcode==0){
+		    header('Location: index.php');	
+        }else({
+            header('Location: index.php&errorcode='.$errorcode);	
+        }
         exit;
 	}
 

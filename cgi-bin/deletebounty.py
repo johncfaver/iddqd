@@ -21,7 +21,7 @@ if 'userid' in keys:
 else:
     userid=0
 if (not userid or not bid):
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=24 \n\n'
     exit()
 try:
     dbconn = psycopg2.connect(config.dsn)
@@ -44,4 +44,4 @@ try:
                 pass
     print 'Location: ../bounties.php \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=25 \n\n'

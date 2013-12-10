@@ -3,8 +3,9 @@
 //Perform search in database. Place resulting molids into session variable.
 //Send user to displaysearch.php with results in $_SESSION['search_result'] array.
 
-//The search_result session variable is an array of molids, unless a similarity
-//       search was performed. In this case, it is an associative array of
+//The search_result session variable is a numeric array of molids, 
+//       unless a similarity search was performed. In this case, 
+//       it is an associative array of
 //       molid=>similarity
 
     require('config.php');
@@ -22,7 +23,7 @@
     }
 
     session_start();
-    if(!isset($_SESSION['username'])) returnhome();
+    if(!isset($_SESSION['username'])) returnhome(0);
 
     if(isset($_SESSION['search_results'])) unset($_SESSION['search_results']);
 
@@ -33,7 +34,7 @@
     //Max difference between query weight and molweight to count as a match.
     $arbitrary_weight_cutoff = 50;
     //Max Tanimoto coefficient for structure similarity search.
- 	$similaritythreshold=(isset($_GET['similaritythreshold']))?(real)$_GET['similaritythreshold']:0.3;
+     $similaritythreshold=(isset($_GET['similaritythreshold']))?(real)$_GET['similaritythreshold']:0.3;
 //Query parameters-input
     $query_molname  =(isset($_POST['query_molname']))?pg_escape_string($_POST['query_molname']):false;
     $query_molweight=(isset($_POST['query_molweight']))?pg_escape_string($_POST['query_molweight']):false;

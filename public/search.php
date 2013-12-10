@@ -7,7 +7,7 @@
 	}
 	session_start();
 	$loggedin = isset($_SESSION['username']);
-	if(!$loggedin) returnhome();
+	if(!$loggedin) returnhome(0);
 ?>
 <!DOCTYPE html>
 <html>

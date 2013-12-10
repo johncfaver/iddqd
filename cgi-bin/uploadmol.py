@@ -72,12 +72,10 @@ else:
 
 #CHECK INPUTS
 if(not molname):
-    print 'Location: ../addmolecule.php?emptyname=1'
-    print
+    print 'Location: ../addmolecule.php?emptyname=1 \n\n'
     sys.exit()
 if(not authorid): #This should never happen
-    print 'Location: ../index.php?status=error'
-    print
+    print 'Location: ../index.php?errorcode=39 \n\n'
     sys.exit()
 
 #COLLECT INPUT DATA

@@ -17,7 +17,7 @@ if 'bid' in keys:
 else:
     bid=''
 if(not bid):
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=22 \n\n'
     sys.exit()
 try:
     dbconn=psycopg2.connect(config.dsn)
@@ -37,4 +37,4 @@ try:
     subprocess.Popen([sys.executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
     print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=23 \n\n'

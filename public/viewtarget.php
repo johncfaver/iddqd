@@ -9,9 +9,9 @@
 
     session_start();
     $loggedin = isset($_SESSION['username']) and isset($_SESSION['userid']);
+    if(!$loggedin) returnhome(0);
     $thistargetid = isset($_GET['targetid'])?(int)pg_escape_string($_GET['targetid']):-1;
-
-    if(!$loggedin or $thistargetid<0) returnhome();
+    if($thistargetid < 0) returnhome(12);
 
     $q = $dbconn->prepare("SELECT 
                             t.nickname,
@@ -25,7 +25,7 @@
                           ");
     $q->bindParam(":num",$thistargetid,PDO::PARAM_INT);
     $q->execute();
-    if($q->rowCount() != 1) returnhome();
+    if($q->rowCount() != 1) returnhome(13);
     $targetdata=$q->fetch(PDO::FETCH_ASSOC);
 
     $q = $dbconn->prepare(" SELECT * from 

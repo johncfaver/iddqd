@@ -4,6 +4,7 @@
 
 import cgi, cgitb, subprocess, os
 from base64 import decodestring
+from sys import exit
 import config
 cgitb.enable(display=0,logdir="../log/",format="text")
 
@@ -24,7 +25,8 @@ else:
     dest=0
 
 if (not molfig64 or not molid):
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=20 \n\n'
+    exit()
 
 try:
     with open('../public/uploads/sketches/'+str(molid)+'.png','w') as img:
@@ -43,8 +45,8 @@ try:
         print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
 
 except Exception:
-    print 'Content-type: text/html\n\n'
-    print 'Error saving png.'
-    print '\n molid:'+str(molid)+'\n'
-    print ' molfig64:'+str(molfig64)+'\n'
+   print 'Location: ../index.php?errorcode=21 \n\n' 
+    
+    
+    
 

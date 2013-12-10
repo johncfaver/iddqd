@@ -20,12 +20,10 @@ if 'molid' in keys:
 else:
     molid=''
 if(not molid or not userid):
-    print 'Location: ../index.php?status=error'
-    print ''
+    print 'Location: ../index.php?errorcode=16 \n\n'
     exit()
 if(not comment):
-    print 'Location: ../viewmolecule.php?molid='+str(molid)
-    print ''
+    print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
     exit()
 try:
     dbconn=psycopg2.connect(config.dsn)
@@ -34,9 +32,7 @@ try:
     dbconn.commit()
     q.close()
     dbconn.close()
-    print 'Location: ../viewmolecule.php?molid='+str(molid)
-    print ''
+    print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
 except:
-    print 'Location: ../index.php?status=error'
-    print ''
+    print 'Location: ../index.php?errorcode=17 \n\n'
     exit()

@@ -100,7 +100,7 @@ if(not molname):
     exit()
 #Must be logged in.
 if(not authorid):
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=30 \n\n'
     exit()
 
 bindingdatas=[]

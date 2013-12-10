@@ -37,7 +37,7 @@ else:
     targetid=0
 
 if (not targetid):
-    print 'Location: ../index.php?status=error\n\n'
+    print 'Location: ../index.php?errorcode=31 \n\n'
     sys.exit()
 if (not nickname):
     print 'Location: ../edittarget.php?targetid='+str(targetid)+'status=nonickname\n\n'
@@ -60,5 +60,5 @@ try:
     dbconn.close()
     print 'Location: ../viewtarget.php?targetid='+str(targetid)+' \n\n'
 except Exception:
-    print 'Location: ../index.php?status=error \n\n'
+    print 'Location: ../index.php?errorcode=32 \n\n'
 
