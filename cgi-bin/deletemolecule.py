@@ -28,21 +28,21 @@ else:
     token=0
 
 if (not userid or not molid or not token):
-    print 'Location: ../index.php?errorcode=28 \n\n'
+    config.returnhome(28)
     exit()
 try:
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
+     
+     #Must be author to delete this molecule
     q.execute('SELECT authorid FROM molecules WHERE molid=%s',[molid])
     authorid=q.fetchone()[0]
-   
-    assert(userid==authorid) #Must be author to delete this molecule
-    
+    assert(userid==authorid)
+     #Must have valid token. 
     q.execute('SELECT token FROM tokens WHERE userid=%s',[userid]) 
     dbtoken = q.fetchone()[0]
-    
-    assert(token==dbtoken) #Must have valid token. 
-     
+    assert(token==dbtoken)  
+        
     q.execute('DELETE FROM molecules WHERE molid=%s',[molid])
     q.execute('DELETE FROM molcomments WHERE molid=%s',[molid])
     q.execute('DELETE FROM bounties WHERE molid=%s',[molid])
@@ -70,6 +70,6 @@ try:
             os.remove(i)
         except Exception:
             pass
-    print 'Location: ../index.php \n\n'
+    config.returnhome(0)
 except Exception:
-    print 'Location: ../index.php?errorcode=29 \n\n'
+    config.returnhome(29)

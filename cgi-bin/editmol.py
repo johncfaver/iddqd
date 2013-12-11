@@ -80,7 +80,7 @@ else:
 if 'token' in keys:
     token=form['token'].value
 else:
-    token=0
+    token=''
 
 if 'oldcommentids' in keys:
     oldcommentids=form['oldcommentids'].value.split(',')[:-1]
@@ -100,12 +100,12 @@ else:
     olddocdataids=0
 
 ##Check inputs - empty molname not valid
-if(not molname):
+if(not molname.strip()):
     print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)+' \n\n'
     exit()
 #Must be logged in.
 if(not authorid or not token):
-    print 'Location: ../index.php?errorcode=30 \n\n'
+    config.returnhome(30)
     exit()
 
 bindingdatas=[]
@@ -193,10 +193,10 @@ dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
 #Check for token.
-q.execute('SELECT token FROM tokens WHERE userid=%s',[token])
+q.execute('SELECT token FROM tokens WHERE userid=%s',[authorid])
 dbtoken = q.fetchone()[0]
 if(dbtoken != token):
-    print 'Location: ../index.php&errorcode=43 \n\n'
+    config.returnhome(43)
     exit()
 
 ###UPDATE MOLECULE TABLE###########

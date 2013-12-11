@@ -1,4 +1,7 @@
 <?php
+//  bounties.php
+//  List open bounties in database.
+//
 	require('config.php');
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
@@ -42,11 +45,13 @@
 		<a href="notebook.php">My Notebook: <?php echo count($_SESSION['notebook_molids'])+count($_SESSION['notebook_bountyids']); ?></a>
 	</div>
 	<div id="div_login">
-		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?><a href="logout.php">(logout)</a></span>
+		<span id="span_loggedin">Logged in as <?php echo $_SESSION['username'];?> <a href="logout.php">(logout)</a></span>
 	</div>	
 </div>
 <div id="div_main">
-    <div id="div_post_bounty"><button type="button" style="width:120px;height:25px;" onclick="window.location='postbounty.php'">Post Bounty</button></div>
+    <div id="div_post_bounty">
+        <a href="postbounty.php"><button type="button" style="width:120px;height:25px;">Post Bounty</button></a>
+    </div>
   <?php
     $nummol=(isset($_GET['nummol']))?(int)$_GET['nummol']:8;
   	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;
@@ -67,15 +72,15 @@
     $q->execute();
     if($q->rowCount() > 0){
         echo '<table class="moleculetable">
-            <tr>
-            <th class="molth moltdborderright">BountyID</th>
-            <th class="molth moltdborderright">Structure</th>
-            <th class="molth moltdborderright">Target</th>
-            <th class="molth moltdborderright">Posted By</th>
-            <th class="molth moltdborderright">Pursued By</th>
-            <th class="molth moltdborderright">Claimed</th>
-            <th class="molth ">Name</th>
-        </tr>';
+                <tr>
+                    <th class="molth moltdborderright">BountyID</th>
+                    <th class="molth moltdborderright">Structure</th>
+                    <th class="molth moltdborderright">Target</th>
+                    <th class="molth moltdborderright">Posted By</th>
+                    <th class="molth moltdborderright">Pursued By</th>
+                    <th class="molth moltdborderright">Claimed</th>
+                    <th class="molth ">Name</th>
+                </tr>';
         $response = $q->fetchAll(PDO::FETCH_ASSOC);
         $count=1;
         foreach($response as $bounty){
@@ -84,35 +89,35 @@
 	        }else{
 	            $tdcolor="";
 	        }
-	        echo '<tr>';
-	            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-	                echo '<a href="bountypage.php?bid='.$bounty['bountyid'].'">';
-	                echo $bounty['bountyid'].'</a>';
-	            echo '</td>';
-	            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-	                echo '<a href="bountypage.php?bid='.$bounty['bountyid'].'">';
-	                echo '<img src="uploads/bounties/'.$bounty['bountyid'].'.jpg" style="height:60px;"/></a>';
-	            echo '</td>';
-	            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-	                echo $bounty['target'];
-	            echo '</td>';
-	            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-	                echo $bounty['posted_by'];
-	                //echo '<br /><br /> ('.parsetimestamp($bounty['date_posted']).')';
-	            echo '</td>';
-	            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-	                echo $bounty['pursued_by'];
-	                //echo '<br /><br />('.parsetimestamp($bounty['date_pursued']).')';
-	            echo '</td>';
-	            echo '<td class="moltd '.$tdcolor.' moltdborderright">';
-	                echo parsetimestamp($bounty['date_claimed']);
-	            echo '</td>';
-	            echo '<td class="moltd '.$tdcolor.' ">';
-	                if($bounty['claimed']){
-	                    echo '<a href="viewmolecule.php?molid='.$bounty['molid'].'">'.$bounty['molname'].'</a>';
-	                }
-	            echo '</td>';
-	         echo '</tr>';
+	        echo '<tr>
+	                <td class="moltd '.$tdcolor.' moltdborderright">
+	                    <a href="bountypage.php?bid='.$bounty['bountyid'].'">
+	                        '.$bounty['bountyid'].'
+                        </a>
+	                </td>
+	                <td class="moltd '.$tdcolor.' moltdborderright">
+	                    <a href="bountypage.php?bid='.$bounty['bountyid'].'">
+	                        <img src="uploads/bounties/'.$bounty['bountyid'].'.jpg" style="height:60px;"/>
+                        </a>
+	                </td>
+	                <td class="moltd '.$tdcolor.' moltdborderright">
+	                    '.$bounty['target'].'
+	                </td>
+	                <td class="moltd '.$tdcolor.' moltdborderright">
+	                    '.$bounty['posted_by'].'
+	                </td>
+	                <td class="moltd '.$tdcolor.' moltdborderright">
+	                    '.$bounty['pursued_by'].'
+	                </td>
+	                <td class="moltd '.$tdcolor.' moltdborderright">
+	                    '.parsetimestamp($bounty['date_claimed']).'
+	                </td>
+	                <td class="moltd '.$tdcolor.' ">';
+	                    if($bounty['claimed']){
+	                        echo '<a href="viewmolecule.php?molid='.$bounty['molid'].'">'.$bounty['molname'].'</a>';
+	                    }
+	            echo '</td>
+	            </tr>';
         }
         echo '</table>';
     }

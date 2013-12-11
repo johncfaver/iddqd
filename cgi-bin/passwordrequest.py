@@ -14,18 +14,17 @@ if 'email' in keys:
 else:
     email=0
 if not email:
-    print 'Location: ../index.php?errorcode=33'
-    print ''
+    print 'Location: ../index.php?errorcode=33 \n\n'
     exit()
 
 try:
     dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
-#Get userid
+
+#Get userid to match this email address
     q.execute('SELECT userid FROM users WHERE email=%s',[email])
     if(q.rowcount==0):
-        print 'Location: ../changepasswordrequestpage.php?status=bademail'
-        print ''
+        print 'Location: ../changepasswordrequestpage.php?status=bademail \n\n'
         exit()    
     r = q.fetchone() 
     userid = str(r[0])
@@ -37,7 +36,7 @@ try:
         exit()
 
 #This now appears to be a valid request.
-#End past requests. Unused requests get datechanged set to localtime and changed remains false.
+#End past requests. Unused requests get datechanged set to localtime and the changed variable remains false.
     q.execute('UPDATE passwordchanges SET datechanged=localtimestamp WHERE userid=%s',[userid])
 #Create new request
     changekey = ''.join(random.sample(string.ascii_letters + string.digits,50))

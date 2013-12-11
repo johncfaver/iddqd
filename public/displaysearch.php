@@ -1,5 +1,6 @@
 <?php
 
+//displaysearch.php
 //Display search results which are held in $_SESSION['search_results']
     
     $debug=0;

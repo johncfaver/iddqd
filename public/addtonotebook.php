@@ -20,7 +20,8 @@
             header("Location: index.php?errorcode=40");
             exit;
         }
-        $q = $dbconn->prepare("SELECT DISTINCT molid FROM MOLDATA WHERE targetid=:num "); 
+        //Select only inhibitors with experimental data.
+        $q = $dbconn->prepare("SELECT DISTINCT molid FROM moldata WHERE targetid=:num "); 
         $q->bindParam(":num",$addtargetid,PDO::PARAM_INT);
         $q->execute();
         while($r = $q->fetch(PDO::FETCH_NUM)){

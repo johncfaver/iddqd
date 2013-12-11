@@ -9,7 +9,7 @@
 	$dbpass=$config['postgresql']['pass'];
     $babeldir=$config['babeldir'];
 
-//Various constants. We could also read from database, but this is probably faster.
+//Various definition. We could also read these from database, but this is probably faster.
 	$bindingdatatypes   = Array('IC50','EC50','kd');
 	$bindingdataids     = Array('1','2','3');
 	$propertydatatypes  = Array('CC50','Aq. Solubility');
@@ -36,7 +36,7 @@
         if($errorcode==0){
 		    header('Location: index.php');	
         }else{
-            header('Location: index.php&errorcode='.$errorcode);	
+            header('Location: index.php?errorcode='.$errorcode);	
         }
         exit;
 	}

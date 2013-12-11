@@ -144,7 +144,9 @@
                 IUPAC: <input type="text" name="iupacname" id="iupacname" style="width:80px;float:right" size=10 maxlength="100" value="" />
             </span>
             <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
-                <span style="font-style:italic;color:#884444;margin-right:45px;" id="molnameRecommendation"><?php if($emptyname) echo 'Name can not be empty.';?></span>
+                <span style="font-style:italic;color:#884444;margin-right:45px;" id="molnameRecommendation">
+                    <?php if($emptyname) echo 'Name can not be empty.';?>
+                </span>
                 CAS#: <input type="text" name="cas" id="cas" size=10 maxlength="20" style="width:80px;float:right" value="" />
             </span>
             <br /><br />

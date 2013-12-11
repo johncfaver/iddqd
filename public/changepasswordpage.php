@@ -1,4 +1,8 @@
 <?php
+//  changepasswordpage.php
+//  Form to change password, link is sent in email to user.
+//  Must have valid password change key to change password.
+
 	require('config.php');
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
@@ -7,7 +11,10 @@
 	}
     $key = (isset($_GET['key']))?pg_escape_string($_GET['key']):0;
    
-    $q = $dbconn->prepare("SELECT p.userid,p.daterequested,u.username from passwordchanges p left join users u on p.userid=u.userid where p.changekey=:str and p.datechanged is null");
+    $q = $dbconn->prepare("SELECT 
+                            p.userid,p.daterequested,u.username 
+                           FROM passwordchanges p LEFT JOIN users u ON p.userid=u.userid 
+                           WHERE p.changekey=:str AND p.datechanged IS NULL");
     $q->bindParam(":str",$key,PDO::PARAM_STR);
     $q->execute();
     $r = $q->fetch(PDO::FETCH_ASSOC);  
@@ -42,13 +49,14 @@
         if(isset($_GET['passwordisbad'])){
             echo 'That password was invalid.<br /><br/>';
         }
-	    echo '<form method="post" action="changepw.php" id="register" >';
-		echo 'Username: '.$r['username'].'<br /><br/>';
-        echo 'New Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" /><br /><br />';
-		echo '<input type="submit" value="Change Password" />	';
-        echo '<input type="hidden" name="key" value="'.$key.'" />';
-        echo '<input type="hidden" name="username" value="'.$r['username'].'" />';
-	    echo '</form>';
+	    echo '<form method="post" action="changepw.php" id="register" >
+		        Username: '.$r['username'].'<br /><br/>
+                New Password: <input type="password" id="desiredpassword" name="desiredpassword" size="8" />
+                <br /><br />
+		        <input type="submit" value="Change Password" />	
+                <input type="hidden" name="key" value="'.$key.'" />
+                <input type="hidden" name="username" value="'.$r['username'].'" />
+	          </form>';
     }
 ?>
 	</span>

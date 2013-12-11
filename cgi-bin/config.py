@@ -44,3 +44,10 @@ def sendemail(to,text):
     s.sendmail(from_address,to,msg.as_string())
     s.quit()
 
+def returnhome(code):
+    code = int(code)
+    if code > 0:
+        print 'Location: ../index.php?errorcode='+str(code)+' \n\n'
+    else:
+        print 'Location: ../index.php \n\n'
+

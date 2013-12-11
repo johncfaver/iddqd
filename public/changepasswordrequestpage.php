@@ -1,4 +1,8 @@
 <?php
+
+// changepasswordrequestpage.php
+// Request a password change email be sent to an email address
+
 	require('config.php');
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
@@ -34,7 +38,8 @@
         }
 ?>
         <form method="post" action="../cgi-bin/passwordrequest.py" id="register" >
-            Email: <input type="text" id="email" name="email" size="8" required maxlength="40" /><br /><br />
+            Email: <input type="text" id="email" name="email" size="8" required maxlength="40" />
+            <br /><br />
             <input type="submit" value="Request Password Change" />	
         </form>
 	</span>

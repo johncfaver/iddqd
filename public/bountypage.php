@@ -1,4 +1,7 @@
 <?php
+//  bountypage.php
+//  Display information about a specific bounty.
+//
 	require('config.php');
 	try{
 		$dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);	
@@ -65,8 +68,6 @@
 		<input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();return false"/>
     </form>
 </div>
-
-
 
 <div id="div_left">
 	<div id="left_links">
@@ -191,8 +192,6 @@
 	</div>
 
 
-
-
     <div id="commentholder" style="width:95%;position:absolute;top:220px;left:25px;margin:auto;text-align:center;border-top:1px solid gray;font-size:0.8em;">
 <?php
 		$q = $dbconn->prepare("SELECT 
@@ -216,9 +215,13 @@
                   .'</div>';
 				if($row['username']==$_SESSION['username']){
 					echo '<div class="div_deletecomment" style="font-size:1.2em;">
-                            <span class="nonlinks">
-                                <a href="../cgi-bin/removebountycomment.py?bid='.$bid.'&userid='.$_SESSION['userid'].'&bountycommentid='.$row['bountycommentid'].'">X</a>
-                            </span>
+                            <form action="../cgi-bin/removebountycomment.py" method="POST">
+                                <input type="hidden" name="bid" value="'.$bid.'" />
+                                <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                                <input type="hidden" name="bountycommentid" value="'.$row['bountycommentid'].'" />
+                                <input type="hidden" name="token" value="'.$_SESSION['token'].'" />
+                                <input type="submit" class="button_link" value="X   "/>
+                            </form>
                           </div>';
 				}
 			echo '</div>';
@@ -229,7 +232,9 @@
 ?>
 
         <div id="div_addmolcomment" style="width:200px;position:absolute;border:0px solid red;left:200px;">
-            <form action="../cgi-bin/addbountycomment.py?bid='.$bid.'&username='.$_SESSION['username'].'&userid='.$_SESSION['userid'].'" method="post">
+            <form action="../cgi-bin/addbountycomment.py" method="post">
+            <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" />
+            <input type="hidden" name="bid" value="<?php echo $bid;?>" />
             <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
             <textarea name="textarea_addbountycomment" id="textarea_addmolcomment"></textarea><br />
             <input type="submit" id="commentbutton" value="Add Comment" style="top:50px;left:225px;"/>

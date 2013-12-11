@@ -71,11 +71,12 @@ else:
     authorid=0
 
 #CHECK INPUTS
-if(not molname):
+#molname cannot be empty
+if(not molname.strip()):
     print 'Location: ../addmolecule.php?emptyname=1 \n\n'
     sys.exit()
 if(not authorid): #This should never happen
-    print 'Location: ../index.php?errorcode=39 \n\n'
+    config.returnhome(39)
     sys.exit()
 
 #COLLECT INPUT DATA

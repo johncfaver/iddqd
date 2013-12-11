@@ -47,7 +47,7 @@
     <?php 
         if(isset($_GET['status'])){
             if($_GET['status']=='nonickname'){
-                echo "<span style=\"color:red;margin-right:50px;\">Short Name is required.</span><br/><br/>";
+                echo '<span style="color:red;margin-right:50px;">Short Name is required.</span><br/><br/>';
             }
         }
     ?>

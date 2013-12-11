@@ -34,10 +34,10 @@ else:
 if 'token' in keys:
     token = form['token'].value
 else:
-    token=0
+    token=''
     
 if (not dataid or not molid or not userid or not token):
-    print 'Location: ../index.php?errorcode=26 \n\n'
+    config.returnhome(26)
     exit()   
 try:
     dbconn = psycopg2.connect(config.dsn)

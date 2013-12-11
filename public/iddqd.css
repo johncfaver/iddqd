@@ -412,3 +412,8 @@ img{
     top:15px;
     left:400px;
 }
+.button_link{
+    background:none!important;
+    border:none; 
+    padding:0!important;
+}

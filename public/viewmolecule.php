@@ -1,4 +1,7 @@
 <?php
+// viewmolecule.php
+// display information for a specific molecule
+
     require('config.php');
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);    
@@ -300,9 +303,13 @@
                     </div>';
                 if($row['username']==$_SESSION['username']){
                     echo '<div class="div_deletecomment">
-                            <span class="nonlinks">
-                                <a href="../cgi-bin/removemolcomment.py?molid='.$thismolid.'&molcommentid='.$row['molcommentid'].'">X</a>
-                            </span>
+                            <form action="../cgi-bin/removemolcomment.py" method="POST">
+                                <input type="hidden" name="molid" value="'.$thismolid.'" />
+                                <input type="hidden" name="molcommentid" value="'.$row['molcommentid'].'" />
+                                <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                                <input type="hidden" name="token" value="'.$_SESSION['token'].'" />
+                                <input type="submit" class="button_link" value="X   "/>
+                            </form>
                           </div>';
                 }
             echo '</div>';
@@ -312,7 +319,9 @@
         }
 ?>
             <div id="div_addmolcomment">
-                <form action="../cgi-bin/addmolcomment.py?molid='.$thismolid.'&userid='.$_SESSION['userid'].'" method="post">
+                <form action="../cgi-bin/addmolcomment.py" method="POST">
+                    <input type="hidden" name="molid" value="<?php echo $thismolid;?>" />
+                    <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" />
                     <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
                     <textarea name="textarea_addmolcomment" id="textarea_addmolcomment" ></textarea><br />
                     <input type="submit" id="commentbutton" value="Add Comment" />

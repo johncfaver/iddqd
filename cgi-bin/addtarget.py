@@ -31,16 +31,27 @@ if 'userid' in keys:
     authorid = int(form['userid'].value)
 else:
     authorid=0
+if 'token' in keys:
+    token = form['token'].value
+else:
+    token=0
+
 if (not nickname):
     print 'Location: ../addtarget.php?status=nonickname\n\n'
     sys.exit()
-if (not authorid):
+if (not authorid or not token):
     print 'Location: ../index.php?errorcode=18 \n\n'
     sys.exit()
 
 try:
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
+        #Check for token.
+    q.execute('SELECT token FROM tokens WHERE userid=%s',[authorid])
+    dbtoken = q.fetchone()[0]
+    assert(dbtoken==token)
+
+        #Add target to database.
     query = "INSERT INTO targets (nickname,fullname,targetclass,series,authorid,dateadded) VALUES(%s,%s,%s,%s,%s,localtimestamp)"
     options = [nickname,fullname,class_,series,authorid]
     q.execute(query,options)

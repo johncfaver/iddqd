@@ -1,5 +1,6 @@
 <?php
 
+//  changepw.php
 //  Perform a password update.
 
 	require('config.php');
@@ -8,10 +9,14 @@
 	}catch(PDOException $e){
 		//echo 'Database connection failed: '. $e->getMessage();
 	}
+    
+    if(!isset($_POST['key'])) returnhome(45);
+    if(!isset($_POST['username'])) returnhome(46);
+    if(!isset($_POST['desiredpassword'])) returnhome(47);
 
 	$username=pg_escape_string($_POST['username']);
 	$desiredpassword=pg_escape_string($_POST['desiredpassword']);
-
+    
     $desiredpasswordlength = strlen($desiredpassword); 
     if($desiredpasswordlength < 5 or $desiredpasswordlength > 20){
         header('Location: changepasswordpage.php?passwordisbad=1&key='.$_POST['key']);
@@ -29,7 +34,7 @@
 	if($nameexists){
 		try{
             $dbconn->beginTransaction();
-            $q = $dbconn->prepare("UPDATE users set password = crypt(:pass,gen_salt('bf')) where username=:name returning username,userid");
+            $q = $dbconn->prepare("UPDATE users SET password = crypt(:pass,gen_salt('bf')) WHERE username=:name ");
 		    $q->bindparam(":name",$username,PDO::PARAM_STR);
 		    $q->bindparam(":pass",$desiredpassword,PDO::PARAM_STR);
 			$q->execute();
@@ -37,21 +42,13 @@
             $q->bindparam(":str",$_POST['key'],PDO::PARAM_STR);
             $q->execute();
             $dbconn->commit();
-			$u=$q->fetch();
-			session_start();
-			$_SESSION['username']=$u['username'];
-			$_SESSION['userid']=$u['userid'];
-			$loggedin=True;
 			$dbconn=null;	
-			header("Location: index.php");
+            returnhome(0);
         }catch(Exception $e){
-            header("Location: index.php?errorcode=41 ");
+            returnhome(41);
         }
-	    exit;
 	}else{
 		$dbconn=null;
-		header("Location: changepassword.php?nameexists=0");		
-        exit;
+        returnhome(48);
 	}
-
 ?>
