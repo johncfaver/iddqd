@@ -25,15 +25,26 @@ if 'userid' in keys:
     userid = int(form['userid'].value)
 else:
     userid=0
-if(not userid or not bid or not cid):
-    print 'Location: ../index.php?errorcode=37 \n\n'
+if 'token' in keys:
+    token = form['token'].value
+else:
+    token = '' 
+
+if(not userid or not bid or not cid or not token):
+    config.returnhome(37)
     exit()
 try:
     dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
-    q.execute("SELECT authorid from bountycomments where bountycommentid=%s",[cid])
+        #Check token.
+    q.execute('SELECT token FROM tokens WHERE userid=%s',[userid])
+    dbtoken = q.fetchone()[0]
+    assert(dbtoken==token)
+        #Check author.         
+    q.execute("SELECT authorid FROM bountycomments WHERE bountycommentid=%s",[cid])
     aid = q.fetchone()[0]
     assert(aid==userid)
+
     q.execute('DELETE FROM bountycomments WHERE bountycommentid=%s ',[cid])
     dbconn.commit()
     q.close()

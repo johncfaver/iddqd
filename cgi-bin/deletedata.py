@@ -67,4 +67,4 @@ try:
     dbconn.close() 
 
 except Exception:
-    print 'Location: ../index.php?errorcode=27 \n\n'
+    config.returnhome(27)

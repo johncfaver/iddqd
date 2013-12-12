@@ -25,7 +25,7 @@ else:
     dest=0
 
 if (not molfig64 or not molid):
-    print 'Location: ../index.php?errorcode=20 \n\n'
+    config.returnhome(20)
     exit()
 
 try:
@@ -45,7 +45,7 @@ try:
         print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
 
 except Exception:
-   print 'Location: ../index.php?errorcode=21 \n\n' 
+   config.returnhome(21)
     
     
     

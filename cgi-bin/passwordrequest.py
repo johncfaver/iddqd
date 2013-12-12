@@ -14,7 +14,7 @@ if 'email' in keys:
 else:
     email=0
 if not email:
-    print 'Location: ../index.php?errorcode=33 \n\n'
+    config.returnhome(33)
     exit()
 
 try:
@@ -54,6 +54,6 @@ try:
     print 'Location: ../index.php'
     print ''
 except Exception: 
-    print 'Location: ../index.php?errorcode=34'
+    config.returnhome(34)
     print ''
 

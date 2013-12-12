@@ -17,7 +17,7 @@
         try{
             $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);    
         }catch(PDOException $e){
-            header("Location: index.php?errorcode=40");
+            returnhome(40);
             exit;
         }
         //Select only inhibitors with experimental data.

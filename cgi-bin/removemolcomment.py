@@ -31,7 +31,7 @@ else:
     token=0
 
 if (not token or not userid or not molcommentid or not molid):
-    print 'Location: ../index.php?errocode=44 \n\n'
+    config.returnhome(44)
     exit()
 
 try:

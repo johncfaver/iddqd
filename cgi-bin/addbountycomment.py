@@ -11,28 +11,43 @@ import config
 form=cgi.FieldStorage()
 keys=form.keys()
 
-userid=int(form['userid'].value)
+if 'userid' in keys:
+    userid=int(form['userid'].value)
+else:
+    userid=0
+if 'token' in keys:
+    token = form['token'].value
+else:
+    token=''
 if 'textarea_addbountycomment' in keys:
     comment=form['textarea_addbountycomment'].value
 else:
-    comment=0
+    comment=''
 if 'bid' in keys:
     bid=int(form['bid'].value)
 else:
     bid=''
-if(not bid or not userid):
-    print 'Location: ../index.php?errorcode=14 \n\n'
+
+if(not bid or not userid or not token):
+    config.returnhome(14)
     exit()
 if(not comment):
     print 'Location: ../bountypage.php?bid='+str(bid)+' \n\n'
     exit()
+
 try:
     dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
+        #Check token
+    q.execute('SELECT token FROM tokens WHERE userid=%s',[userid])
+    dbtoken = q.fetchone()[0]
+    assert(dbtoken==token)
+
     q.execute("INSERT INTO bountycomments (bountyid,bountycomment,dateadded,authorid) VALUES(%s,%s,localtimestamp,%s)",[bid,comment,userid])
+
     dbconn.commit()
     q.close()
     dbconn.close()
     print 'Location: ../bountypage.php?bid='+str(bid)+' \n\n'
 except Exception:
-    print 'Location: ../index.php?errorcode=15 \n\n'
+    config.returnhome(15)

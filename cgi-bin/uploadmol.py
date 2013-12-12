@@ -69,13 +69,17 @@ if 'userid' in keys:
     authorid=form['userid'].value
 else:
     authorid=0
+if 'token' in keys:
+    token = form['token'].value
+else:
+    token = ''
 
 #CHECK INPUTS
 #molname cannot be empty
 if(not molname.strip()):
     print 'Location: ../addmolecule.php?emptyname=1 \n\n'
     sys.exit()
-if(not authorid): #This should never happen
+if(not authorid or not token): #This should never happen
     config.returnhome(39)
     sys.exit()
 
@@ -116,6 +120,13 @@ for i in xrange(maxdata):
 #CHECK IF MOLNAME EXISTS
 dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
+
+q.execute('SELECT token FROM tokens WHERE userid=%',[authorid])
+dbtoken = q.fetchone()[0]
+if(dbtoken != token):
+    returnhome(49)
+    sys.exit()
+
 q.execute('SELECT molid FROM molecules WHERE molname=%s',[molname]) 
 r=q.fetchall()
 if len(r)>0:

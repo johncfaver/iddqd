@@ -15,10 +15,20 @@ form=cgi.FieldStorage()
 keys=form.keys()
 if 'export' in keys:
     export=form['export'].value
+else:
+    export=''
 if 'molids' in keys:
     molids=form['molids'].value.split(',')
+else:
+    molids=''
 if 'userid' in keys:
     userid=str(int(form['userid'].value))
+else:
+    userid=0
+if 'token' in keys:
+    token = form['token'].value
+else:
+    token = ''
 
 if export=='structures':
     dl='/tmp/structures-'+userid

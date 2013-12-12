@@ -37,6 +37,10 @@ if 'userid' in keys:
     authorid=form['userid'].value
 else:
     authorid=0
+if 'token' in keys:
+    token = form['token'].value
+else:
+    token = ''
 if 'select_targetid' in keys:
     targetid=form['select_targetid'].value
 else:
@@ -44,10 +48,15 @@ else:
 #########################################
 
 try:
-    ###ADD TO MOLECULES TABLE###########
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
-    query='INSERT INTO bounties (targetid,placed_by_id,claimed,date_posted) values(%s,%s,false,localtimestamp) returning bountyid'
+    q.execute('SELECT token FROM tokens WHERE userid=%s',[authorid])
+    dbtoken = q.fetchone()[0]
+    assert(dbtoken==token)
+####################################
+
+    ###ADD TO BOUNTY TABLE###########
+    query='INSERT INTO bounties (targetid,placed_by_id,claimed,date_posted) values(%s,%s,false,localtimestamp) RETURNING bountyid'
     options=[targetid,authorid]
     q.execute(query,options)
     bid=q.fetchone()[0]
@@ -73,4 +82,4 @@ try:
     ############################################
     print 'Location: ../bounties.php?success=True \n\n'
 except Exception:
-    print 'Location: ../index.php?errorcode=38 \n\n'
+    config.returnhome(38)

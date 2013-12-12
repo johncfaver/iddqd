@@ -28,7 +28,7 @@ else:
     molid=0
 
 if(not molid or not userid or not token):
-    print 'Location: ../index.php?errorcode=16 \n\n'
+    config.returnhome(16)
     exit()
 if(not comment):
     print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
@@ -47,5 +47,5 @@ try:
     dbconn.close()
     print 'Location: ../viewmolecule.php?molid='+str(molid)+' \n\n'
 except Exception:
-    print 'Location: ../index.php?errorcode=17 \n\n'
+    config.returnhome(17)
     exit()

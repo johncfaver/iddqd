@@ -16,20 +16,29 @@ if 'userid' in keys:
 else:
     userid=0
 if 'bid' in keys:
-    bid=str(int(form['bid'].value))
+    bid=int(form['bid'].value)
 else:
     bid=0
+if 'token' in keys:
+    token = form['token'].value
+else:
+    token=''
 
-if(not bid or not userid):
-    print 'Location: ../index.php?errorcode=35 \n\n'
+if(not bid or not userid or not token):
+    config.returnhome(35)
     exit()
 try:
     dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
-    q.execute("UPDATE bounties set pursued_by_id=%s, date_pursued=localtimestamp where bountyid=%s",[userid,bid])
+            #Check token
+    q.execute('SELECT token FROM tokens WHERE userid=%s',[userid])
+    dbtoken = q.fetchone()[0]
+    assert(dbtoken==token)
+
+    q.execute("UPDATE bounties SET pursued_by_id=%s, date_pursued=localtimestamp WHERE bountyid=%s",[userid,bid])
     dbconn.commit()
     q.close()
     dbconn.close()
-    print 'Location: ../bountypage.php?bid='+bid+' \n\n'
+    print 'Location: ../bountypage.php?bid='+str(bid)+' \n\n'
 except Exception:
-    print 'Location: ../index.php?errorcode=36 \n\n'
+    config.returnhome(36)
