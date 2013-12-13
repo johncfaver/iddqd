@@ -50,15 +50,15 @@ function inhibitorEntry(molid,molname,activity,datatype,comment,commenter,commen
 }
 var inhibitors = new Array();
 var inhibitorstart=0;
-function inhibitorPageRight(){
-    inhibitorstart+=8;
+function inhibitorPageRight(nmolperpage){
+    inhibitorstart+=nmolperpage;
     if(inhibitorstart>=inhibitors.length){
-        inhibitorstart=inhibitors.length-8;
+        inhibitorstart=inhibitors.length-nmolperpage;
     }
     showInhibitors(inhibitorstart);
 }
-function inhibitorPageLeft(){
-    inhibitorstart-=8;
+function inhibitorPageLeft(nmolperpage){
+    inhibitorstart-=nmolperpage;
     if(inhibitorstart<0){
         inhibitorstart=0;
     }

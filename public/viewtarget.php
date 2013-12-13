@@ -1,5 +1,5 @@
 <?php
-    //Revision of viewmolecule.php
+    //Revision of viewmolecule.php for targets
     require('config.php');
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);    
@@ -13,6 +13,7 @@
     $thistargetid = isset($_GET['targetid'])?(int)pg_escape_string($_GET['targetid']):-1;
     if($thistargetid < 0) returnhome(12);
 
+    //Get data about target. 
     $q = $dbconn->prepare("SELECT 
                             t.nickname,
                             t.fullname,
@@ -20,7 +21,8 @@
                             t.series,
                             t.dateadded,
                             u.username
-                           FROM targets t left join users u on u.userid=t.authorid
+                           FROM targets t LEFT JOIN 
+                            users u ON u.userid=t.authorid
                            WHERE targetid=:num
                           ");
     $q->bindParam(":num",$thistargetid,PDO::PARAM_INT);
@@ -28,6 +30,7 @@
     if($q->rowCount() != 1) returnhome(13);
     $targetdata=$q->fetch(PDO::FETCH_ASSOC);
 
+    //Get data about inhibitors for this target. Order by binding affinity. 
     $q = $dbconn->prepare(" SELECT * from 
 							   (SELECT DISTINCT ON (d.molid)
 							    d.value,
@@ -39,40 +42,42 @@
                                 c.dateadded as commentdate,
 							    u.username as commenter
 							    FROM moldata d 
-							    left join molecules m on m.molid=d.molid 
-							    left join datatypes k on k.datatypeid=d.datatype
-							    left join datacomments c on c.dataid=d.moldataid
-							    left join users u on u.userid=c.authorid
-							    where d.targetid=:num and d.datatype in (1,2,3)
+							        LEFT JOIN molecules m on m.molid=d.molid 
+							        LEFT JOIN datatypes k on k.datatypeid=d.datatype
+							        LEFT JOIN datacomments c on c.dataid=d.moldataid
+							        LEFT JOIN users u on u.userid=c.authorid
+							    WHERE d.targetid=:num and d.datatype in (1,2,3)
 							    ORDER BY d.molid, d.value
 							    ) AS temp 
                             ORDER BY temp.value ");
     $q->bindParam(":num",$thistargetid,PDO::PARAM_INT);
     $q->execute();
     $numtotmol=$q->rowCount();
+    $nmolperpage=8;
     $inhibitordata=$q->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="chrome=1">
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="reset.css" type="text/css" />
-<link rel="stylesheet" href="iddqd.css" type="text/css" />
-<link rel="stylesheet" href="viewtarget.css" type="text/css" />
-<script type="text/javascript" src="iddqd.js"></script>
-<script type="text/javascript" src="viewtarget.js"></script>
-<script type="text/javascript">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="reset.css" type="text/css" />
+    <link rel="stylesheet" href="iddqd.css" type="text/css" />
+    <link rel="stylesheet" href="viewtarget.css" type="text/css" />
+    <script type="text/javascript" src="iddqd.js"></script>
+    <script type="text/javascript" src="viewtarget.js"></script>
+    <script type="text/javascript">
 <?php 
+    //Place $inhibitordata in javascript to avoid repetitive database lookups.
     foreach($inhibitordata as $r){
         echo 'inhibitors.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",addslashes(htmlentities($r['datacomment']))).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
     }
 ?>
-</script>
-
-<title><?php echo htmlentities($targetdata['nickname'], ENT_QUOTES); ?></title>
+    </script>
+    <title><?php echo htmlentities($targetdata['nickname'], ENT_QUOTES); ?></title>
 </head>
+
 <body>
 <div id="div_datapopup"></div>
 <div id="div_shade_window"></div>
@@ -143,28 +148,57 @@
 
     <div id="div_moldata">
 
-    <span class="nonlinks">
-    <a href="#"><div id="div_tabbindingdata" class="datatab datatabopen" onclick="switchdatadiv('bindingdata');return false;">Inhibitors</div></a>
-    <a href="#"><div id="div_tabdocdata" class="datatab" onclick="switchdatadiv('docdata');return false">Documents</div></a>
-    <a href="#"><div id="div_tabmodelingdata" class="datatab" onclick="switchdatadiv('modelingdata');return false">Modeling</div></a>
-    <a href="edittarget.php?targetid=<?php echo $thistargetid;?>"><div id="div_editdata" class="datatab" >Edit</div></a>
-    <a href="addtonotebook.php?targetid=<?php echo $thistargetid;?>&dest=vt"><div id="div_addtonotebook" class="datatab" > Add inhibitors to Notebook</div></a>
-    </span>
+        <span class="nonlinks">
+            <a href="#"><div id="div_tabbindingdata" class="datatab datatabopen" onclick="switchdatadiv('bindingdata');return false;">Inhibitors</div></a>
+            <a href="#"><div id="div_tabdocdata" class="datatab" onclick="switchdatadiv('docdata');return false">Documents</div></a>
+            <a href="#"><div id="div_tabmodelingdata" class="datatab" onclick="switchdatadiv('modelingdata');return false">Modeling</div></a>
+            <a href="edittarget.php?targetid=<?php echo $thistargetid;?>"><div id="div_editdata" class="datatab" >Edit</div></a>
+            <a href="addtonotebook.php?targetid=<?php echo $thistargetid;?>&dest=vt"><div id="div_addtonotebook" class="datatab" >Add inhibitors to Notebook</div></a>
+        </span>
 
 
 <!--BINDING DATA -->    
     <div id="div_bindingdata" class="div_data">
     <?php
-        if(count($inhibitordata)>0){
-            echo '
-                <div id="div_inhibitorPageLeft"> <a href="#" onclick="inhibitorPageLeft();return false;"> &lt;&lt; Previous </a></div>
-                <table id="bindingtable" class="viewmolecule_datatable">
-                    <tr><th class="molecules_th">Name</th><th class="molecules_th">Value</th><th class="molecules_th">Data Type</th><th class="molecules_th">Notes</th></tr>';
-            for($i=0;$i<8;$i++){
-                echo '<tr></tr>';
+        if($numtotmol>=0){
+
+            if($numtotmol>$nmolperpage){ // if pages are needed
+                echo '<div id="div_inhibitorPageLeft"> 
+                        <a href="#" onclick="inhibitorPageLeft('.$nmolperpage.');return false;"> &lt;&lt; Previous </a>
+                      </div>';
             }
-            echo '</table><div id="div_inhibitorPageRight"> <a href="#" onclick="inhibitorPageRight();return false;"> &gt;&gt; Next </a></div>';
+
+                echo '<table id="bindingtable" class="viewmolecule_datatable">
+                        <tr>
+                            <th class="molecules_th">
+                                Name
+                            </th>
+                            <th class="molecules_th">
+                                Value
+                            </th>
+                            <th class="molecules_th">
+                                Data Type
+                            </th>
+                            <th class="molecules_th">
+                                Notes
+                            </th>
+                        </tr>';
+
+            for($i=0;$i<$nmolperpage;$i++){
+                  echo '<tr></tr>';   //one row for each inhibitor on this page. To be filled with javascript:showInhibitors()
+            }
+
+            echo '</table>';
+           
+            if($numtotmol>$nmolperpage){ // if pages are needed
+                echo '<div id="div_inhibitorPageRight"> 
+                        <a href="#" onclick="inhibitorPageRight('.$nmolperpage.');return false;"> &gt;&gt; Next </a>
+                      </div>';
+            }
+
+            // Load inhibitor data into table
             echo '<script type="text/javascript">showInhibitors(0);</script>';
+
         }else{
             echo '<br /><br />No data.';
         }
@@ -173,10 +207,12 @@
 
 <!--Document data -->
     <div id="div_docdata" class="div_data" style="display:none">
+        <br/><br/>Not Implemented.
     </div>
 
 <!--Modeling data-->
     <div id="div_modelingdata" class="div_data" style="display:none">
+        <br/><br/>Not Implemented.
     </div>
 
     </div>

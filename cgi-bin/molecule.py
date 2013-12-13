@@ -2,7 +2,7 @@
 
 from atom import atom
 from sys import exit 
-from chem import mass
+from chem import sym2mass
 
 class molecule:
     def __init__(self,filename,filetype=None):
@@ -77,7 +77,7 @@ class molecule:
         for i in range(natoms):
             try:
                 atomlist.append(atom(fl[i].split()[0],fl[i].split()[1],fl[i].split()[2],fl[i].split()[3]))    
-                self.molweight+=mass(atomlist[-1].atsym)
+                self.molweight+=sym2mass(atomlist[-1].atsym.upper())
             except Exception:
                 print 'This XYZ format sucks. Check line', str(fl.index(i)+3),' of ',filename,'.'
                 break
@@ -97,7 +97,7 @@ class molecule:
             try:
                 line=f.readline()
                 atomlist.append(atom(line.split()[3],line.split()[0],line.split()[1],line.split()[2]))
-                self.molweight+=mass(atomlist[-1].atsym)
+                self.molweight+=sym2mass[atomlist[-1].atsym.upper()]
             except Exception:
                 print 'This MOL file sucks!', line.split()
                 break
@@ -105,6 +105,8 @@ class molecule:
         return atomlist
     
     def calcCharge(self):
+        if self.filetype != 'pdb':
+            return 0 
         for i in self.resnames:
             if i in ['ASP','GLU']:
                 self.charge-=1    
@@ -119,21 +121,6 @@ class molecule:
             f.write(i.atsym+' '+str(i.x)+' '+str(i.y)+' '+str(i.z)+' \n')
         f.close()
     
-    def writeGAUfile(self,filename,method,nproc,mem,charge):
-        f=open(filename,'w')
-        f.write('%chk='+filename.replace('gau','chk')+' \n')
-        f.write('%mem='+mem+' \n')
-        f.write('%nproc='+str(nproc)+' \n')
-        f.write('# '+method+ '\n')
-        f.write('\n')
-        f.write(filename.replace('.gau','')+' \n')
-        f.write('\n')
-        f.write(str(charge)+' 1 \n')
-        for i in self.atoms:
-            f.write(i.atsym+' '+i.x+' '+i.y+' '+i.z+' \n')
-        f.write('\n')
-        f.close()        
-
     def printInfo(self):
         print self.filename,self.natoms,' atoms',self.charge,' charge'
         for k in self.atoms:
@@ -143,13 +130,12 @@ class molecule:
         symbols=[]
         counts=[]
         for i in self.atoms:
-            j=i.atsym
-            if j in symbols:
-                counts[symbols.index(j)]+=1
+            if i.atsym in symbols:
+                counts[symbols.index(i.atsym)]+=1
             else:
-                symbols.append(j)
+                symbols.append(i.atsym)
                 counts.append(1)
-        order=['C','H','O','N','Cl']
+        order=['C','H','BR','CL','F','I','N','O','P','S']
         fstr=''
         for i in order:
             if i in symbols:

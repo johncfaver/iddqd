@@ -29,11 +29,14 @@ try:
         seriesprefix=r[0]
         nickname=r[1]
 
-    #Retrive last entry. Sorted by series number (molname).
+    #Retrive last inhibitor entry, sorted by reverse series number (molname).
     if (seriesprefix):
         q.execute("SELECT molname FROM molecules WHERE molname ~ %s ORDER BY molname DESC LIMIT 1",[seriesprefix])
         r=q.fetchone()
-        lastentry=r[0]
+        if(not r):
+            lastentry=0
+        else:
+            lastentry=r[0]
 
     q.close()
     dbconn.close()

@@ -43,8 +43,8 @@ else:
 if (not targetid or not userid or not token):
     config.returhome(31)
     sys.exit()
-if (not nickname):
-    print 'Location: ../edittarget.php?targetid='+str(targetid)+'status=nonickname\n\n'
+if (not nickname.strip()):
+    print 'Location: ../edittarget.php?targetid='+str(targetid)+'&status=nonickname\n\n'
     sys.exit()
 
 try:

@@ -52,34 +52,45 @@
         <th class="molth">Inhibitors</th>
     </tr>
 <?php
+        $q=$dbconn->query("SELECT 
+                            t.targetid,
+                            t.fullname,
+                            t.nickname,
+                            t.targetclass,
+                            t.series,
+                            count(distinct m.molid) 
+                           FROM 
+                            targets t LEFT JOIN 
+                            moldata m ON t.targetid=m.targetid 
+                           GROUP BY 
+                            t.targetid 
+                           ORDER BY count DESC;");
         $icount=0;
-        $q=$dbconn->query("select t.targetid,t.fullname,t.nickname,t.targetclass,t.series,count(distinct m.molid) from targets t left join moldata m on t.targetid=m.targetid group by t.targetid order by count desc;");
         foreach($q as $row){
             $color=($icount%2==0)?'moltdcolor':'';
-            echo '<tr>';
-            echo '    <td class="nonlinks moltd '.$color.' moltdpadding moltdborderright">';
-            echo ' <a href="viewtarget.php?targetid='.$row['targetid'].'">'.$row['fullname'].'</a>';     
-            echo '    </td>';
-            echo '    <td class="nonlinks moltd '.$color.' moltdpadding moltdborderright">';
-            echo ' <a href="viewtarget.php?targetid='.$row['targetid'].'">'.$row['nickname'].'</a>';     
-            echo '    </td>';
-            echo '    <td class="moltd '.$color.' moltdpadding moltdborderright">';
-            echo    $row['targetclass'];
-            echo '    </td>';
-            echo '    <td class="moltd '.$color.' moltdpadding moltdborderright">';
-            echo    $row['series'];
-            echo '    </td>';
-            echo '    <td class="moltd '.$color.' moltdpadding">';
-            echo    $row['count'];
-            echo '    </td>';
-            echo '</tr>';
+            echo '<tr>
+                    <td class="nonlinks moltd '.$color.' moltdpadding moltdborderright">
+                        <a href="viewtarget.php?targetid='.$row['targetid'].'">'.$row['fullname'].'</a>
+                    </td>
+                    <td class="nonlinks moltd '.$color.' moltdpadding moltdborderright">
+                        <a href="viewtarget.php?targetid='.$row['targetid'].'">'.$row['nickname'].'</a>  
+                    </td>
+                    <td class="moltd '.$color.' moltdpadding moltdborderright">
+                        '.$row['targetclass'].'
+                    </td>
+                    <td class="moltd '.$color.' moltdpadding moltdborderright">
+                        '.$row['series'].'
+                    </td>
+                    <td class="moltd '.$color.' moltdpadding">
+                        '.$row['count'].'
+                    </td>
+                </tr>';
             $icount+=1;
         }    
 ?>    
     </table>
     
 </table>
-
 </div>
 </body>
 </html>
