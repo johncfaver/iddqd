@@ -1,6 +1,0 @@
-postrgesql (crypto)
-php (postgres PDO)
-python2.7 (psycopg2)
-imagemagick (convert)
-openbabel
-wkhtmltopdf
