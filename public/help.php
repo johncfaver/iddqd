@@ -48,12 +48,20 @@
 	function selecthelp(t){
 		for(var i=0;i<tabs.length;i++){
 			var j = document.getElementById(tabs[i]);
-			j.setAttribute("class","helptab nonlinks");
+            if(i==tabs.length-1){
+                j.setAttribute("class","molth helptabunselected");
+            }else{
+			    j.setAttribute("class","molth moltdborderright helptabunselected");
+            }
 			j = document.getElementById('helpcontent_'+tabs[i]);
 			j.style.display='none';
 		}		
 		var j = document.getElementById(t);
-		j.setAttribute("class","helptab helptabselected nonlinks");
+		if(t==tabs.length-1){
+            j.setAttribute("class","molth");
+        }else{
+            j.setAttribute("class","molth moltdborderright");
+        }
 		j = document.getElementById('helpcontent_'+t);
 		j.style.display='block';
 	}
@@ -61,19 +69,21 @@
 </script>
 <div id="div_main">
 	<h2>IDDQD-Help</h2><br />
-	<div id="helpbar" >
-		<div id="searching" onclick="selecthelp('searching');return false" class="helptab helptabselected nonlinks"><a href="#">Searching</a></div>
-		<div id="inserting" onclick="selecthelp('inserting');return false" class="helptab nonlinks"><a href="#">Inserting</a></div>
-		<div id="drawing" onclick="selecthelp('drawing');return false" class="helptab nonlinks"><a href="#">Drawing</a></div>
-		<div id="viewing" onclick="selecthelp('viewing');return false" class="helptab nonlinks"><a href="#">Viewing</a></div>
-		<div id="exporting" onclick="selecthelp('exporting');return false" class="helptab nonlinks"><a href="#">Exporting</a></div>
-	</div>
+    <table class="moleculetable">
+        <tr class="moltr">
+            <a href="#"><th id="searching" class="molth moltdborderright" onclick="selecthelp('searching');return false">Searching</th></a>
+            <th id="inserting" class="molth moltdborderright helptabunselected" onclick="selecthelp('inserting');return false">Inserting</th>
+            <th id="drawing" class="molth moltdborderright helptabunselected" onclick="selecthelp('drawing');return false">Drawing</th>
+            <th id="viewing" class="molth moltdborderright helptabunselected" onclick="selecthelp('viewing');return false">Viewing</th>
+            <th id="exporting" class="molth helptabunselected" onclick="selecthelp('exporting');return false">Exporting</th>
+        </tr>
+    </table>
 	<div id="helpcontent_searching" class="help_content" style="display:block;"> 
 		<br/>Search By:
 		<ul>
 			<li><b>Substructure</b></li>Draw the substructure query in the sketch window, and select "substructure" below (it is selected by default).<br/><br />
-			<li><b>Similarity</b></li>Similar to substructure search, but select "similarity" below the sketch window. Results will be ordered by Tanimoto coefficient, which measures similarity. It ranges from 0 to 1, where 1 represents idential structures. Structures below a Tanimoto coefficient of 0.3 are omitted from the results. You can change this cutoff to 0.1 by adding &similaritythreshold=0.1 to the URL. <br /><br/>
-			<li><b>Name</b></li>Search by Name, CAS, or IUPAC name. CAS and IUPAC are not always available, but most database entries have a Name consisting of a short target code and a number, e.g. JLJ0422.<br /><br />
+			<li><b>Similarity</b></li>Similar to substructure search, but select "similarity" below the sketch window. Results will be returned with Tanimoto coefficients, which measure structural similarity to the query. It ranges from 0 to 1, where 1 represents identical structures. Structures below a Tanimoto coefficient of 0.3 are omitted from the results.  <br /><br/>
+			<li><b>Name</b></li>Search by Name, CAS, or IUPAC name. CAS and IUPAC are not always available, but most database entries have a Name consisting of a short target prefix and a series number, e.g. JLJ0422.<br /><br />
 			<li><b>Molecular weight</b></li>Search by molecular weight. Enter one value to view compounds closest to that molecular weight, or enter a range to view compounds within that molecular weight range.<br/><br/>
 			<li><b>Target</b></li>Filter results by returning only compounds with binding data associated with the selected target.<br/><br/>
 		</ul>
@@ -83,24 +93,29 @@
 		<br />To insert a new compound:
 		<ul>
 			<li><b>Sketch or upload the molecule.</b></li>
-			Go to the "Add Molecules" page, and sketch the compound in the sketcher window. 
-			Alternatively, you can upload a mol or SDF file in the field below the sketching window. 
-			Keep in mind 2D structures work much better than 3D. 
-			The sketcher will flatten 3D structures out into a 2D representation.<br/>
+			&emsp;From the "Add Molecules" page, sketch the compound in the sketcher window. 
+			Alternatively, you can upload a MOL or SDF file in the field below the sketching window. 
+            If you are using ChemDraw structures, you'll need to export them as MOL or SDF before uploading.
+			<b>Hint:</b> 2D structures work much better than 3D. 
+			The sketcher will project 3D structures onto a 2D representation.<br/>
 			<li><b>Enter the associated data.</b></li>
-			Fill in name data in the available fields for Name, IUPAC, and CAS#. 
-			None are required, but Name is required. As you select a target for the molecule, a name will be automatically suggested below the text box. Below the name fields are three tabs: <i>Binding, Properties, </i>and <i>Documents.</i> 
-			Click the <i>Binding</i> tab to enter binding data. Select the target from the dropdown menu, and the binding data type from the second dropdown menu.
-			Enter the value of the measurement in the text field, minding the units shown in the datatype dropdown menu. 	
-			Finally, if there are any notes you would like to leave concerning this measurement, click the note icon at the right.
-		 	A popup menu will appear, allowing you to enter your note. Notes may concern things such as who performed the experiment and when. 
-			If you have additional binding data to enter, click the + icon. To delete the last item of data, click the - icon. 
-			You can upload 5 items of data at a time.<br/>
-			&emsp;Similar actions can be performed for other data in the <i>Properties</i> tab, where you can insert data like CC<sub>50</sub> and solubility.
-			Finally, under the <i>Documents</i> tab, you can upload various documents related to the molecule. 
-			Select a description from the dropdown menu, and click the button and select a file for upload. 
-			You can submit notes for documents as well. <br/><br/>
-			Click the "Submit" button to enter all of the data into the database or click "Clear all" to cancel and clear your input.<br/><br/>
+			&emsp;Fill in the available fields for Name, IUPAC, and CAS#. 
+			A field for Name is required. As you select a target for the molecule, a name will be automatically suggested below the text box. 
+            Below the name fields are three tabs: 
+            <span style="font-style:italic">Binding, Properties,</span> and <span style="font-style:italic">Documents.</span>
+			    Click the <span style="font-style:italic">Binding</span> tab to enter binding data. 
+                Select the target from the dropdown menu, and the binding data type from the second dropdown menu.
+			    Enter the value of the measurement in the text field, minding the units shown in the datatype dropdown menu. 	
+			    Finally, if there are any notes you would like to leave concerning this measurement, click the note icon at the right.
+		 	    A popup menu will appear, allowing you to enter your note. Notes may concern things such as who performed the experiment and when. 
+			    If you have additional binding data to enter, click the + icon. To delete the last item of data, click the - icon. 
+			    You can upload 5 items of data at a time.<br/>
+			&emsp;Similar actions can be performed for other data in the <span style="font-style:italic;">Properties</span> tab, 
+                where you can insert data like CC<sub>50</sub> and solubility.
+			Finally, under the <span style="font-style:italic;">Documents</span> tab, you can upload various documents related to the molecule. 
+			    Select a description from the dropdown menu, and click the button and select a file for upload. 
+			    You can submit notes for documents as well. <br/><br/>
+			    Click the "Submit" button to enter all of the data into the database or click "Clear all" to cancel and clear your input.<br/><br/>
 		</ul>
 		<hr/>To update data for an existing compound:
 		<ul>

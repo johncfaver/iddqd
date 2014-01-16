@@ -71,7 +71,7 @@
         <th class="molth moltdborderright"><a href="molecules.php?sortby=molname&sortdir=<?php echo ($sortdir)?0:1;?>">Name</a></th> 
         <th class="molth moltdborderright"><a href="molecules.php?sortby=molweight&sortdir=<?php echo ($sortdir)?0:1;?>">MW</a></th> 
         <th class="molth moltdborderright"><a href="molecules.php?sortby=username&sortdir=<?php echo ($sortdir)?0:1;?>">Author</a></th> 
-        <th class="molth moltdborderright"><a href="molecules.php?sortby=dateadded&sortdir=<?php echo ($sortdir)?0:1;?>">Date Added</a></th> 
+        <th class="molth "><a href="molecules.php?sortby=dateadded&sortdir=<?php echo ($sortdir)?0:1;?>">Date Added</a></th> 
     </tr>
 <?php
     $qstr = 'SELECT 
