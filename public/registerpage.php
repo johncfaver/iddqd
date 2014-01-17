@@ -7,7 +7,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 </head>
 <body>
-
+<div id="div_holder">
 <div id="div_left"></div>	
 <div id="div_top">
 	<div id="div_login"></div>	
@@ -43,6 +43,7 @@
     	<input type="submit" value="Register" />	
 	</form>
 	</span>
+</div>
 </div>
 </body>
 </html>

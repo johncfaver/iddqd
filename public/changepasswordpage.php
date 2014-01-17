@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="iddqd.css" type="text/css" />
 </head>
 <body>
-
+<div id="div_holder">
 <div id="div_left">
 </div>	
 <div id="div_top">
@@ -47,7 +47,7 @@
         echo 'No valid key provided!';
     }else{
         if(isset($_GET['passwordisbad'])){
-            echo 'That password was invalid.<br /><br/>';
+            echo 'That password was invalid. Passwords should be 5-20 characters.<br /><br/>';
         }
 	    echo '<form method="post" action="changepw.php" id="register" >
 		        Username: '.$r['username'].'<br /><br/>
@@ -60,6 +60,7 @@
     }
 ?>
 	</span>
+</div>
 </div>
 </body>
 </html>

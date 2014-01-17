@@ -20,7 +20,7 @@
 <script type="text/javascript" src="iddqd.js"></script>
 </head>
 <body>
-
+<div id="div_holder">
 <div id="div_left">
 	<div id="left_links">
 		<span class="nonlinks">
@@ -68,7 +68,7 @@
 
 </script>
 <div id="div_main">
-	<h2>IDDQD-Help</h2><br />
+	<span style="font-size:1.3em;position:absolute;left:400px;top:20px;">IDDQD-Help</span>
     <table class="moleculetable">
         <tr class="moltr">
             <a href="#"><th id="searching" class="molth moltdborderright" onclick="selecthelp('searching');return false">Searching</th></a>
@@ -102,17 +102,17 @@
 			&emsp;Fill in the available fields for Name, IUPAC, and CAS#. 
 			A field for Name is required. As you select a target for the molecule, a name will be automatically suggested below the text box. 
             Below the name fields are three tabs: 
-            <span style="font-style:italic">Binding, Properties,</span> and <span style="font-style:italic">Documents.</span>
-			    Click the <span style="font-style:italic">Binding</span> tab to enter binding data. 
+            <i>Binding, Properties,</i></span> and <i>Documents.</i>
+			    Click the <i>Binding</i> tab to enter binding data. 
                 Select the target from the dropdown menu, and the binding data type from the second dropdown menu.
 			    Enter the value of the measurement in the text field, minding the units shown in the datatype dropdown menu. 	
 			    Finally, if there are any notes you would like to leave concerning this measurement, click the note icon at the right.
 		 	    A popup menu will appear, allowing you to enter your note. Notes may concern things such as who performed the experiment and when. 
 			    If you have additional binding data to enter, click the + icon. To delete the last item of data, click the - icon. 
 			    You can upload 5 items of data at a time.<br/>
-			&emsp;Similar actions can be performed for other data in the <span style="font-style:italic;">Properties</span> tab, 
+			&emsp;Similar actions can be performed for other data in the <i>Properties</i> tab, 
                 where you can insert data like CC<sub>50</sub> and solubility.
-			Finally, under the <span style="font-style:italic;">Documents</span> tab, you can upload various documents related to the molecule. 
+			Finally, under the <i>Documents</i> tab, you can upload various documents related to the molecule. 
 			    Select a description from the dropdown menu, and click the button and select a file for upload. 
 			    You can submit notes for documents as well. <br/><br/>
 			    Click the "Submit" button to enter all of the data into the database or click "Clear all" to cancel and clear your input.<br/><br/>
@@ -125,7 +125,7 @@
 		</ul>
 	</div>
 	<div id="helpcontent_drawing" class="help_content">
-		<br />Drawing tips:<br/><br/>Drawing works a lot like ChemDraw, and is mostly straightforward. Here are some tips:
+		<br/>Drawing works a lot like ChemDraw, and is mostly straightforward. Here are some tips:
 		<ul>
 			<li><b>Use keyboard shortcuts.</b></li>Use numbers to change bond orders, e.g. 2 for double bonds. Use letters to change carbons to 'N','O', etc. Sometimes you'll have to cycle through elements, e.g. hit "s" twice for sulfur (the first s is silicon). Use ctrl+z and ctrl+y for undo and redo.<br/>
 			<li><b>Use the mousedown feature.</b></li>To place new atoms in correct positions, click and hold down the mouse. You can postion the new atom to be at the intended angle.	<br/>
@@ -159,6 +159,7 @@
 			 click "Export PDF". For a spreadsheet containing all of the available measurement data for the compounds, 
 			click "Export Spreadsheet". For the 2D and 3D mol files as well as a compiled SDF file of your notebook, click "Export structures".
 	</div>
+</div>
 </div>
 </body>
 </html>

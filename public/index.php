@@ -18,6 +18,8 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 </head>
 <body>
+<div id="div_holder">
+
 <div id="div_left">
     <div id="left_links">
 <?php
@@ -38,41 +40,48 @@
 <div id="div_top">
 <?php
         if($loggedin){
-            echo '<div id="div_notebook">';
-            echo '<a href="notebook.php">My Notebook: '.count($_SESSION['notebook_molids']).'</a>';
-            echo '</div>';
-            echo '<div id="div_login">';
-            echo '<span id="span_loggedin">Logged in as '.$_SESSION['username'].' <a href="logout.php">(logout)</a></span>';
+            echo '<div id="div_notebook">
+                    <a href="notebook.php">My Notebook: '.count($_SESSION['notebook_molids']).'</a>
+                  </div>
+                  <div id="div_login">
+                    <span id="span_loggedin">
+                        Logged in as '.$_SESSION['username'].' <a href="logout.php">(logout)</a>
+                    </span>';
         }else{        
             echo '<div id="div_login">';
-            echo '<a href="registerpage.php" style="float:left;font-size:0.8em;">Create Account</a>';
-            echo '<a href="changepasswordrequestpage.php" style="float:right;margin-right:100px;font-size:0.8em;">Retrieve Password</a>';
-            echo '<br />';
-            echo '<form id="login" method="post" action="login.php"    >';
-            echo '<input type="text" value="username" name="enteredusername" id="enteredusername" onclick="clearuserbox();" size="7" maxlength="20" required />';
-            echo '<input type="password" name="enteredpassword" value="password" id="enteredpassword" onclick="clearpasswordbox();" size="7" required />';
-            echo '<input type="submit" value="Log in"/>';
-            echo '</form>';
-            
-           }
+            //echo '<a href="registerpage.php" style="float:left;font-size:0.8em;">Create Account</a>';
+            echo '<form id="login" method="post" action="login.php">
+                    <input type="text" value="username" name="enteredusername" id="enteredusername" onclick="clearuserbox();" size="7" maxlength="20" required />
+                    <input type="password" name="enteredpassword" value="password" id="enteredpassword" onclick="clearpasswordbox();" size="7" required />
+                    <input type="submit" value="Log in"/>
+                  </form>';
+            echo '<a href="changepasswordrequestpage.php" style="position:absolute;bottom:-25px;left:130px;font-size:0.8em;z-index:2;">Retrieve Password</a>';
+
+         }
          if(isset($_GET['status'])){
             if($_GET['status']=='badpw'){
-                echo '<span style="font-size:0.8em;position:fixed;top:60px;left:960px;margin:0px;">
+                echo '<span style="font-size:1.8em;position:fixed;top:130px;left:530px;margin:0px;">
                         Invalid username/password.
                       </span>';
             }
          }
          if(isset($_GET['errorcode'])){
-                echo '<span style="font-size:0.8em;position:fixed;top:60px;left:960px;margin:0px;">
-                Error '.$_GET['errorcode'].' occurred.    
+                echo '<span style="font-size:1.8em;position:fixed;top:130px;left:560px;margin:0px;">
+                Error '.(int)htmlentities($_GET['errorcode']).' occurred.    
                 </span>';
          }
         echo '</div>';
 ?>    
 </div>
 <div id="div_main">
-    <br /><br />
-    Inhibitor Discovery, Design, and Quantification Database
+<?php
+        if(!isset($_GET['status']) and !isset($_GET['errorcode'])){
+            echo '<span style="position:absolute;top:200px;left:300px">
+                    Inhibitor Discovery, Design, and Quantification Database
+                  </span>';
+        }
+?>
+</div>
 </div>
 </body>
 </html>

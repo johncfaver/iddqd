@@ -48,7 +48,7 @@
 <title><?php echo htmlentities($moldata['molname'], ENT_QUOTES); ?></title>
 </head>
 <body>
-
+<div id="div_holder">
 <div id="div_datapopup"></div>
 <div id="div_shade_window"></div>
 <div id="div_deletecheck" class="div_notespopup" >
@@ -329,6 +329,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

@@ -69,7 +69,7 @@
     <title>Add a Molecule</title>
 </head>
 <body onload="morebindingdata();morepropertydata();moredocdata();">
-
+<div id="div_holder">
 <div id="div_left">
     <div id="left_links">
         <span class="nonlinks">
@@ -216,6 +216,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

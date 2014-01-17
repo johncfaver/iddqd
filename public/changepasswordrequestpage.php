@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="iddqd.css" type="text/css" />
 </head>
 <body>
-
+<div id="div_holder">
 <div id="div_left">
 </div>	
 <div id="div_top">
@@ -38,11 +38,12 @@
         }
 ?>
         <form method="post" action="../cgi-bin/passwordrequest.py" id="register" >
-            Email: <input type="text" id="email" name="email" size="8" required maxlength="40" />
-            <br /><br />
+            Email: <input type="text" id="email" name="email" size="15" required maxlength="40" />
+            <br /><br /><br/><br/>
             <input type="submit" value="Request Password Change" />	
         </form>
 	</span>
+</div>
 </div>
 </body>
 </html>

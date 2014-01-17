@@ -23,7 +23,7 @@
 <script type="text/javascript" src="iddqd.js"></script>
 </head>
 <body>
-
+<div id="div_holder">
 <div id="div_left">
 	<div id="left_links">
 		<span class="nonlinks">
@@ -122,7 +122,7 @@
         echo '</table>';
     }
 ?>
-
+</div>
 </div>
 </body>
 </html>

@@ -58,6 +58,7 @@
 		<title>Editing <?php echo $thismolname;?></title>
     </head>
 <body>
+<div id="div_holder">
 
 <!-- LEFT COLUMN -->
 <div id="div_left">
@@ -272,6 +273,6 @@
 
 ?>
 </script>
-
+</div>
 </body>
 </html>

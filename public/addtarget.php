@@ -19,7 +19,7 @@
 <script type="text/javascript" src="iddqd.js"></script>
 </head>
 <body>
-
+<div id="div_holder">
 <div id="div_left">
 	<div id="left_links">
 		<span class="nonlinks">
@@ -42,7 +42,7 @@
 	</div>	
 </div>
 <div id="div_main">
-<br/><br/>Add a new target:<br />
+<span style="font-size:1.3em;position:absolute;left:360px;top:50px;">Add a new target:</span>
 <span id="span_regspan">
     <?php 
         if(isset($_GET['status'])){
@@ -62,7 +62,7 @@
     </form>
 </span>
 
-
+</div>
 </div>
 </body>
 </html>

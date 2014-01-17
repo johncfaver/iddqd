@@ -1,7 +1,7 @@
 <?php
 
 //  changepw.php
-//  Perform a password update.
+//  Perform a password update in the database.
 
 	require('config.php');
 	try{

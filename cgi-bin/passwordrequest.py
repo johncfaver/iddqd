@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+##
+# passwordrequest.py
+#   Runs when user requests a password change.
+#
+##
 
 import psycopg2,cgi,cgitb,string,random
 from sys import exit
