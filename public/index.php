@@ -25,6 +25,7 @@
 <?php
     if($loggedin){
         echo '<span class="nonlinks">';
+        if ($_SESSION['isadmin']) echo '<a href="admin.php" style="color:white">Administration</a><br/><br/>';
         echo '<a href="index.php" style="color:#bbbbff">Home</a><br /><br />';
         echo '<a href="search.php" style="color:white">Search</a> <br /><br />';
         echo '<a href="molecules.php" style="color:white">View Library</a><br /><br />';
@@ -51,11 +52,11 @@
             echo '<div id="div_login">';
             //echo '<a href="registerpage.php" style="float:left;font-size:0.8em;">Create Account</a>';
             echo '<form id="login" method="post" action="login.php">
-                    <input type="text" value="username" name="enteredusername" id="enteredusername" onclick="clearuserbox();" size="7" maxlength="20" required />
-                    <input type="password" name="enteredpassword" value="password" id="enteredpassword" onclick="clearpasswordbox();" size="7" required />
+                    <input type="text" value="username" name="enteredusername" id="enteredusername" onclick="clearuserbox();" size="10" maxlength="20" required />
+                    <input type="password" name="enteredpassword" value="password" id="enteredpassword" onclick="clearpasswordbox();" size="10" required />
                     <input type="submit" value="Log in"/>
                   </form>';
-            echo '<a href="changepasswordrequestpage.php" style="position:absolute;bottom:-25px;left:130px;font-size:0.8em;z-index:2;">Retrieve Password</a>';
+            echo '<a href="changepasswordrequestpage.php" style="position:absolute;bottom:-30px;left:120px;font-size:0.8em;z-index:2;">Retrieve Password</a>';
 
          }
          if(isset($_GET['status'])){

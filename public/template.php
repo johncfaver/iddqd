@@ -23,18 +23,19 @@
 <div id="div_left">
 	<div id="left_links">
 		<span class="nonlinks">
-		<a href="index.php" style="color:#bbbbff">Home</a><br /><br />
-		<a href="search.php" style="color:white">Search </a><br /><br />
-		<a href="molecules.php" style="color:white">View Library</a><br /><br />
-		<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
-	    <a href="bounties.php" style="color:white">Bounties</a><br /><br />
-	    <a href="targets.php" style="color:white">Targets</a><br /><br />
-		<a href="help.php" style="color:white">Help</a><br /><br />
-	</span>
+            <?php if ($_SESSION['isadmin'])echo '<a href="admin.php" style="color:white">Administration</a><br/><br/>';?>
+	    	<a href="index.php" style="color:#bbbbff">Home</a><br /><br />
+	    	<a href="search.php" style="color:white">Search </a><br /><br />
+	    	<a href="molecules.php" style="color:white">View Library</a><br /><br />
+	    	<a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
+	        <a href="bounties.php" style="color:white">Bounties</a><br /><br />
+	        <a href="targets.php" style="color:white">Targets</a><br /><br />
+	    	<a href="help.php" style="color:white">Help</a><br /><br />
+	    </span>
 	</div>
-	<!--<div id="div_ad">
+	<div id="div_ad">
 		<a href="http://web.chemdoodle.com"><img src="chemdoodleweb.png" /></a>
-	</div>-->
+	</div>
 </div>	
 <div id="div_top">
 	<div id="div_notebook">

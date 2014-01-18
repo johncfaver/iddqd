@@ -9,7 +9,6 @@
 
 import cgi, os, cgitb, base64, psycopg2, subprocess, filecmp, shutil
 from sys import exit, executable
-from urllib import unquote_plus
 import config
 cgitb.enable(display=0,logdir="../log/",format="text")
 

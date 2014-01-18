@@ -20,6 +20,7 @@
 		$userarray=$q->fetch();
 		$_SESSION['username']=$userarray['username'];	
 		$_SESSION['userid']=$userarray['userid'];
+        $_SESSION['isadmin']=$userarray['isadmin'];
 		$_SESSION['notebook_molids']=Array();
         $_SESSION['notebook_bountyids']=Array();
         $token = bin2hex(openssl_random_pseudo_bytes(20));
@@ -35,8 +36,8 @@
         
         $dbconn=null;
         if($q3 !== false){
-		    $loggedin=True;	
             returnhome(0);
+            exit;
         }else{
             session_unset();
             session_destroy();
@@ -46,7 +47,6 @@
     }
     else{
         $dbconn=null;
-        $loggedin=False;
         header('Location: index.php?status=badpw');
         exit;
     }

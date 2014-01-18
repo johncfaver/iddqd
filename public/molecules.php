@@ -28,6 +28,7 @@
 <div id="div_left">
     <div id="left_links">
         <span class="nonlinks">
+        <?php if ($_SESSION['isadmin']) echo '<a href="admin.php" style="color:white">Administration</a><br/><br/>';?>      
         <a href="index.php" style="color:white">Home</a><br /><br />
         <a href="search.php" style="color:white">Search</a> <br /><br />
         <a href="molecules.php" style="color:#bbbbff">View Library</a><br /><br />
@@ -83,20 +84,20 @@
               FROM molecules m LEFT JOIN users u ON u.userid=m.authorid ';    
 
     if($sortby=='dateadded'){
-         $qstr.=' order by m.dateadded';
+         $qstr.=' ORDER BY m.dateadded';
          if($sortdir) $qstr.=' DESC';
     }elseif($sortby=='molweight'){
-         $qstr.=' order by m.molweight';
+         $qstr.=' ORDER BY m.molweight';
          if($sortdir) $qstr.=' DESC';
     }elseif($sortby=='molname'){
-         $qstr.=' order by m.molname';
+         $qstr.=' ORDER BY m.molname';
          if($sortdir) $qstr.=' DESC';
     }elseif($sortby=='username'){
-        $qstr.=' order by u.username';
+        $qstr.=' ORDER BY u.username';
         if($sortdir) $qstr.=' DESC';
     }
     
-    $qstr.=' limit :num1 offset :num2';
+    $qstr.=' LIMIT :num1 OFFSET :num2';
     $q = $dbconn->prepare($qstr); 
     $q->bindParam(":num1",$nummol,PDO::PARAM_INT);
     $q->bindParam(":num2",$molstart,PDO::PARAM_INT);

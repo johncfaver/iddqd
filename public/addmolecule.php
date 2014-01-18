@@ -73,6 +73,7 @@
 <div id="div_left">
     <div id="left_links">
         <span class="nonlinks">
+        <?php if ($_SESSION['isadmin']) echo '<a href="admin.php" style="color:white">Administration</a><br/><br/>';?>
         <a href="index.php" style="color:white">Home</a><br /><br />
         <a href="search.php" style="color:white">Search</a> <br /><br />
         <a href="molecules.php" style="color:white ">View Library</a><br /><br />

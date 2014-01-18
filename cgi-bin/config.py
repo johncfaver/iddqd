@@ -24,8 +24,14 @@ user = conf['email']['user'].encode('utf-8')
 password = conf['email']['pass'].encode('utf-8')
 from_address = conf['email']['from_address'].encode('utf-8')
 
+def find_email_addresses(instring):
+    import re
+    reg = re.compile(r'[^@\s,=\?<>:\\\/]+@[^@\s,=\?<>:\\\/]+\.[^@\s,\?=<>:\\\/]+')
+    list_of_addresses = reg.findall(instring)
+    return ','.join(list_of_addresses)
+
 #Send an email using the config in iddqd-config.json using TLS
-#For password recovery, etc.
+#For invitations, password recovery, etc.
 def sendemail(to,text):
     import smtplib
     from email.mime.text import MIMEText
