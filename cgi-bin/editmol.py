@@ -73,14 +73,13 @@ if 'molid' in keys:
 else:
     molid=0
 if 'userid' in keys:
-    authorid=form['userid'].value
+    userid=form['userid'].value
 else:
-    authorid=0
+    userid=0
 if 'token' in keys:
     token=form['token'].value
 else:
     token=''
-
 if 'oldcommentids' in keys:
     oldcommentids=form['oldcommentids'].value.split(',')[:-1]
 else:
@@ -102,8 +101,8 @@ else:
 if(not molname.strip()):
     print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)+' \n\n'
     exit()
-#Must be logged in.
-if(not authorid or not token):
+#Must be logged in with valid token.
+if(not userid or not token or not molid):
     config.returnhome(30)
     exit()
 
@@ -112,7 +111,7 @@ propertydatas=[]
 commentdatas=[]
 docdatas=[]
 
-#LOAD OLD DATA 
+#LOAD OLD DATA INTO LIST
 for i in oldbindingdataids:
     if 'bindingdata_datatypeid_'+i in keys and 'bindingdata_value_'+i in keys and 'bindingdata_targetid_'+i in keys:    
         if(not form['bindingdata_value_'+i].value):    
@@ -192,7 +191,7 @@ dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
 #Check for token.
-q.execute('SELECT token FROM tokens WHERE userid=%s',[authorid])
+q.execute('SELECT token FROM tokens WHERE userid=%s',[userid])
 dbtoken = q.fetchone()[0]
 if(dbtoken != token):
     config.returnhome(43)
@@ -205,72 +204,72 @@ q.execute(query,options)
 ##############################
 
 ######UPDATE OLD DATA#####################
-#timestamp is updated, editor becomes author
+#Must be author of data to edit data. Timestamp is updated when editing.
 for i in xrange(len(oldbindingdataids)):
-    query='UPDATE moldata SET datatype=%s, targetid=%s, value=%s, dateadded=localtimestamp, authorid=%s where moldataid=%s'
-    options=[bindingdatas[i].datatypeid,bindingdatas[i].targetid,bindingdatas[i].value,authorid,bindingdatas[i].moldataid]
+    query='UPDATE moldata SET datatype=%s, targetid=%s, value=%s, dateadded=localtimestamp WHERE authorid=%s AND moldataid=%s'
+    options=[bindingdatas[i].datatypeid,bindingdatas[i].targetid,bindingdatas[i].value,userid,bindingdatas[i].moldataid]
     q.execute(query,options)
     if(bindingdatas[i].notesid!='0'):
-        query='UPDATE datacomments SET dataid=%s,authorid=%s,dateadded=localtimestamp,datacomment=%s where datacommentid=%s'
-        options=[bindingdatas[i].moldataid,authorid,bindingdatas[i].notes,bindingdatas[i].notesid]
+        query='UPDATE datacomments SET dataid=%s,dateadded=localtimestamp,datacomment=%s where datacommentid=%s and authorid=%s'
+        options=[bindingdatas[i].moldataid,bindingdatas[i].notes,bindingdatas[i].notesid,userid]
         q.execute(query,options)
-    elif(bindingdatas[i].notes):
-        query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s) '    
-        options=[bindingdatas[i].moldataid,authorid,bindingdatas[i].notes]
-        q.execute(query,options)
+    #elif(bindingdatas[i].notes):  #ALLOWS OTHERS TO ADD NEW NOTES ON A USERS DATA. CURRENTLY DISALLOWED.
+    #    query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s) '    
+    #    options=[bindingdatas[i].moldataid,userid,bindingdatas[i].notes]
+    #    q.execute(query,options)
 for i in xrange(len(oldpropertydataids)):
-    query='UPDATE moldata SET datatype=%s, targetid=null, value=%s, dateadded=localtimestamp, authorid=%s where moldataid=%s'
-    options=[propertydatas[i].datatypeid,propertydatas[i].value,authorid,propertydatas[i].moldataid]
+    query='UPDATE moldata SET datatype=%s, targetid=null, value=%s, dateadded=localtimestamp where authorid=%s AND moldataid=%s'
+    options=[propertydatas[i].datatypeid,propertydatas[i].value,userid,propertydatas[i].moldataid]
     q.execute(query,options)
     if(propertydatas[i].notesid!='0'):
-        query='UPDATE datacomments SET dataid=%s,authorid=%s,dateadded=localtimestamp,datacomment=%s where datacommentid=%s'
-        options=[propertydatas[i].moldataid,authorid,propertydatas[i].notes,propertydatas[i].notesid]
+        query='UPDATE datacomments SET dataid=%s,dateadded=localtimestamp,datacomment=%s where authorid=%s AND datacommentid=%s'
+        options=[propertydatas[i].moldataid,propertydatas[i].notes,userid,propertydatas[i].notesid]
         q.execute(query,options)
-    elif(propertydatas[i].notes):
-        query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s) '    
-        options=[propertydatas[i].moldataid,authorid,propertydatas[i].notes]
-        q.execute(query,options)
+    #elif(propertydatas[i].notes): #ALLOWS OTHERS TO ADD NEW NOTES ON A USERS DATA. CURRENTLY DISALLOWED.
+    #    query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s) '    
+    #    options=[propertydatas[i].moldataid,userid,propertydatas[i].notes]
+    #    q.execute(query,options)
 for i in xrange(len(olddocdataids)):
     if(docdatas[i].notesid!='0'):
-        query='UPDATE datacomments SET dataid=%s,authorid=%s,dateadded=localtimestamp,datacomment=%s where datacommentid=%s'
-        options=[docdatas[i].moldataid,authorid,docdatas[i].notes,docdatas[i].notesid]
+        query='UPDATE datacomments SET dataid=%s,dateadded=localtimestamp,datacomment=%s where authorid=%s AND datacommentid=%s'
+        options=[docdatas[i].moldataid,docdatas[i].notes,userid,docdatas[i].notesid]
         q.execute(query,options)
-    elif(docdatas[i].notes):
-        query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s) '    
-        options=[docdatas[i].moldataid,authorid,docdatas[i].notes]
-        q.execute(query,options)
+    #elif(docdatas[i].notes):     #ALLOWS OTHERS TO ADD NEW NOTES ON A USERS DATA. CURRENTLY DISALLOWED.
+    #    query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s) '    
+    #    options=[docdatas[i].moldataid,userid,docdatas[i].notes]
+    #    q.execute(query,options)
 ########################################
 
 ######INSERT NEW DATA####################
 for i in xrange(len(oldbindingdataids),len(bindingdatas)):
     query='INSERT INTO moldata (molid,authorid,dateadded,targetid,datatype,value)'
     query+=' VALUES (%s, %s, localtimestamp, %s, %s, %s) RETURNING moldataid '
-    options=[molid,authorid,bindingdatas[i].targetid,bindingdatas[i].datatypeid,bindingdatas[i].value]
+    options=[molid,userid,bindingdatas[i].targetid,bindingdatas[i].datatypeid,bindingdatas[i].value]
     q.execute(query,options)
     if(bindingdatas[i].notes):
         dataid=q.fetchone()[0]
         query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s) '    
-        options=[dataid,authorid,bindingdatas[i].notes]
+        options=[dataid,userid,bindingdatas[i].notes]
         q.execute(query,options)
 for i in xrange(len(oldpropertydataids),len(propertydatas)):
     query='INSERT INTO moldata (molid,authorid,dateadded,datatype,value)'
     query+=' VALUES (%s, %s, localtimestamp, %s, %s) RETURNING moldataid'
-    options=[molid,authorid,propertydatas[i].datatypeid,propertydatas[i].value]
+    options=[molid,userid,propertydatas[i].datatypeid,propertydatas[i].value]
     q.execute(query,options)
     if(propertydatas[i].notes):
         dataid=q.fetchone()[0]
         query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s)'
-        options=[dataid,authorid,propertydatas[i].notes]
+        options=[dataid,userid,propertydatas[i].notes]
         q.execute(query,options)
 for i in xrange(len(olddocdataids),len(docdatas)):
     query='INSERT INTO moldata (molid,authorid,dateadded,datatype)'
     query+=' VALUES (%s, %s, localtimestamp, %s) RETURNING moldataid'
-    options=[molid,authorid,docdatas[i].datatypeid]
+    options=[molid,userid,docdatas[i].datatypeid]
     q.execute(query,options)
     docdatas[i].moldataid=q.fetchone()[0]
     if(docdatas[i].notes):
         query='INSERT INTO datacomments (dataid,authorid,dateadded,datacomment) values (%s,%s,localtimestamp,%s)'
-        options=[docdatas[i].moldataid,authorid,docdatas[i].notes]
+        options=[docdatas[i].moldataid,userid,docdatas[i].notes]
         q.execute(query,options)
 ############################
 
@@ -297,7 +296,7 @@ if os.path.isfile('structures/'+str(molid)+'.mol'):
         os.remove('/tmp/'+str(molid)+'.mol')
         recalculate=True
 
-#Check for newly uploaded documents.
+#Store any newly uploaded documents.
 for i in xrange(len(olddocdataids),len(docdatas)):
     with open('documents/'+str(molid)+'_'+str(docdatas[i].datatypeid)+'_'+str(docdatas[i].moldataid)+'_'+str(docdatas[i].filename),'w') as f:
         while 1:

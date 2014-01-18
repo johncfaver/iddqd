@@ -1,19 +1,36 @@
 #!/bin/bash
 
-#########################
-### SETUP VARIABLES #####
-#########################
-$DOMAIN=$(ip addr show eth0| sed -nr 's/.*inet ([^\/]+).*/\1/p')
-    #Domain for the server, usually the local IP address.
+######################### Please modify these variables before installation.
+### SETUP VARIABLES ##### After installation, most can be edited in the
+######################### config/iddqd-config.json file.
 
-$PGPASS='password'
-    #Password for database user iddqd. You should change this.
-$IDDQD_ADMIN_USER='admin'
-    #User name of default admin user. You will log in with this account first.
-$IDDQD_ADMIN_PASS='admin'
-    #Password of default admin user. ***You should change this.***
-$IDDQD_ADMIN_EMAIL=''
-    #Email of default admin user.
+#####APPLICATION
+#User name of default iddqd admin user. You will log in with this account first.
+IDDQD_ADMIN_USER='admin'
+#Password of default admin user. ***You should change this.***
+IDDQD_ADMIN_PASS=''
+#Email of default admin user. For password recovery.
+IDDQD_ADMIN_EMAIL=''
+#Email account for application to use for sending invites, password requests.
+IDDQD_SYSTEM_EMAIL_ADDRESS=''
+IDDQD_SYSTEM_EMAIL_USER=''
+IDDQD_SYSTEM_EMAIL_PASS=''
+IDDQD_SYSTEM_EMAIL_HOST=''
+IDDQD_SYSTEM_EMAIL_PORT=''
+
+
+####WEB SERVER
+#Domain for the server, usually the local IP address. 
+DOMAIN=$(ip addr show eth0| sed -nr 's/.*inet ([^\/]+).*/\1/p')
+
+
+####DATABASE (postgresql)
+#Postgresql will be downloaded and ran on the localhost.
+#A new user for postgresql will be created named iddqd.
+#We will use a new database called iddqddb
+#Password for database user iddqd. *You should change this.*
+PGPASS='password'
+
 
 
 
@@ -23,7 +40,14 @@ if [[ $EUID -ne 0 ]]; then
     echo "ERROR: Must be run with root privileges."
     exit 1
 fi
-
+if [ ! $IDDQD_ADMIN_PASS ];then
+    echo "ERROR: Must edit IDDQD_ADMIN_PASS."
+    exit 1
+fi
+if [ ! $IDDQD_ADMIN_EMAIL ];then
+    echo "ERROR: Must edit IDDQD_ADMIN_EMAIL."
+    exit 1
+fi
 #####################
 ####GET PACKAGES#####
 #####################
@@ -62,7 +86,7 @@ done
 query="SELECT COUNT(1) FROM pg_catalog.pg_database WHERE datname = 'iddqddb';"
 DATABASE_EXISTS=$(sudo -u postgres psql -t -c "$query")
 echo $DATABASE_EXISTS
-if [ $DATABASE_EXISTS -ne 1 ]; then
+if [ $DATABASE_EXISTS -ne 1 -a $IDDQD_ADMIN_EMAIL ]; then
     #Create user iddqd and database iddqddb
     cat <<PGSCRIPT | sudo -u postgres psql
 CREATE USER iddqd WITH PASSWORD '$PGPASS';
