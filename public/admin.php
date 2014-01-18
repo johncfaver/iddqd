@@ -99,7 +99,7 @@ function prepare_emails(){
                             <input type="submit" value="Promote" style="float:left;margin-left:20px;" />
                           </form>
                     ';
-                    echo '<form action="cgi-bin/delteuser.py" method="POST">
+                    echo '<form action="cgi-bin/deleteuser.py" method="POST">
                             <input type="hidden" name="token" value="'.$_SESSION['token'].'"/>
                             <input type="hidden" name="userid" value="'.$_SESSION['userid'].'"/>
                             <input type="hidden" name="deleteuserid" value="'.$r['userid'].'"/>

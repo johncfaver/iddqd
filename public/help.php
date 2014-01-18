@@ -72,11 +72,11 @@
 	<span style="font-size:1.3em;position:absolute;left:400px;top:20px;">IDDQD-Help</span>
     <table class="moleculetable">
         <tr class="moltr">
-            <a href="#"><th id="searching" class="molth moltdborderright" onclick="selecthelp('searching');return false">Searching</th></a>
-            <th id="inserting" class="molth moltdborderright helptabunselected" onclick="selecthelp('inserting');return false">Inserting</th>
-            <th id="drawing" class="molth moltdborderright helptabunselected" onclick="selecthelp('drawing');return false">Drawing</th>
-            <th id="viewing" class="molth moltdborderright helptabunselected" onclick="selecthelp('viewing');return false">Viewing</th>
-            <th id="exporting" class="molth helptabunselected" onclick="selecthelp('exporting');return false">Exporting</th>
+            <th id="searching" class="molth moltdborderright" onclick="selecthelp('searching');return false"><a href="#">Searching</a></th>
+            <th id="inserting" class="molth moltdborderright helptabunselected" onclick="selecthelp('inserting');return false"><a href="#">Inserting</a></th>
+            <th id="drawing" class="molth moltdborderright helptabunselected" onclick="selecthelp('drawing');return false"><a href="#">Drawing</a></th>
+            <th id="viewing" class="molth moltdborderright helptabunselected" onclick="selecthelp('viewing');return false"><a href="#">Viewing</a></th>
+            <th id="exporting" class="molth helptabunselected" onclick="selecthelp('exporting');return false"><a href="#">Exporting</a></th>
         </tr>
     </table>
 	<div id="helpcontent_searching" class="help_content" style="display:block;"> 
