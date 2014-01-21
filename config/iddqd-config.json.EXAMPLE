@@ -1,5 +1,5 @@
 {
-    "domain":"https://ipaddress:443",
+    "domain":"https://ipaddress",
     "babeldir":"/usr/bin/",
     "wkhtmltopdfdir":"/usr/bin/",
     "convertdir":"/usr/bin/",
@@ -8,13 +8,13 @@
         "port":5432,
         "database":"iddqddb",
         "user":"iddqd",
-        "pass":"password"
+        "pass":"pgpass"
     },
     "email": {
-        "from_address":"admin@admin.admin",
-        "host":"smtp.admin",
-        "port":587,
-        "user":"admin",
-        "pass":"password"
+        "from_address":"defaultemail",
+        "host":"defaulthost",
+        "port":defaultport,
+        "user":"defaultuser",
+        "pass":"defaultpass"
     }
 }

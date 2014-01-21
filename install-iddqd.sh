@@ -10,8 +10,8 @@
 #Directory for installation
 IDDQD_DIR='/var/www/iddqd'
 
-#Source for IDDQD
-IDDQD_SOURCE=192.168.25.55/var/www/ddb/iddqd
+#Source for IDDQD for git
+IDDQD_SOURCE=ssh://faver@192.168.25.55/var/www/ddb/iddqd
 
 #User name of default iddqd admin user. You will log in with this account first.
 IDDQD_ADMIN_USER='admin'
@@ -89,7 +89,7 @@ PACKAGES
 
 if [ ! -d $IDDQD_DIR ];then
     cd /var/www
-    git clone ssh://faver@$IDDQD_SOURCE
+    git clone $IDDQD_SOURCE
 else
     echo "$IDDQD_DIR exists already!"
     exit 1
@@ -175,4 +175,17 @@ cat <<VHOST > /etc/apache2/sites-available/iddqd
 VHOST
 a2ensite iddqd
 service apache2 restart
+
+###############################
+#### Upadate IDDQD config #####
+###############################
+cd $IDDQD_DIR/config
+cp iddqd-config.json.EXAMPLE iddqd-config.json
+sed -i 's/ipaddress/'$DOMAIN'/' iddqd-config.json
+sed -i 's/pgpass/'$PGPASS'/' iddqd-config.json
+sed -i 's/defaultemail/'$IDDQD_SYSTEM_EMAIL_ADDRESS'/' iddqd-config.json
+sed -i 's/defaulthost/'$IDDQD_SYSTEM_EMAIL_HOST'/' iddqd-config.json
+sed -i 's/defaultport/'$IDDQD_SYSTEM_EMAIL_PORT'/' iddqd-config.json
+sed -i 's/defaultuser/'$IDDQD_SYSTEM_EMAIL_USER'/' iddqd-config.json
+sed -i 's/defaultpass/'$IDDQD_SYSTEM_EMAIL_PASS'/' iddqd-config.json
 
