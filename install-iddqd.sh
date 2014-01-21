@@ -1,30 +1,37 @@
 #!/bin/bash
 
-######################### Please modify these variables before installation.
-### SETUP VARIABLES ##### After installation, most can be edited in the
-######################### config/iddqd-config.json file.
+######################### 
+###### VARIABLES ########
+######################### 
+#   Please modify these variables before installation.
+#   After installation, most can be edited in the file
+#   config/iddqd-config.json 
 
-#####APPLICATION
+#Directory for installation
+IDDQD_DIR='/var/www/iddqd'
+
+#Source for IDDQD
+IDDQD_SOURCE=192.168.25.55/var/www/ddb/iddqd
+
 #User name of default iddqd admin user. You will log in with this account first.
 IDDQD_ADMIN_USER='admin'
+
 #Password of default admin user. ***You should change this.***
-IDDQD_ADMIN_PASS=''
-#Email of default admin user. For password recovery.
-IDDQD_ADMIN_EMAIL=''
-#Email account for application to use for sending invites, password requests.
+IDDQD_ADMIN_PASS='defaultpass'
+
+#Email of default admin user. For password recovery of admin account.
+IDDQD_ADMIN_EMAIL='defaultemail'
+
+#Outgoing email account for application to use for sending invites, password requests.
 IDDQD_SYSTEM_EMAIL_ADDRESS=''
 IDDQD_SYSTEM_EMAIL_USER=''
 IDDQD_SYSTEM_EMAIL_PASS=''
 IDDQD_SYSTEM_EMAIL_HOST=''
 IDDQD_SYSTEM_EMAIL_PORT=''
 
-
-####WEB SERVER
 #Domain for the server, usually the local IP address. 
 DOMAIN=$(ip addr show eth0| sed -nr 's/.*inet ([^\/]+).*/\1/p')
 
-
-####DATABASE (postgresql)
 #Postgresql will be downloaded and ran on the localhost.
 #A new user for postgresql will be created named iddqd.
 #We will use a new database called iddqddb
@@ -76,9 +83,23 @@ wkhtmltopdf
 imagemagick
 PACKAGES
 
-#####################
-#### PostgreSQL ##### 
-#####################
+#########################
+### GET IDDQD CODE ######
+#########################
+
+if [ ! -d $IDDQD_DIR ];then
+    cd /var/www
+    git clone ssh://faver@$IDDQD_SOURCE
+else
+    echo "$IDDQD_DIR exists already!"
+    exit 1
+fi
+
+cd $IDDQD_DIR
+
+###########################
+#### Setup PostgreSQL ##### 
+###########################
 echo "++++++Preparing PostgreSQL..."
 while ! nc -vz localhost 5432; do
     sleep 1
@@ -94,4 +115,64 @@ CREATE USER iddqd WITH PASSWORD '$PGPASS';
 INSERT INTO users (username,password,email,isadmin) VALUES('$IDDQD_ADMIN_USER',crypt('$IDDQD_ADMIN_PASS',gen_salt('bf')),'$IDDQD_ADMIN_EMAIL',true);
 PGSCRIPT
 fi
+
+#################################
+### Generate SSL certificate  ###
+#################################
+#Feel free to change the values under req_distinguished_name in config.txt below.
+if [ $IDDQD_ADMIN_EMAIL ]; then
+    cat <<config > config.txt
+    [req]
+    default_bits            = 2048
+    default_keyfile         = iddqd.key
+    distinguished_name      = req_distinguished_name
+    encrypt_key             = no
+    prompt                  = no
+    string_mask             = nombstr
+    
+    [ req_distinguished_name ]
+    countryName             = US
+    stateOrProvinceName     = CT
+    localityName            = New Haven 
+    0.organizationName      = IDDQD
+    emailAddress            = $IDDQD_ADMIN_EMAIL
+    commonName              = $DOMAIN
+config
+    openssl req -nodes -new -x509 -days 3650 -keyout iddqd.key -out iddqd.crt -config config.txt
+    chmod 400 iddqd.key
+    chmod 444 iddqd.crt
+    mv iddqd.key $IDDQD_DIR/config
+    mv iddqd.crt $IDDQD_DIR/config
+    rm config.txt
+else
+    echo 'IDDQD_ADMIN_EMAIL must be set for certificate generation.'
+fi
+
+##################################
+#### Configure Apache ############
+##################################
+
+a2enmod ssl
+cat <<VHOST > /etc/apache2/sites-available/iddqd
+<VirtualHost *:443>
+	ServerAdmin $IDDQD_ADMIN_EMAIL
+	ServerName iddqd
+    SSLEngine on
+        SSLCertificateFile $IDDQD_DIR/config/iddqd.crt
+        SSLCertificateKeyFile $IDDQD_DIR/config/iddqd.key
+    DocumentRoot $IDDQD_DIR/public
+    ScriptAlias /cgi-bin/ $IDDQD_DIR/cgi-bin/
+	<Directory "$IDDQD_DIR/public">
+		AllowOverride None
+		Options -ExecCGI -MultiViews +SymLinksIfOwnerMatch -Indexes
+		Order allow,deny
+		Allow from all
+	</Directory>
+    LogLevel warn
+	ErrorLog $IDDQD_DIR/log/iddqd-dev-error.log
+	CustomLog $IDDQD_DIR/log/iddqd-dev-access.log combined
+</VirtualHost>
+VHOST
+a2ensite iddqd
+service apache2 restart
 

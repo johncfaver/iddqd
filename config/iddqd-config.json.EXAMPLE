@@ -1,6 +1,6 @@
 {
-    "domain":"https://address:port",
-    "babeldir":"/usr/local/bin/",
+    "domain":"https://ipaddress:443",
+    "babeldir":"/usr/bin/",
     "wkhtmltopdfdir":"/usr/bin/",
     "convertdir":"/usr/bin/",
     "postgresql": {
