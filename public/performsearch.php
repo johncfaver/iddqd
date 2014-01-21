@@ -117,8 +117,8 @@
     if($query_structure){
       //Number of structures to search
         $nmolsearch = count($structure_search_molids);
-      //Number of worker processes
-        $nworkers = $nproc-1; 
+      //Number of worker processes. Either nproc-1 or 1.
+        $nworkers = ($nproc>1)?($nproc-1):1; 
       //Number of comparisons per worker; divide comparisons equally amongst workers, but cap at maxperjob
         $nmolperworker = ceil($nmolsearch/$nworkers);
         $maxperjob = 500;
