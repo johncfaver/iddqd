@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.11
 -- Dumped by pg_dump version 9.1.11
--- Started on 2014-01-14 14:38:45 EST
+-- Started on 2014-01-21 16:03:42 EST
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -13,7 +13,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 1994 (class 1262 OID 16385)
+-- TOC entry 2038 (class 1262 OID 16385)
 -- Name: iddqddb; Type: DATABASE; Schema: -; Owner: iddqd
 --
 
@@ -31,7 +31,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 181 (class 3079 OID 11645)
+-- TOC entry 182 (class 3079 OID 11681)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -39,8 +39,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 1997 (class 0 OID 0)
--- Dependencies: 181
+-- TOC entry 2041 (class 0 OID 0)
+-- Dependencies: 182
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -48,7 +48,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- TOC entry 182 (class 3079 OID 16386)
+-- TOC entry 183 (class 3079 OID 16386)
 -- Dependencies: 6
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: 
 --
@@ -57,8 +57,8 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 
 --
--- TOC entry 1998 (class 0 OID 0)
--- Dependencies: 182
+-- TOC entry 2042 (class 0 OID 0)
+-- Dependencies: 183
 -- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -107,7 +107,7 @@ CREATE SEQUENCE bindingdata_bindingdataid_seq
 ALTER TABLE public.bindingdata_bindingdataid_seq OWNER TO iddqd;
 
 --
--- TOC entry 1999 (class 0 OID 0)
+-- TOC entry 2043 (class 0 OID 0)
 -- Dependencies: 162
 -- Name: bindingdata_bindingdataid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
@@ -117,7 +117,7 @@ ALTER SEQUENCE bindingdata_bindingdataid_seq OWNED BY moldata.moldataid;
 
 --
 -- TOC entry 163 (class 1259 OID 16425)
--- Dependencies: 1851 6
+-- Dependencies: 1892 6
 -- Name: bounties; Type: TABLE; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -153,7 +153,7 @@ CREATE SEQUENCE bounties_bountyid_seq
 ALTER TABLE public.bounties_bountyid_seq OWNER TO iddqd;
 
 --
--- TOC entry 2000 (class 0 OID 0)
+-- TOC entry 2044 (class 0 OID 0)
 -- Dependencies: 164
 -- Name: bounties_bountyid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
@@ -195,7 +195,7 @@ CREATE SEQUENCE bountycomments_bountycommentid_seq
 ALTER TABLE public.bountycomments_bountycommentid_seq OWNER TO iddqd;
 
 --
--- TOC entry 2001 (class 0 OID 0)
+-- TOC entry 2045 (class 0 OID 0)
 -- Dependencies: 166
 -- Name: bountycomments_bountycommentid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
@@ -237,7 +237,7 @@ CREATE SEQUENCE datacomment_datacommentid_seq
 ALTER TABLE public.datacomment_datacommentid_seq OWNER TO iddqd;
 
 --
--- TOC entry 2002 (class 0 OID 0)
+-- TOC entry 2046 (class 0 OID 0)
 -- Dependencies: 168
 -- Name: datacomment_datacommentid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
@@ -277,12 +277,29 @@ CREATE SEQUENCE datatypes_datatypeid_seq
 ALTER TABLE public.datatypes_datatypeid_seq OWNER TO iddqd;
 
 --
--- TOC entry 2003 (class 0 OID 0)
+-- TOC entry 2047 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: datatypes_datatypeid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
 
 ALTER SEQUENCE datatypes_datatypeid_seq OWNED BY datatypes.datatypeid;
+
+
+--
+-- TOC entry 181 (class 1259 OID 16546)
+-- Dependencies: 6
+-- Name: invites; Type: TABLE; Schema: public; Owner: iddqd; Tablespace: 
+--
+
+CREATE TABLE invites (
+    email text NOT NULL,
+    datesent timestamp without time zone NOT NULL,
+    invitekey text NOT NULL,
+    datejoined timestamp without time zone
+);
+
+
+ALTER TABLE public.invites OWNER TO iddqd;
 
 --
 -- TOC entry 171 (class 1259 OID 16455)
@@ -303,7 +320,7 @@ ALTER TABLE public.molcomments OWNER TO iddqd;
 
 --
 -- TOC entry 172 (class 1259 OID 16461)
--- Dependencies: 6 171
+-- Dependencies: 171 6
 -- Name: molcomments_molcommentid_seq; Type: SEQUENCE; Schema: public; Owner: iddqd
 --
 
@@ -318,7 +335,7 @@ CREATE SEQUENCE molcomments_molcommentid_seq
 ALTER TABLE public.molcomments_molcommentid_seq OWNER TO iddqd;
 
 --
--- TOC entry 2004 (class 0 OID 0)
+-- TOC entry 2048 (class 0 OID 0)
 -- Dependencies: 172
 -- Name: molcomments_molcommentid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
@@ -363,7 +380,7 @@ CREATE SEQUENCE molecules_molid_seq
 ALTER TABLE public.molecules_molid_seq OWNER TO iddqd;
 
 --
--- TOC entry 2005 (class 0 OID 0)
+-- TOC entry 2049 (class 0 OID 0)
 -- Dependencies: 174
 -- Name: molecules_molid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
@@ -372,8 +389,8 @@ ALTER SEQUENCE molecules_molid_seq OWNED BY molecules.molid;
 
 
 --
--- TOC entry 179 (class 1259 OID 18952)
--- Dependencies: 1860 6
+-- TOC entry 175 (class 1259 OID 16471)
+-- Dependencies: 1899 6
 -- Name: passwordchanges; Type: TABLE; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -389,7 +406,7 @@ CREATE TABLE passwordchanges (
 ALTER TABLE public.passwordchanges OWNER TO iddqd;
 
 --
--- TOC entry 175 (class 1259 OID 16471)
+-- TOC entry 176 (class 1259 OID 16478)
 -- Dependencies: 6
 -- Name: targets; Type: TABLE; Schema: public; Owner: iddqd; Tablespace: 
 --
@@ -408,8 +425,8 @@ CREATE TABLE targets (
 ALTER TABLE public.targets OWNER TO iddqd;
 
 --
--- TOC entry 176 (class 1259 OID 16477)
--- Dependencies: 175 6
+-- TOC entry 177 (class 1259 OID 16484)
+-- Dependencies: 6 176
 -- Name: targets_targetid_seq; Type: SEQUENCE; Schema: public; Owner: iddqd
 --
 
@@ -424,8 +441,8 @@ CREATE SEQUENCE targets_targetid_seq
 ALTER TABLE public.targets_targetid_seq OWNER TO iddqd;
 
 --
--- TOC entry 2006 (class 0 OID 0)
--- Dependencies: 176
+-- TOC entry 2050 (class 0 OID 0)
+-- Dependencies: 177
 -- Name: targets_targetid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
 
@@ -433,7 +450,7 @@ ALTER SEQUENCE targets_targetid_seq OWNED BY targets.targetid;
 
 
 --
--- TOC entry 180 (class 1259 OID 18961)
+-- TOC entry 178 (class 1259 OID 16486)
 -- Dependencies: 6
 -- Name: tokens; Type: TABLE; Schema: public; Owner: iddqd; Tablespace: 
 --
@@ -449,8 +466,8 @@ CREATE TABLE tokens (
 ALTER TABLE public.tokens OWNER TO iddqd;
 
 --
--- TOC entry 177 (class 1259 OID 16479)
--- Dependencies: 6
+-- TOC entry 179 (class 1259 OID 16492)
+-- Dependencies: 1902 6
 -- Name: users; Type: TABLE; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -466,8 +483,8 @@ CREATE TABLE users (
 ALTER TABLE public.users OWNER TO iddqd;
 
 --
--- TOC entry 178 (class 1259 OID 16485)
--- Dependencies: 177 6
+-- TOC entry 180 (class 1259 OID 16498)
+-- Dependencies: 6 179
 -- Name: users_userid_seq; Type: SEQUENCE; Schema: public; Owner: iddqd
 --
 
@@ -482,8 +499,8 @@ CREATE SEQUENCE users_userid_seq
 ALTER TABLE public.users_userid_seq OWNER TO iddqd;
 
 --
--- TOC entry 2007 (class 0 OID 0)
--- Dependencies: 178
+-- TOC entry 2051 (class 0 OID 0)
+-- Dependencies: 180
 -- Name: users_userid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: iddqd
 --
 
@@ -491,7 +508,7 @@ ALTER SEQUENCE users_userid_seq OWNED BY users.userid;
 
 
 --
--- TOC entry 1852 (class 2604 OID 16487)
+-- TOC entry 1893 (class 2604 OID 16500)
 -- Dependencies: 164 163
 -- Name: bountyid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
@@ -500,7 +517,7 @@ ALTER TABLE ONLY bounties ALTER COLUMN bountyid SET DEFAULT nextval('bounties_bo
 
 
 --
--- TOC entry 1853 (class 2604 OID 16488)
+-- TOC entry 1894 (class 2604 OID 16501)
 -- Dependencies: 166 165
 -- Name: bountycommentid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
@@ -509,7 +526,7 @@ ALTER TABLE ONLY bountycomments ALTER COLUMN bountycommentid SET DEFAULT nextval
 
 
 --
--- TOC entry 1854 (class 2604 OID 16489)
+-- TOC entry 1895 (class 2604 OID 16502)
 -- Dependencies: 168 167
 -- Name: datacommentid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
@@ -518,7 +535,7 @@ ALTER TABLE ONLY datacomments ALTER COLUMN datacommentid SET DEFAULT nextval('da
 
 
 --
--- TOC entry 1855 (class 2604 OID 16490)
+-- TOC entry 1896 (class 2604 OID 16503)
 -- Dependencies: 170 169
 -- Name: datatypeid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
@@ -527,7 +544,7 @@ ALTER TABLE ONLY datatypes ALTER COLUMN datatypeid SET DEFAULT nextval('datatype
 
 
 --
--- TOC entry 1856 (class 2604 OID 16491)
+-- TOC entry 1897 (class 2604 OID 16504)
 -- Dependencies: 172 171
 -- Name: molcommentid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
@@ -536,7 +553,7 @@ ALTER TABLE ONLY molcomments ALTER COLUMN molcommentid SET DEFAULT nextval('molc
 
 
 --
--- TOC entry 1850 (class 2604 OID 16492)
+-- TOC entry 1891 (class 2604 OID 16505)
 -- Dependencies: 162 161
 -- Name: moldataid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
@@ -545,7 +562,7 @@ ALTER TABLE ONLY moldata ALTER COLUMN moldataid SET DEFAULT nextval('bindingdata
 
 
 --
--- TOC entry 1857 (class 2604 OID 16493)
+-- TOC entry 1898 (class 2604 OID 16506)
 -- Dependencies: 174 173
 -- Name: molid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
@@ -554,8 +571,8 @@ ALTER TABLE ONLY molecules ALTER COLUMN molid SET DEFAULT nextval('molecules_mol
 
 
 --
--- TOC entry 1858 (class 2604 OID 16494)
--- Dependencies: 176 175
+-- TOC entry 1900 (class 2604 OID 16507)
+-- Dependencies: 177 176
 -- Name: targetid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
 
@@ -563,8 +580,8 @@ ALTER TABLE ONLY targets ALTER COLUMN targetid SET DEFAULT nextval('targets_targ
 
 
 --
--- TOC entry 1859 (class 2604 OID 16495)
--- Dependencies: 178 177
+-- TOC entry 1901 (class 2604 OID 16508)
+-- Dependencies: 180 179
 -- Name: userid; Type: DEFAULT; Schema: public; Owner: iddqd
 --
 
@@ -572,8 +589,8 @@ ALTER TABLE ONLY users ALTER COLUMN userid SET DEFAULT nextval('users_userid_seq
 
 
 --
--- TOC entry 1862 (class 2606 OID 16497)
--- Dependencies: 161 161 1991
+-- TOC entry 1904 (class 2606 OID 16510)
+-- Dependencies: 161 161 2035
 -- Name: bindingdatakey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -582,8 +599,8 @@ ALTER TABLE ONLY moldata
 
 
 --
--- TOC entry 1864 (class 2606 OID 16499)
--- Dependencies: 161 161 1991
+-- TOC entry 1906 (class 2606 OID 16512)
+-- Dependencies: 161 161 2035
 -- Name: bindingdataunique; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -592,8 +609,8 @@ ALTER TABLE ONLY moldata
 
 
 --
--- TOC entry 1866 (class 2606 OID 16501)
--- Dependencies: 163 163 1991
+-- TOC entry 1908 (class 2606 OID 16514)
+-- Dependencies: 163 163 2035
 -- Name: bounties_pkey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -602,8 +619,8 @@ ALTER TABLE ONLY bounties
 
 
 --
--- TOC entry 1868 (class 2606 OID 16503)
--- Dependencies: 165 165 1991
+-- TOC entry 1910 (class 2606 OID 16516)
+-- Dependencies: 165 165 2035
 -- Name: bountycomments_pkey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -612,8 +629,8 @@ ALTER TABLE ONLY bountycomments
 
 
 --
--- TOC entry 1886 (class 2606 OID 18960)
--- Dependencies: 179 179 1991
+-- TOC entry 1922 (class 2606 OID 16518)
+-- Dependencies: 175 175 2035
 -- Name: changkeyindex; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -622,8 +639,8 @@ ALTER TABLE ONLY passwordchanges
 
 
 --
--- TOC entry 1870 (class 2606 OID 16505)
--- Dependencies: 167 167 1991
+-- TOC entry 1912 (class 2606 OID 16520)
+-- Dependencies: 167 167 2035
 -- Name: datacomentkey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -632,8 +649,8 @@ ALTER TABLE ONLY datacomments
 
 
 --
--- TOC entry 1872 (class 2606 OID 16507)
--- Dependencies: 169 169 1991
+-- TOC entry 1914 (class 2606 OID 16522)
+-- Dependencies: 169 169 2035
 -- Name: datatypeskey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -642,8 +659,18 @@ ALTER TABLE ONLY datatypes
 
 
 --
--- TOC entry 1874 (class 2606 OID 16509)
--- Dependencies: 171 171 1991
+-- TOC entry 1932 (class 2606 OID 16553)
+-- Dependencies: 181 181 2035
+-- Name: invitesprimarykey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
+--
+
+ALTER TABLE ONLY invites
+    ADD CONSTRAINT invitesprimarykey PRIMARY KEY (email);
+
+
+--
+-- TOC entry 1916 (class 2606 OID 16524)
+-- Dependencies: 171 171 2035
 -- Name: molcommentkey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -652,8 +679,8 @@ ALTER TABLE ONLY molcomments
 
 
 --
--- TOC entry 1876 (class 2606 OID 16511)
--- Dependencies: 173 173 1991
+-- TOC entry 1918 (class 2606 OID 16526)
+-- Dependencies: 173 173 2035
 -- Name: molidkey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -662,8 +689,8 @@ ALTER TABLE ONLY molecules
 
 
 --
--- TOC entry 1878 (class 2606 OID 16513)
--- Dependencies: 173 173 1991
+-- TOC entry 1920 (class 2606 OID 16528)
+-- Dependencies: 173 173 2035
 -- Name: molidunique; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -672,8 +699,8 @@ ALTER TABLE ONLY molecules
 
 
 --
--- TOC entry 1880 (class 2606 OID 16515)
--- Dependencies: 175 175 1991
+-- TOC entry 1924 (class 2606 OID 16530)
+-- Dependencies: 176 176 2035
 -- Name: targetidkey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -682,8 +709,8 @@ ALTER TABLE ONLY targets
 
 
 --
--- TOC entry 1882 (class 2606 OID 16517)
--- Dependencies: 175 175 1991
+-- TOC entry 1926 (class 2606 OID 16532)
+-- Dependencies: 176 176 2035
 -- Name: targetidunique; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -692,8 +719,8 @@ ALTER TABLE ONLY targets
 
 
 --
--- TOC entry 1888 (class 2606 OID 18968)
--- Dependencies: 180 180 1991
+-- TOC entry 1928 (class 2606 OID 16534)
+-- Dependencies: 178 178 2035
 -- Name: tokenskey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -702,8 +729,8 @@ ALTER TABLE ONLY tokens
 
 
 --
--- TOC entry 1884 (class 2606 OID 16519)
--- Dependencies: 177 177 1991
+-- TOC entry 1930 (class 2606 OID 16536)
+-- Dependencies: 179 179 2035
 -- Name: useridkey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
@@ -712,7 +739,7 @@ ALTER TABLE ONLY users
 
 
 --
--- TOC entry 1996 (class 0 OID 0)
+-- TOC entry 2040 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -723,27 +750,45 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2014-01-14 14:38:45 EST
+-- Completed on 2014-01-21 16:03:42 EST
 
 --
 -- PostgreSQL database dump complete
 --
 
+--
+-- TOC entry 1943 (class 0 OID 16447)
+-- Dependencies: 169 1945
+-- Data for Name: datatypes; Type: TABLE DATA; Schema: public; Owner: iddqd
+--
+
+INSERT INTO datatypes VALUES (1, 'ic50', 'µM');
+INSERT INTO datatypes VALUES (2, 'ec50', 'µM');
+INSERT INTO datatypes VALUES (3, 'kd', 'µM');
+INSERT INTO datatypes VALUES (4, 'cc50', 'µM');
+INSERT INTO datatypes VALUES (5, 'solwater', 'mg/mL');
+INSERT INTO datatypes VALUES (6, 'H NMR', 'file');
+INSERT INTO datatypes VALUES (7, 'C NMR', 'file');
+INSERT INTO datatypes VALUES (8, 'Mass Spec.', 'file');
+INSERT INTO datatypes VALUES (9, 'Synthesis', 'file');
+INSERT INTO datatypes VALUES (10, 'Manuscript', 'file');
+INSERT INTO datatypes VALUES (11, 'Structure ', 'file');
+INSERT INTO datatypes VALUES (13, 'Image', 'file');
+INSERT INTO datatypes VALUES (15, 'Other', 'file');
 
 
--- Default values for IDDQD
-INSERT INTO datatypes (type, units) VALUES ('ic50', 'µM');
-INSERT INTO datatypes (type, units) VALUES ('ec50', 'µM');
-INSERT INTO datatypes (type, units) VALUES ('kd', 'µM');
-INSERT INTO datatypes (type, units) VALUES ('cc50', 'µM');
-INSERT INTO datatypes (type, units) VALUES ('solwater', 'g/L');
-INSERT INTO datatypes (type, units) VALUES ('H NMR', 'file');
-INSERT INTO datatypes (type, units) VALUES ('C NMR', 'file');
-INSERT INTO datatypes (type, units) VALUES ('Mass Spec.', 'file');
-INSERT INTO datatypes (type, units) VALUES ('Synthesis', 'file');
-INSERT INTO datatypes (type, units) VALUES ('Manuscript', 'file');
-INSERT INTO datatypes (type, units) VALUES ('Structure ', 'file');
-INSERT INTO datatypes (type, units) VALUES ('Image', 'file');
-INSERT INTO datatypes (type, units) VALUES ('Other', 'file');
+--
+-- TOC entry 1949 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: datatypes_datatypeid_seq; Type: SEQUENCE SET; Schema: public; Owner: iddqd
+--
 
+SELECT pg_catalog.setval('datatypes_datatypeid_seq', 15, true);
+
+
+-- Completed on 2014-01-21 16:09:49 EST
+
+--
+-- PostgreSQL database dump complete
+--
 
