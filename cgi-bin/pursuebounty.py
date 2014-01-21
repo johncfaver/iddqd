@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #
 # Marks a bounty as being pursued
 # Sends back to bounty page

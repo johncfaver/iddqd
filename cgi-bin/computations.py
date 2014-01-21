@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #
 #  Perform various computations on molecule after entry into molecule table and filesystem

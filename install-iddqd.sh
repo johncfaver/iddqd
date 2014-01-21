@@ -188,4 +188,5 @@ sed -i 's/defaulthost/'$IDDQD_SYSTEM_EMAIL_HOST'/' iddqd-config.json
 sed -i 's/defaultport/'$IDDQD_SYSTEM_EMAIL_PORT'/' iddqd-config.json
 sed -i 's/defaultuser/'$IDDQD_SYSTEM_EMAIL_USER'/' iddqd-config.json
 sed -i 's/defaultpass/'$IDDQD_SYSTEM_EMAIL_PASS'/' iddqd-config.json
-
+chmod -R 777 $IDDQD_DIR/public/uploads
+chmod 773 $IDDQD_DIR/log

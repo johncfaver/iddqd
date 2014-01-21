@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #
 # Insert bounty comment into database.
 # Return to bountypage
