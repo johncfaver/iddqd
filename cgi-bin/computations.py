@@ -11,15 +11,16 @@ from molecule import molecule
 import config
 
 cgidir=os.getcwd()
-os.chdir('../public/uploads/structures')
 
 molid = int(sys.argv[1])
 
 ###GENERATE 3D MOL FILE WITH OBGEN###
+os.chdir('../public/uploads/structures')
 subprocess.call([config.babeldir+'obgen',str(molid)+'.mol'],stdout=open(str(molid)+'-3dt.mol','w'),stderr=open(os.devnull,'w'))
 subprocess.call(['/bin/grep','-v','WARNING',str(molid)+'-3dt.mol'],stdout=open(str(molid)+'-3d.mol','w'),stderr=open(os.devnull,'w'))
 os.remove(str(molid)+'-3dt.mol')
 molobj = molecule(str(molid)+'-3d.mol')
+os.chdir(cgidir)
 
 ####UPATE MOLECULE DATA IN DATABASE############
 dbconn = psycopg2.connect(config.dsn)
@@ -31,9 +32,11 @@ dbconn.commit()
 q.close()
 dbconn.close()
 
+######EXTENSIONS###############
 ##### RUN QIKPROP##############
-if(os.path.isdir('qikprop')):
-    os.chdir(cgidir+'/qikprop')
+qpdir = '../extensions/qikprop'
+if(os.path.isdir(qpdir)):
+    os.chdir(qpdir)
     shutil.copyfile('../../public/uploads/structures/'+str(molid)+'-3d.mol',os.getcwd()+'/'+str(molid)+'-3d.mol')
     subprocess.call(['./qikprop',str(molid)+'-3d.mol'], stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
     shutil.copyfile('QP.out','../../public/uploads/qikprop/'+str(molid)+'-QP.txt')
