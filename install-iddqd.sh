@@ -177,8 +177,8 @@ cat <<VHOST > /etc/apache2/sites-available/iddqd
 		Allow from all
 	</Directory>
     LogLevel warn
-	ErrorLog $IDDQD_DIR/log/iddqd-dev-error.log
-	CustomLog $IDDQD_DIR/log/iddqd-dev-access.log combined
+	ErrorLog /var/log/apache2/iddqd-error.log
+	CustomLog /var/log/apache2/iddqd-access.log combined
 </VirtualHost>
 VHOST
 a2ensite iddqd
