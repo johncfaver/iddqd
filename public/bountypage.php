@@ -54,6 +54,7 @@
 <script type="text/javascript" src="viewmolecule.js"></script>
 </head>
 <body>
+<div id="div_holder">
 
 <div id="div_shade_window"></div>
 <div id="div_deletecheck" class="div_notespopup" >
@@ -268,6 +269,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

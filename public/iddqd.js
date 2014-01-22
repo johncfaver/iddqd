@@ -524,7 +524,8 @@ function moredocdata(){
 	newinputvalue.setAttribute('type','file');
 	newinputvalue.setAttribute('name','docdata_value_new_'+i.toString());
 	newinputvalue.setAttribute('accept','.pdf,.doc,.fid,application/pdf,application/msword,.png,.sdf,.mol');
-	newinputvalue.setAttribute('style','width:190px;font-size:0.8em;');	
+    newinputvalue.setAttribute('size','10');	
+	newinputvalue.setAttribute('style','font-size:0.8em;');	
 	newinputline.appendChild(newinputvalue);
 
 	var newnoteslink = document.createElement('a');

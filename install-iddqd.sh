@@ -79,9 +79,15 @@ postgresql-contrib
 python
 python-psycopg2
 openbabel
-wkhtmltopdf
 imagemagick
 PACKAGES
+
+#wkhtmltopdf for exporting reports.
+wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
+tar -xf wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
+mv wkhtmltopdf-amd64 /usr/bin/wkhtmltopdf
+rm wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
+
 
 #########################
 ### GET IDDQD CODE ######

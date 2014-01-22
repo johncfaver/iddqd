@@ -9,7 +9,7 @@ cgitb.enable(display=0,logdir="../log/",format="text")
 from sys import exit
 import config
 
-uploaddir='../public/uploads/'
+uploaddir='../public/uploads'
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -30,57 +30,69 @@ if 'token' in keys:
 else:
     token = ''
 
+if (not userid or not token or not export or not molids):
+    config.returnhome(58)
+
 if export=='structures':
-    dl='/tmp/structures-'+userid
-    if(os.path.isdir(dl)):
-        shutil.rmtree(dl)
-    os.mkdir(dl)
-    os.mkdir(dl+'/3d')    
-    os.mkdir(dl+'/2d')    
-    for i in molids:
-        shutil.copyfile(uploaddir+'structures/'+i+'-3d.mol',dl+'/3d/'+i+'-3d.mol')
-        shutil.copyfile(uploaddir+'structures/'+i+'.mol',dl+'/2d/'+i+'.mol')
-    with open(dl+'/notebook.sdf','w') as sdf:
+    temp_path='/tmp/structures-'+userid
+    if(os.path.isdir(temp_path)):
+        shutil.rmtree(temp_path)
+    os.mkdir(temp_path)
+    os.mkdir(temp_path+'/3d')    
+    os.mkdir(temp_path+'/2d')    
+    with open(temp_path+'/notebook.sdf','w') as sdf:
         for i in molids:
-            with open(uploaddir+'structures/'+i+'-3d.mol') as mol:
-                sdf.write(mol.read())
-    filename=shutil.make_archive(dl, 'zip', root_dir=dl)
-    shutil.copyfile(filename,uploaddir+'scratch/structures-'+userid+'.zip')
-    print 'Location: ../uploads/scratch/structures-'+userid+'.zip'
-    print ''
+            molfile3d=uploaddir+'/structures/'+i+'-3d.mol'
+            molfile2d=uploaddir+'/structures/'+i+'.mol'
+            if(os.path.isfile(molfile3d)):
+                shutil.copyfile(molfile3d,temp_path+'/3d/'+i+'-3d.mol')
+                with open(molfile3d) as mol:
+                    sdf.write(mol.read())
+            if(os.path.isfile(molfile2d)):
+                shutil.copyfile(molfile2d,temp_path+'/2d/'+i+'.mol')
+    filename=shutil.make_archive(temp_path, 'zip', root_dir=temp_path)
+    shutil.move(filename,uploaddir+'/scratch/structures-'+userid+'.zip')
+    print 'Location: ../uploads/scratch/structures-'+userid+'.zip \n\n'
     exit()
 
 if export=='spreadsheet':
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
-    q.execute('select m.molname,m.molweight,r.nickname,t.type,d.value,t.units from molecules m left join moldata d on m.molid=d.molid left join targets r on d.targetid=r.targetid left join datatypes t on t.datatypeid=d.datatype where value is not null and m.molid in %s',[tuple(molids)])    
+    q.execute("SELECT m.molname,m.molweight,r.nickname,t.type,d.value,t.units \
+                     FROM molecules m \
+                        LEFT JOIN moldata d ON m.molid=d.molid  \
+                        LEFT JOIN targets r ON d.targetid=r.targetid \
+                        LEFT JOIN datatypes t ON t.datatypeid=d.datatype \
+                    WHERE value IS NOT NULL AND m.molid IN %s",[tuple(molids)])    
     r=q.fetchall()
-   
     q.close()
     dbconn.close() 
-    dl='../public/uploads/scratch/spreadsheet-'+userid+'.csv'
-    with open(dl,'w') as f:
+    csv_out='../public/uploads/scratch/spreadsheet-'+userid+'.csv'
+    with open(csv_out,'w') as f:
         f.write('NAME,MW,TARGET,DATATYPE,VALUE,UNITS\n')
         for i in r:
             for j in i:
                 f.write(str(j)+',')
             f.write('\n')
-    print 'Location: '+dl.replace('/public','')+' \n\n'    
+    print 'Location: ../uploads/scratch/spreadsheet-'+userid+'.csv \n\n'    
     exit()
 
 if export=='pdf':
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
     q.execute('WITH molinfo AS \
-                    (SELECT m.molid,m.molname,m.molweight,m.molformula,m.dateadded,u.username \
-                        FROM molecules m LEFT JOIN users u ON m.authorid=u.userid \
-                        WHERE m.molid in %s),\
+                        (SELECT m.molid,m.molname,m.molweight,m.molformula,m.dateadded,u.username \
+                            FROM molecules m \
+                            LEFT JOIN users u ON m.authorid=u.userid \
+                            WHERE m.molid in %s),\
                     measurements AS \
-                    (SELECT d.molid,d.value,t.type,t.units,r.nickname \
-                        FROM moldata d LEFT JOIN targets r ON r.targetid=d.targetid \
-                        LEFT JOIN datatypes t ON t.datatypeid=d.datatype \
-                        WHERE d.molid in %s AND t.units!=\'file\')\
-                    SELECT * from molinfo mi LEFT OUTER JOIN measurements mm ON mi.molid=mm.molid',[tuple(molids),tuple(molids)])    
+                        (SELECT d.molid,d.value,t.type,t.units,r.nickname \
+                            FROM moldata d \
+                            LEFT JOIN targets r ON r.targetid=d.targetid \
+                            LEFT JOIN datatypes t ON t.datatypeid=d.datatype \
+                            WHERE d.molid in %s AND t.units!=\'file\')\
+                    SELECT * from molinfo mi \
+                        LEFT OUTER JOIN measurements mm ON mi.molid=mm.molid',[tuple(molids),tuple(molids)])    
     response=q.fetchall()
     q.close()
     dbconn.close()
@@ -95,11 +107,11 @@ if export=='pdf':
         for mol in molids:
             for row in response:
                 if str(row[0])==mol:
-                    molname=row[1]
+                    molname=str(row[1])
                     molweight=str(row[2])
-                    molformula=row[3]
+                    molformula=str(row[3])
                     dateadded=row[4].strftime('%b %d, %Y %I:%M%p')
-                    author=row[5]
+                    author=str(row[5])
                     break
             htmlstr+='<h1>'+molname+'</h1>'
             htmlstr+='<br /><br /><div id="infodiv"><table id="infotable">'
@@ -122,10 +134,10 @@ if export=='pdf':
             for row in response:
                 if str(row[0])!=mol:
                     continue
-                target=row[10]
-                datatype=row[8]
+                target=str(row[10])
+                datatype=str(row[8])
                 value=str(row[7])
-                units=row[9]
+                units=str(row[9])
                 if(not value or not datatype or not units):
                     continue
                 if(units):
@@ -146,7 +158,6 @@ if export=='pdf':
         """
         fout.write(htmlstr)
     subprocess.call([config.wkhtmltopdfdir+'wkhtmltopdf','../public/uploads/scratch/report-'+userid+'.html','../public/uploads/scratch/report-'+userid+'.pdf'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-
     print 'Location: ../uploads/scratch/report-'+userid+'.pdf \n\n'
     exit()
 
