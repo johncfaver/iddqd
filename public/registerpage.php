@@ -18,11 +18,14 @@
         $q = $dbconn->prepare("SELECT email FROM invites WHERE invitekey=:str1 AND datejoined IS NULL");
         $q->bindParam(":str1",$key,PDO::PARAM_STR);
         $q->execute();
-        $r = $q->fetch(PDO::FETCH_ASSOC);
-        if(sizeof($r) != 1){
+        if($q->rowCount() == 0){
             $key=0;
         }else{
+            $r = $q->fetch(PDO::FETCH_ASSOC);
             $email = $r['email'];
+            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+                $key=0;
+            }
         }
     }
 ?>
@@ -48,7 +51,7 @@
     }else{
     	if(isset($_GET['nameexists'])){
     		if((int)$_GET['nameexists']==1){
-    			echo 'That username exists already.<br />';
+    			echo 'That username or email exists already.<br />';
     		}
     	}
         if(isset($_GET['usernameisbad'])){

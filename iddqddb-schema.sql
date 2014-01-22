@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.11
 -- Dumped by pg_dump version 9.1.11
--- Started on 2014-01-21 16:03:42 EST
+-- Started on 2014-01-22 16:25:18 EST
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -659,13 +659,13 @@ ALTER TABLE ONLY datatypes
 
 
 --
--- TOC entry 1932 (class 2606 OID 16553)
+-- TOC entry 1932 (class 2606 OID 16555)
 -- Dependencies: 181 181 2035
 -- Name: invitesprimarykey; Type: CONSTRAINT; Schema: public; Owner: iddqd; Tablespace: 
 --
 
 ALTER TABLE ONLY invites
-    ADD CONSTRAINT invitesprimarykey PRIMARY KEY (email);
+    ADD CONSTRAINT invitesprimarykey PRIMARY KEY (invitekey);
 
 
 --
@@ -750,16 +750,10 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2014-01-21 16:03:42 EST
+-- Completed on 2014-01-22 16:25:18 EST
 
 --
 -- PostgreSQL database dump complete
---
-
---
--- TOC entry 1943 (class 0 OID 16447)
--- Dependencies: 169 1945
--- Data for Name: datatypes; Type: TABLE DATA; Schema: public; Owner: iddqd
 --
 
 INSERT INTO datatypes VALUES (1, 'ic50', 'µM');
@@ -776,19 +770,6 @@ INSERT INTO datatypes VALUES (11, 'Structure ', 'file');
 INSERT INTO datatypes VALUES (13, 'Image', 'file');
 INSERT INTO datatypes VALUES (15, 'Other', 'file');
 
-
---
--- TOC entry 1949 (class 0 OID 0)
--- Dependencies: 170
--- Name: datatypes_datatypeid_seq; Type: SEQUENCE SET; Schema: public; Owner: iddqd
---
-
 SELECT pg_catalog.setval('datatypes_datatypeid_seq', 15, true);
 
-
--- Completed on 2014-01-21 16:09:49 EST
-
---
--- PostgreSQL database dump complete
---
 

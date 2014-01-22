@@ -38,9 +38,15 @@ try:
     
     #Check that request is from valid admin user.
     q.execute('SELECT u.username FROM tokens t LEFT JOIN users u ON t.userid=u.userid WHERE u.userid=%s AND u.isadmin=true AND t.token=%s',[userid,token])
-    r = q.fetchall()
-    assert(len(r)==1)
-    inviter = r[0][0]
+    assert(q.rowcount==1)
+    r = q.fetchone()
+    inviter = r[0]
+
+    #Check that the email isn't already registered.
+    q.execute('SELECT username FROM users WHERE email in %s',[tuple(list_of_addresses)])
+    if(q.rowcount!=0):
+        print 'Location: ../admin.php \n\n'
+        exit()
 
     for i in list_of_addresses:
         changekey = ''.join(random.sample(string.ascii_letters + string.digits,50))
