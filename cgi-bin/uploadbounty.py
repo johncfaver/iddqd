@@ -46,6 +46,10 @@ if 'select_targetid' in keys:
 else:
     targetid=0
 #########################################
+if not targetid:
+    print 'Location: ../postbounty.php \n\n'
+if not token or not authorid:
+    config.returnhome(59)
 
 try:
     dbconn = psycopg2.connect(config.dsn)

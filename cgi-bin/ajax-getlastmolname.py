@@ -30,8 +30,10 @@ try:
         nickname=r[1]
 
     #Retrive last inhibitor entry, sorted by reverse series number (molname).
+    #Assume molecules are named as (prefix)(number) e.g. XYZ001
     if (seriesprefix):
-        q.execute("SELECT molname FROM molecules WHERE molname ~ %s ORDER BY molname DESC LIMIT 1",[seriesprefix])
+        re = '^'+seriesprefix+'.*\d+'
+        q.execute("SELECT molname FROM molecules WHERE molname ~ %s ORDER BY molname DESC LIMIT 1",[re])
         r=q.fetchone()
         if(not r):
             lastentry=0
@@ -48,8 +50,11 @@ try:
     elif(not lastentry):
         suggestion=seriesprefix+'001'
     else:
-        newnumber=int(lastentry.lstrip(seriesprefix))+1
-        suggestion=seriesprefix+'{:>3}'.format(newnumber).replace(' ','0')
+        try:
+            newnumber=int(lastentry.lstrip(seriesprefix))+1
+            suggestion=seriesprefix+'{:>3}'.format(newnumber).replace(' ','0')
+        except:
+            suggestion='No recommendation available.'
 
     print 'Content-type: text/html\n'
     print suggestion,

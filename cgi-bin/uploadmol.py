@@ -117,16 +117,17 @@ for i in xrange(maxdata):
 #########################################
 
 
-#CHECK IF MOLNAME EXISTS
 dbconn = psycopg2.connect(config.dsn)
 q = dbconn.cursor()
 
+#CHECK USER TOKEN
 q.execute('SELECT token FROM tokens WHERE userid=%s',[authorid])
 dbtoken = q.fetchone()[0]
 if(dbtoken != token):
     returnhome(49)
     sys.exit()
 
+#CHECK IF MOLNAME EXISTS
 q.execute('SELECT molid FROM molecules WHERE molname=%s',[molname]) 
 r=q.fetchall()
 if len(r)>0:

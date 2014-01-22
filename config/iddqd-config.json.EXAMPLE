@@ -13,7 +13,7 @@
     "email": {
         "from_address":"defaultemail",
         "host":"defaulthost",
-        "port":defaultport,
+        "port":587,
         "user":"defaultuser",
         "pass":"defaultpass"
     }

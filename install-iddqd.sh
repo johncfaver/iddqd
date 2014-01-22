@@ -27,7 +27,7 @@ IDDQD_SYSTEM_EMAIL_ADDRESS=''
 IDDQD_SYSTEM_EMAIL_USER=''
 IDDQD_SYSTEM_EMAIL_PASS=''
 IDDQD_SYSTEM_EMAIL_HOST=''
-IDDQD_SYSTEM_EMAIL_PORT=''
+IDDQD_SYSTEM_EMAIL_PORT=587
 
 #Domain for the server, usually the local IP address. 
 DOMAIN=$(ip addr show eth0| sed -nr 's/.*inet ([^\/]+).*/\1/p')
@@ -38,8 +38,9 @@ DOMAIN=$(ip addr show eth0| sed -nr 's/.*inet ([^\/]+).*/\1/p')
 #Password for database user iddqd. *You should change this.*
 PGPASS='password'
 
-
-
+###############################
+#####   END OF VARIABLES ######
+###############################
 
 ######################################################################
 #Check if root user
@@ -82,6 +83,7 @@ openbabel
 imagemagick
 PACKAGES
 
+echo "++++++++++Downloading wkhtmltopdf..."
 #wkhtmltopdf for exporting reports.
 wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
 tar -xf wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
@@ -92,7 +94,7 @@ rm wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
 #########################
 ### GET IDDQD CODE ######
 #########################
-
+echo "++++++++++Downloading IDDQD..."
 if [ ! -d $IDDQD_DIR ];then
     cd /var/www
     git clone $IDDQD_SOURCE
@@ -127,7 +129,7 @@ fi
 #################################
 #Feel free to change the values under req_distinguished_name in config.txt below.
 if [ $IDDQD_ADMIN_EMAIL ]; then
-    cat <<config > config.txt
+    cat <<sslconfig > config.txt
     [req]
     default_bits            = 2048
     default_keyfile         = iddqd.key
@@ -143,7 +145,7 @@ if [ $IDDQD_ADMIN_EMAIL ]; then
     0.organizationName      = IDDQD
     emailAddress            = $IDDQD_ADMIN_EMAIL
     commonName              = $DOMAIN
-config
+sslconfig
     openssl req -nodes -new -x509 -days 3650 -keyout iddqd.key -out iddqd.crt -config config.txt
     chmod 400 iddqd.key
     chmod 444 iddqd.crt
@@ -186,13 +188,27 @@ service apache2 restart
 #### Upadate IDDQD config #####
 ###############################
 cd $IDDQD_DIR/config
-cp iddqd-config.json.EXAMPLE iddqd-config.json
-sed -i 's/ipaddress/'$DOMAIN'/' iddqd-config.json
-sed -i 's/pgpass/'$PGPASS'/' iddqd-config.json
-sed -i 's/defaultemail/'$IDDQD_SYSTEM_EMAIL_ADDRESS'/' iddqd-config.json
-sed -i 's/defaulthost/'$IDDQD_SYSTEM_EMAIL_HOST'/' iddqd-config.json
-sed -i 's/defaultport/'$IDDQD_SYSTEM_EMAIL_PORT'/' iddqd-config.json
-sed -i 's/defaultuser/'$IDDQD_SYSTEM_EMAIL_USER'/' iddqd-config.json
-sed -i 's/defaultpass/'$IDDQD_SYSTEM_EMAIL_PASS'/' iddqd-config.json
+cat <<CONFIG > iddqd-config.json
+{
+    "domain":"https://$DOMAIN",
+    "babeldir":"/usr/bin/",
+    "wkhtmltopdfdir":"/usr/bin/",
+    "convertdir":"/usr/bin/",
+    "postgresql": {
+        "host":"localhost",
+        "port":5432,
+        "database":"iddqddb",
+        "user":"iddqd",
+        "pass":"$PGPASS"
+    },
+    "email": {
+        "from_address":"$IDDQD_SYSTEM_EMAIL_ADDRESS",
+        "host":"$IDDQD_SYSTEM_EMAIL_HOST",
+        "port":$IDDQD_SYSTEM_EMAIL_PORT,
+        "user":"$IDDQD_SYSTEM_EMAIL_USER",
+        "pass":"$IDDQD_SYSTEM_EMAIL_PASS"
+    }
+}
+CONFIG
 chmod -R 777 $IDDQD_DIR/public/uploads
 chmod 773 $IDDQD_DIR/log
