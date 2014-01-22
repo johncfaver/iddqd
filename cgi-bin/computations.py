@@ -39,8 +39,8 @@ if(os.path.isdir(qpdir)):
     os.chdir(qpdir)
     shutil.copyfile('../../public/uploads/structures/'+str(molid)+'-3d.mol',os.getcwd()+'/'+str(molid)+'-3d.mol')
     subprocess.call(['./qikprop',str(molid)+'-3d.mol'], stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-    shutil.copyfile('QP.out','../../public/uploads/qikprop/'+str(molid)+'-QP.txt')
-    for i in ['QP.out','QPmyfits','QPwarning','Similar.name','QP.CSV','QPSA.out',str(molid)+'-3d.mol']:
+    shutil.move('QP.out','../../public/uploads/qikprop/'+str(molid)+'-QP.txt')
+    for i in ['QPmyfits','QPwarning','Similar.name','QP.CSV','QPSA.out',str(molid)+'-3d.mol']:
         try:
             os.remove(i)
         except Exception:

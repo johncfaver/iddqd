@@ -124,7 +124,7 @@ q = dbconn.cursor()
 q.execute('SELECT token FROM tokens WHERE userid=%s',[authorid])
 dbtoken = q.fetchone()[0]
 if(dbtoken != token):
-    returnhome(49)
+    config.returnhome(49)
     sys.exit()
 
 #CHECK IF MOLNAME EXISTS
