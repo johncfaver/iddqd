@@ -96,6 +96,7 @@
             $q->bindParam(":num3",$query_molweight,PDO::PARAM_INT);
         }
         if($query_molname){
+            $query_molname = '%'.$query_molname.'%';
             $q->bindParam(":str1",$query_molname,PDO::PARAM_STR);
         }
         if($nummol){
