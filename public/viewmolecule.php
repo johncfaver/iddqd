@@ -210,7 +210,7 @@
                         echo $datatypefromid[strval($r['datatype'])].'</td><td class="molecules_td ">';
                         echo $r['value'].' '.$r['units'].' </td>';
                         if($r['datacomment']){
-                            $coment = htmlentities($r['datacoment']);
+                            $comment = htmlentities($r['datacomment']);
                             echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
                             echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">';
                             echo '<img src="info_icon.png" height=15 title="Notes Available" />';
