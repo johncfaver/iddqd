@@ -197,10 +197,14 @@ if(dbtoken != token):
     config.returnhome(43)
     exit()
 
-###UPDATE MOLECULE TABLE###########
-query='UPDATE molecules SET molname=%s, iupac=%s, cas=%s WHERE molid=%s'
-options=[molname,iupacname,cas,molid]
+###UPDATE MOLECULE TABLE########### Only original author can edit molname,iupac,cas
+query='UPDATE molecules SET molname=%s, iupac=%s, cas=%s WHERE molid=%s AND authorid=%s'
+options=[molname,iupacname,cas,molid,userid]
 q.execute(query,options)
+if(q.rowcount==1):
+    userisauthor=True
+else:
+    userisauthor=False
 ##############################
 
 ######UPDATE OLD DATA#####################
@@ -279,22 +283,24 @@ dbconn.close()
 
 
 #############FILE HANDLING - REPLACE STRUCTURE FILES/ WRITE NEW DOCUMENTS###############
+#Only the original author can edit a structure.
 #Write a new temporary mol file. See if it differs from the one we have stored.
 #If it differs, then we need to redo calculations and image rendering.
 recalculate=False
-with open('/tmp/'+str(molid)+'.mol','w') as f:
-    f.write(molname+' \n')
-    for line in moltext[1:]:
-        f.write(line+' \n')
-if os.path.isfile('structures/'+str(molid)+'.mol'):
-    samefile = filecmp.cmp('/tmp/'+str(molid)+'.mol','structures/'+str(molid)+'.mol')
-    if samefile:    
-        os.remove('/tmp/'+str(molid)+'.mol')
-    else:
-        os.remove('structures/'+str(molid)+'.mol')
-        shutil.copyfile('/tmp/'+str(molid)+'.mol', 'structures/'+str(molid)+'.mol')
-        os.remove('/tmp/'+str(molid)+'.mol')
-        recalculate=True
+if(userisauthor):
+    with open('/tmp/'+str(molid)+'.mol','w') as f:
+        f.write(molname+' \n')
+        for line in moltext[1:]:
+            f.write(line+' \n')
+    if os.path.isfile('structures/'+str(molid)+'.mol'):
+        samefile = filecmp.cmp('/tmp/'+str(molid)+'.mol','structures/'+str(molid)+'.mol')
+        if samefile:    
+            os.remove('/tmp/'+str(molid)+'.mol')
+        else:
+            os.remove('structures/'+str(molid)+'.mol')
+            shutil.copyfile('/tmp/'+str(molid)+'.mol', 'structures/'+str(molid)+'.mol')
+            os.remove('/tmp/'+str(molid)+'.mol')
+            recalculate=True
 
 #Store any newly uploaded documents.
 for i in xrange(len(olddocdataids),len(docdatas)):
