@@ -94,7 +94,8 @@
     $r = $q->fetch(PDO::FETCH_ASSOC);
     $newuserid=$r['userid'];
 
-    $q = $dbconn->prepare("UPDATE invites SET datejoined=localtimestamp");
+    $q = $dbconn->prepare("UPDATE invites SET datejoined=localtimestamp WHERE invitekey=:str1 ");
+    $q->bindParam(":str1",$invitekey,PDO::PARAM_STR);
     $q->execute();
 
 	session_start();
