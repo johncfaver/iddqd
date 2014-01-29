@@ -579,21 +579,27 @@ function lessdocdata(){
 		t.style.display='inline';
 	}
 }
-function deletecheck(dataid){
-    t = document.getElementById("div_shade_window");
+function shadewindow(){
+    var t = document.getElementById("div_shade_window");
 	t.style.display='block';
+}
+function unshadewindow(){
+    var t = document.getElementById("div_shade_window");
+	t.style.display='none';
+}
+function deletecheck(dataid){
+    shadewindow();
 	var t = document.getElementById("deletedataid");
 	t.value = dataid.toString();
 	t = document.getElementById("div_deletecheck");
 	t.style.display='block';
 }
 function deletedatacheck(dataid,datatype){
+    shadewindow();
 	var t = document.getElementById("deletedataid");
 	t.value = dataid.toString();
 	var t = document.getElementById("deletedocdatatype");
 	t.value = datatype.toString();
-    t = document.getElementById("div_shade_window");
-	t.style.display='block';
 	t = document.getElementById("div_deletecheck");
 	t.style.display='block';
 }
@@ -602,8 +608,7 @@ function closedeletecheck(){
 	t.value = '';
 	t = document.getElementById("div_deletecheck");
 	t.style.display='none';
-    t = document.getElementById("div_shade_window");
-	t.style.display='none';
+    unshadewindow();
 }
 function getMolnameSuggestion(){
     var firstTargetSelectElement = document.getElementById('bindingdata_targetid_new_1');
