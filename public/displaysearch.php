@@ -20,8 +20,11 @@
 	$molstart=(isset($_GET['molstart']))?(int)$_GET['molstart']:0;
 	$sortby=(isset($_GET['sortby']))?pg_escape_string($_GET['sortby']):'dateadded';
 	$sortdir=(isset($_GET['sortdir']))?(int)$_GET['sortdir']:0;
-  
     $similaritysearch=(isset($_GET['similaritysearch']))?(int)$_GET['similaritysearch']:0;	
+    if($similaritysearch and !isset($_GET['sortby'])){
+        $sortby='similarity';
+        $sortdir=1;
+    }
     $numresults = (isset($_SESSION['search_results']))?count($_SESSION['search_results']):0;
 
 ?>
@@ -62,6 +65,7 @@
 	</div>	
 </div>
 <div id="div_main">
+
 <?php
 	if($molstart>=$numdisplay){
 		echo '<div id="div_molecules_prev" class="nonlinks">';
@@ -80,26 +84,36 @@
 
 <?php
     if($numresults>0){
-	    $qstr = 'SELECT DISTINCT m.molid,m.molname,m.dateadded,u.username,m.molweight from molecules m left join users u on u.userid=m.authorid where m.molid in (';
 	    if(!$similaritysearch){
+            $qstr = 'SELECT DISTINCT 
+                                m.molid,m.molname,m.dateadded,u.username,m.molweight 
+                            FROM molecules m 
+                                LEFT JOIN users u on u.userid=m.authorid
+                                INNER JOIN (SELECT 0 as molid ';
 	        foreach($_SESSION['search_results'] as $mid){
-	            $qstr.=$mid.',';
+	            $qstr.=' UNION SELECT '.$mid.' as molid ';
 	        }
+            $qstr.=') as t on m.molid=t.molid';
 	    }else{
+            $qstr = 'SELECT DISTINCT 
+                                m.molid,m.molname,m.dateadded,u.username,m.molweight,t.similarity
+                            FROM molecules m 
+                                LEFT JOIN users u on u.userid=m.authorid
+                                INNER JOIN (SELECT 0 as molid, 0 as similarity ';
 	        foreach($_SESSION['search_results'] as $mid => $sim){
-	            $qstr.=$mid.',';
+	            $qstr.=' UNION SELECT '.$mid.' as molid, '.$sim.' as similarity ';
 	        }
+            $qstr.=') as t on m.molid=t.molid';
 	    }
-	    $qstr = rtrim($qstr,',').')';
-
+    
         if($sortby=='dateadded') $qstr.=' order by m.dateadded';
         if($sortby=='molweight') $qstr.=' order by m.molweight';
         if($sortby=='molname')   $qstr.=' order by m.molname';
         if($sortby=='username')  $qstr.=' order by u.username';
+        if($similaritysearch and $sortby=='similarity') $qstr.=' order by t.similarity';
         if($sortdir) $qstr.=' DESC';
 
         $qstr.= ' limit :num1 offset :num2';
-
 	    $q = $dbconn->prepare($qstr);
         $q->bindParam(":num1",$numdisplay,PDO::PARAM_INT);
         $q->bindParam(":num2",$molstart,PDO::PARAM_INT);
@@ -109,15 +123,33 @@
 
     <table class="moleculetable">
         <tr class="moltr">
-        <th class="molth moltdborderright">Structure</th> 
-        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=molname&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>&numdisplay=<?php echo $numdisplay;?>">Name</a></th> 
-        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=molweight&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>&numdisplay=<?php echo $numdisplay;?>">MW</a></th> 
-        <th class="molth moltdborderright"><a href="displaysearch.php?sortby=username&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>&numdisplay=<?php echo $numdisplay;?>">Author</a></th> 
-        <th class="molth <?php if($similaritysearch) echo 'moltdborderright';?>">
-            <a href="displaysearch.php?sortby=dateadded&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>&numdisplay=<?php echo $numdisplay;?>">Date Added</a></th> 
-        <?php if($similaritysearch) echo '<th class="molth">Similarity</th>';?>
+            <th class="molth moltdborderright">
+                Structure
+            </th> 
+            <th class="molth moltdborderright">
+                <a href="displaysearch.php?sortby=molname&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>&numdisplay=<?php echo $numdisplay;?>">Name</a>
+            </th> 
+            <th class="molth moltdborderright">
+                <a href="displaysearch.php?sortby=molweight&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>&numdisplay=<?php echo $numdisplay;?>">MW</a>
+            </th> 
+            <th class="molth moltdborderright">
+                <a href="displaysearch.php?sortby=username&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>&numdisplay=<?php echo $numdisplay;?>">Author</a>
+            </th> 
+            <th class="molth <?php if($similaritysearch) echo 'moltdborderright';?>">
+                <a href="displaysearch.php?sortby=dateadded&sortdir=<?php echo ($sortdir)?0:1;?>&similaritysearch=<?php echo $similaritysearch;?>&numdisplay=<?php echo $numdisplay;?>">Date Added</a>
+            </th> 
+
+<?php 
+        if($similaritysearch){
+                echo '<th class="molth">
+                        <a href="displaysearch.php?sortby=similarity&sortdir=';
+                echo ($sortdir)?0:1;
+                echo '&similaritysearch=1&numdisplay='.$numdisplay.'">Similarity</a></th>';
+        }
+?>
 
         </tr>
+
 <?php
     if($numresults>0){
 	    $icount=0;
@@ -132,7 +164,7 @@
 	        echo '<td class="moltd '.$tdcolor;
 	            if($similaritysearch) echo ' moltdborderright';
 	            echo '">'.parsetimestamp($r['dateadded']).'</a>';
-	        if($similaritysearch) echo '<td class="moltd '.$tdcolor.'">'.$_SESSION['search_results'][$r['molid']].'</td>';
+	        if($similaritysearch) echo '<td class="moltd '.$tdcolor.'">'.$r['similarity'].'</td>';
 	        echo '</tr>';
 	        $icount++;
 	    }
