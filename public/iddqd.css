@@ -100,25 +100,25 @@ img{
 }
 #div_molecules_prev{
 	position:absolute;
-	width:100px;
+	width:120px;
 	text-align:left;
-	top:10px;
-	left:250px;
+	top:15px;
+	left:50px;
 	font-size:1.2em;
 }
 #div_molecules_next{
 	position:absolute;
 	width:100px;
 	text-align:right;
-	top:10px;
-	right:250px;
+	top:15px;
+	right:150px;
 	font-size:1.2em;
 }
 #div_molecules_numresults{
 	position:absolute;
-	width:150px;
+	width:450px;
 	top:15px;
-    left:400px;
+    left:250px;
 	font-size:1.2em;
     text-align:center;
 }

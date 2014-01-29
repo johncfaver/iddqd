@@ -34,7 +34,13 @@
     //Max difference between query weight and molweight to count as a match.
     $arbitrary_weight_cutoff = 50;
     //Max Tanimoto coefficient for structure similarity search.
-     $similaritythreshold=(isset($_GET['similaritythreshold']))?(real)$_GET['similaritythreshold']:0.3;
+    if(isset($_POST['similaritythreshold'])){
+        try{
+            $similaritythreshold=(real)preg_replace("/[^\d\.]+/","",$_POST['similaritythreshold']);
+        }catch(Exception $e){
+            $similaritythreshold=0.3;
+        }
+    }
 //Query parameters-input
     $query_molname  =(isset($_POST['query_molname']))?pg_escape_string($_POST['query_molname']):false;
     $query_molweight=(isset($_POST['query_molweight']))?pg_escape_string($_POST['query_molweight']):false;

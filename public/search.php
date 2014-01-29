@@ -92,9 +92,14 @@
             	<span style="font-size:0.7em;"><br />0: no limit</span><br/><br/>
 
 
-		<div id="search_radio" style="position:absolute;border:0px solid red;left:-450px;top:325px;width:350px">
-			<span style="float:left;"><input type="radio" name="searchtype" value="substructure" checked>Substructure</span>
-			<span style="float:right;"><input type="radio" name="searchtype" value="similarity">Similarity</span>
+		<div id="search_radio" style="position:absolute;border:0px solid red;left:-500px;top:300px;width:450px">
+			<span style="float:left;"><input type="radio" name="searchtype" value="substructure" checked>
+                Substructure
+            </span>
+			<span style="float:right;"><input type="radio" name="searchtype" value="similarity">
+                Similarity with Tanimoto cutoff of 
+                <input type="text" name="similaritythreshold" size=3 maxlength=3 value="0.3" style="width:30px;" />
+            </span>
 		</div>
 		<input type="hidden" name="moltext" id="moltext" value="" />
 		<input type="hidden" name="molfig" id="molfig" value="" />
