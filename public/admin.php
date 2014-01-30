@@ -182,7 +182,8 @@ function prepare_emails(){
     <table class="moleculetable" style="width:350px;left:630px;top:300px;font-size:0.8em;">
         <tr class="moltr">
             <th class="molth moltdborderright">Email</th>   
-            <th class="molth ">Date</th>
+            <th class="molth moltdborderright ">Date</th>
+            <th class="molth">Void Key</th>
         </tr>
 <?php 
         $qstr = 'SELECT email, datesent FROM invites WHERE datejoined IS NULL';
@@ -192,8 +193,26 @@ function prepare_emails(){
                     <td class="moltd moltdborderright">
                         '.htmlentities($r['email']).'
                     </td>
-                    <td class="moltd">
+                    <td class="moltd moltdborderright">
                         '.parsetimestamp($r['datesent']).'
+                    </td>
+                    <td class="moltd">
+                        <a href="#" onclick="shadewindow();popnotes(\'div_void_key\');return false;">
+                            <img src="delete_icon.png" /> 
+                        </a>
+                        <div id="div_void_key" class="div_notespopup" style="font-size:1.1em;">
+                            <span class="span_popup_main_text">
+                                Are you sure you want to void this invitation key? <Br/><br/>This person won\'t be able to register without a new invitation.
+                            </span>
+                            <form action="cgi-bin/voidkey.py" method="POST">
+                                <input type="hidden" name="token" value="'.$_SESSION['token'].'"/> 
+                                <input type="hidden" name="userid" value="'.$_SESSION['userid'].'"/>
+                                <input type="hidden" name="inviteemail" value="'.$r['email'].'"/>
+                                <input type="hidden" name="datesent" value="'.$r['datesent'].'"/>
+                                <input type="submit" value="Continue" class="button_popup button_popup_left" />
+                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_void_key\');unshadewindow();return false;"/>
+                            </form>
+                        </div>
                     </td>
                   </tr>';
         }
