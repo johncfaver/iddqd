@@ -68,7 +68,7 @@ function morebindingdata(){
 	
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_bindingdata_new_'+i.toString());	
-	newinputline.setAttribute('class','div_bindingdata nonlinks');	
+	newinputline.setAttribute('class','div_inputline');
 
 	var newtargetselect = document.createElement('select');
 	newtargetselect.setAttribute('id','bindingdata_targetid_new_'+i.toString());
@@ -153,8 +153,7 @@ function populatebindingdata(dataid,datatype,targetid,value,commentid,comment){
 
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_bindingdata_'+i.toString());	
-	newinputline.setAttribute('class','div_bindingdata nonlinks');	
-	newinputline.setAttribute('style','text-align:right;');
+    newinputline.setAttribute('class','div_inputline');
 
 	var newtargetselect = document.createElement('select');
 	newtargetselect.setAttribute('id','bindingdata_targetid_'+i.toString());
@@ -266,7 +265,6 @@ function morepropertydata(){
 	
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_propertydata_new_'+i.toString());	
-	newinputline.setAttribute('class','div_propertydata nonlinks');	
 
 	var newdatatypeselect = document.createElement('select');
 	newdatatypeselect.setAttribute('id','propertydata_datatypeid_new_'+i.toString());
@@ -364,7 +362,7 @@ function populatepropertydata(dataid,datatype,value,commentid,comment){
 	newnotesicon.setAttribute('src','notes_icon.png');
 	newnotesicon.setAttribute('class','img_propertydata_notes');
 	if(comment.length<1){
-		 newnotesicon.setAttribute('style','opacity:.3');
+		 newnotesicon.setAttribute('style','opacity:.45');
 	}
 	newnotesicon.setAttribute('onclick','popnotes(\'propertydata_notes_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
@@ -430,7 +428,7 @@ function populatedocdata(filename,dataid,datatype,commentid,comment){
 
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_docdata_'+i.toString());	
-	//newinputline.setAttribute('class','nonlinks');	
+	newinputline.setAttribute('class','div_inputline');	
 
 	var hiddendatatype = document.createElement('input');
 	hiddendatatype.setAttribute('type','hidden');
@@ -444,19 +442,33 @@ function populatedocdata(filename,dataid,datatype,commentid,comment){
 	hiddendatatype.setAttribute('value',filename);
 	newinputline.appendChild(hiddendatatype);
 
+    var type = document.createElement('div');
+    type.setAttribute('class','select_doctype');
+    type.innerHTML=docdatatypes[docdataids.indexOf(datatype.toString())];
+    newinputline.appendChild(type);
+
 	var doclink = document.createElement('a');
 	doclink.setAttribute('href',filename);
-	doclink.setAttribute('title',filename.replace('uploads/documents/',''));
-	doclink.innerHTML=docdatatypes[docdataids.indexOf(datatype.toString())]+' ';
-	newinputline.appendChild(doclink);
+    doclink.setAttribute('class','input_docfile');
+    basename = filename.replace('uploads/documents/','');
+    var regex = /(\d+_){3}(.*)/;
+    basename = regex.exec(basename)[2];
+    if(basename.length>20){
+        basename = basename.substring(0,20)+'...';
+    }
+    doclink.setAttribute('title',basename);
+	doclink.innerHTML= basename 
+    newinputline.appendChild(doclink);
+
+
 
 	var newnoteslink = document.createElement('a');
 	newnoteslink.setAttribute('href','#');
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
-	newnotesicon.setAttribute('height','20');
+	newnotesicon.setAttribute('class','img_docdata_notes');
 	if(comment.length<1){
-		 newnotesicon.setAttribute('style','opacity:.3');
+		 newnotesicon.setAttribute('style','opacity:.45');
 	}
 	newnotesicon.setAttribute('onclick','popnotes(\'docdata_notes_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
@@ -476,8 +488,7 @@ function populatedocdata(filename,dataid,datatype,commentid,comment){
 	deletelink.setAttribute('href','#');
 	var deleteicon = document.createElement('img');
 	deleteicon.setAttribute('src','delete_icon.png');
-	deleteicon.setAttribute('height','20');
-	deleteicon.setAttribute('style','margin-left:18px;');
+	deleteicon.setAttribute('class','img_docdata_delete');
 	deleteicon.setAttribute('onclick','deletedatacheck(\''+i.toString()+'\',\''+datatype.toString()+'\');return false');
 	deletelink.appendChild(deleteicon);	
 	newinputline.appendChild(deletelink);
@@ -507,11 +518,13 @@ function moredocdata(){
 	
 	var newinputline = document.createElement('div');		
 	newinputline.setAttribute('id','div_docdata_new_'+i.toString());	
-	newinputline.setAttribute('class','nonlinks');	
+    newinputline.setAttribute('class','div_inputline');
 
 	var newdatatypeselect = document.createElement('select');
 	newdatatypeselect.setAttribute('id','docdata_datatypeid_new_'+i.toString());
 	newdatatypeselect.setAttribute('name','docdata_datatypeid_new_'+i.toString());
+    newdatatypeselect.setAttribute('class','select_doctype');
+
 	for(var j=0;j<docdatatypes.length;j++){
 		var newoption = document.createElement('option');
 		newoption.setAttribute('value',docdataids[j]);
@@ -524,15 +537,14 @@ function moredocdata(){
 	newinputvalue.setAttribute('type','file');
 	newinputvalue.setAttribute('name','docdata_value_new_'+i.toString());
 	newinputvalue.setAttribute('accept','.pdf,.doc,.fid,application/pdf,application/msword,.png,.sdf,.mol');
-    newinputvalue.setAttribute('size','10');	
-	newinputvalue.setAttribute('style','font-size:0.8em;');	
+    newinputvalue.setAttribute('class','input_docfile');
 	newinputline.appendChild(newinputvalue);
 
 	var newnoteslink = document.createElement('a');
 	newnoteslink.setAttribute('href','#');
 	var newnotesicon = document.createElement('img');
 	newnotesicon.setAttribute('src','notes_icon.png');
-	newnotesicon.setAttribute('height','20');
+    newnotesicon.setAttribute('class','img_docdata_notes');
 	newnotesicon.setAttribute('onclick','popnotes(\'docdata_notes_new_'+i.toString()+'\');return false');
 	newnoteslink.appendChild(newnotesicon);	
 	newinputline.appendChild(newnoteslink);

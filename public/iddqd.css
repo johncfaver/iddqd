@@ -259,66 +259,119 @@ img{
 #div_tab_datatype_docdata{
 	left:67%;
 }
-
 #div_input_datatype_bindingdata{
 	position:absolute;
 	display:block;
-	width:100%;
+	width:380px;
 	height:250px;
 	text-align:center;
-	top:15px;
+	margin-top:20px;
 }
-.div_bindingdata{
+.div_datainputlines{
+    position:absolute;
+    margin-top:20px;
+    width:380px;
+    height:180px;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+.div_inputline{
+    height:25px;
 }
 .select_bindingdata_target{
-    width:160px;
+    width:120px;
+    float:left;
+    margin-left:10px;
 }
 .select_bindingdata_datatype{
     width:95px;
+    float:left;
+    margin-left:5px;
 }
 .input_bindingdata_value{
-    width:55px;
+    width:50px;
+    float:left;
+    margin-left:5px;
 }
 .img_bindingdata_notes{
     height:20px;
+    float:left;
     margin-left:10px;
 }
 .img_bindingdata_delete{
     height:20px;
-    margin-left:10px;
+    float:left;
+    margin-left:20px;
+}
+.button_plusdata{
+    height:25px;
+    float:left;
+    margin-left:150px;
+    margin-top:225px;
+}
+.button_minusdata{
+    float:right;
+    margin-right:150px;
+    display:none;
+    height:25px;
+    margin-top:225px;
 }
 #div_input_datatype_propertydata{
 	position:absolute;
 	display:none;
-	width:100%;
+	width:380px;
 	height:250px;
 	text-align:center;
-	top:15px;
-}
-.div_propertydata{
+	margin-top:20px;
 }
 .select_propertydata_datatype{
+    float:left;
+    margin-left:10px;
     width:170px;
 }
 .input_propertydata_value{
+    float:left;
+    margin-left:15px;
     width:80px;
 }
 .img_propertydata_notes{
+    float:left;
+    margin-left:20px;
     height:20px;
-    margin-left:15px;
 }
 .img_propertydata_delete{
     height:20px;
-    margin-left:18px;
+    float:left;
+    margin-left:20px;
 }
-
 #div_input_datatype_docdata{
-	position:absolute;
-	top:15px; 
+    position:absolute;
 	display:none;
-	width:100%;
+	width:380px;
 	height:250px;
 	text-align:center;
+	margin-top:20px;
+}
+.select_doctype{
+    float:left;
+    margin-left:5px;
+    width:100px;
+}
+.input_docfile{
+    font-size:0.8em;
+    width:185px;
+    float:left;
+    margin-left:5px;
+}
+.img_docdata_notes{
+    float:left;
+    height:20px;
+    margin-left:5px;
+}
+.img_docdata_delete{
+    height:20px;
+    float:left;
+    margin-left:20px;
 }
 .div_notespopup{
 	display:none;

@@ -147,39 +147,33 @@
     
 <!-- BINDING DATA -->
                 <div id="div_input_datatype_bindingdata">
-                    <br/><br/>
-                    <div id="bindingdatainputlines"></div>
-                    <br/><br/>
-                    <div id="button_morebindingdata" style="display:inline">
+                    <div id="bindingdatainputlines" class="div_datainputlines"></div>
+                    <div id="button_morebindingdata" class="button_plusdata">
                         <a href="#"><img src="add_icon.png" class="nonlinks" onclick="morebindingdata();return false" /></a>
                     </div>
-                    <div id="button_lessbindingdata" style="display:none;">
+                    <div id="button_lessbindingdata" class="button_minusdata">
                         <a href="#"><img src="minus_icon.png" class="nonlinks" onclick="lessbindingdata();return false" /></a>
                     </div>
                 </div>
             
 <!-- PROPERTY DATA -->
                 <div id="div_input_datatype_propertydata">
-                    <br/><br/>
-                    <div id="propertydatainputlines"></div>
-                    <br/><br/>
-                    <div id="button_morepropertydata" style="display:inline;">
+                    <div id="propertydatainputlines" class="div_datainputlines"></div>
+                    <div id="button_morepropertydata" class="button_plusdata">
                         <a href="#"><img src="add_icon.png" class="nonlinks" onclick="morepropertydata();return false" /></a>
                     </div>
-                    <div id="button_lesspropertydata" style="display:none;">
+                    <div id="button_lesspropertydata" class="button_minusdata">
                         <a href="#"><img src="minus_icon.png" class="nonlinks" onclick="lesspropertydata();return false" /></a>
                     </div>
                 </div>
 
 <!-- DOCUMENT DATA -->
                 <div id="div_input_datatype_docdata">
-                    <br/><br/>
-                    <div id="docdatainputlines"></div>
-                    <br/><br/>
-                    <div id="button_moredocdata" style="display:inline;">
+                    <div id="docdatainputlines" class="div_datainputlines"></div>
+                    <div id="button_moredocdata" class="button_plusdata">
                         <a href="#"><img src="add_icon.png" class="nonlinks" onclick="moredocdata();return false" /></a>
                     </div>
-                    <div id="button_lessdocdata" style="display:none;">
+                    <div id="button_lessdocdata" class="button_minusdata">
                         <a href="#"><img src="minus_icon.png" class="nonlinks" onclick="lessdocdata();return false" /></a>
                     </div>
                 </div>
