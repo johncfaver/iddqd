@@ -217,12 +217,10 @@
                             </td>';
                     if($r['datacomment']){
                         $comment = htmlentities($r['datacomment']);
-                        echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
-                            '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n",'<br />',addslashes($comment)).'\');return false">
+                        echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\''.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n",'<br />',addslashes($comment)).'\');return false">
                             <img src="info_icon.png" height=15 title="Notes Available" />';
                     }else{
-                        echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
-                            '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
+                        echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\''.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
                     }
                     echo '  </td>
                         </tr>';
@@ -252,12 +250,10 @@
                             '.$r['value'].' '.$r['units'].' </td>';
                         if($r['datacomment']){
                             $comment = htmlentities($r['datacomment']);
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
-                             '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">
+                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\''.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">
                              <img src="info_icon.png" height=15 title="Notes Available" />';
                         }else{
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
-                            '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
+                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\''.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
                         }
                         echo '</td>
                           </tr>';
@@ -296,13 +292,11 @@
                         echo '</td>';
                         if($r['datacomment']){
                             $comment = htmlentities($r['datacomment']);
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
-                                '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">
+                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\''.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">
                                 '.str_replace("\r\n", " ",htmlentities(substr($comment,0,20)));
                             if(strlen($comment)>20) echo '...<a href="#">(more)</a>';
                         }else{
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
+                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\''.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
                         }
                         echo '</td></tr>';
                 }
