@@ -1,6 +1,8 @@
 <?php
+
 // viewmolecule.php
-// display information for a specific molecule
+// display information for a molecule specified by $_GET['molid']
+//
 
     require('config.php');
     try{
@@ -24,7 +26,8 @@
                             m.molformula,
                             m.iupac,
                             m.cas 
-                           FROM molecules m LEFT JOIN users u ON m.authorid=u.userid
+                           FROM molecules m 
+                            LEFT JOIN users u ON m.authorid=u.userid
                            WHERE m.molid=:num
                           ");
     $q->bindParam(":num",$thismolid,PDO::PARAM_INT);
@@ -60,21 +63,21 @@
             Are you sure you want to delete this molecule?
         </span>
         <input type="submit" value="Delete" class="button_popup button_popup_left" />
-		<input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();return false"/>
+        <input type="button" value="Cancel" class="button_popup button_popup_right"  onclick="closedeletecheck();return false"/>
     </form>
 </div>
 
 <div id="div_left">
     <div id="left_links">
         <span class="nonlinks">
-	        <?php if ($_SESSION['isadmin']) echo '<a href="admin.php" style="color:white">Administration</a><br/><br/>';?>
+            <?php if ($_SESSION['isadmin']) echo '<a href="admin.php" style="color:white">Administration</a><br/><br/>';?>
             <a href="index.php" style="color:white">Home</a><br /><br />
-	        <a href="search.php" style="color:white">Search</a> <br /><br />
-	        <a href="molecules.php" style="color:#bbbbff">View Library</a><br /><br />
-	        <a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
-	        <a href="bounties.php" style="color:white">Bounties</a><br /><br />
-	        <a href="targets.php" style="color:white">Targets</a><br /><br />
-	        <a href="help.php" style="color:white">Help</a><br /><br />
+            <a href="search.php" style="color:white">Search</a> <br /><br />
+            <a href="molecules.php" style="color:#bbbbff">View Library</a><br /><br />
+            <a href="addmolecule.php" style="color:white">Add Molecules</a><br /><br />
+            <a href="bounties.php" style="color:white">Bounties</a><br /><br />
+            <a href="targets.php" style="color:white">Targets</a><br /><br />
+            <a href="help.php" style="color:white">Help</a><br /><br />
         </span>
     </div>
     <div id="div_ad">
@@ -148,18 +151,37 @@
     <div id="div_moldata">
 
 <?php
-        $q = $dbconn->prepare("SELECT DISTINCT username,nickname,value,datacomment,moldata.dateadded,moldata.datatype,moldata.moldataid,type,units from moldata left join targets on moldata.targetid=targets.targetid left join datacomments on moldata.moldataid=datacomments.dataid join users on users.userid=moldata.authorid join datatypes on datatypes.datatypeid=datatype where molid=:num order by type");
+//We'll grab all data and data comments associated with molid and sort them later when generating tables.        
+//Molecule comments are queried separately.
+        $q = $dbconn->prepare("SELECT DISTINCT 
+                                    u.username,
+                                    t.nickname,
+                                    c.datacomment,
+                                    d.value,
+                                    d.dateadded,
+                                    d.datatype,
+                                    d.moldataid,
+                                    dt.type,
+                                    dt.units 
+                                FROM moldata d
+                                    LEFT JOIN targets t ON d.targetid=t.targetid 
+                                    LEFT JOIN datacomments c ON d.moldataid=c.dataid 
+                                    LEFT JOIN users u ON u.userid=d.authorid 
+                                    LEFT JOIN datatypes dt ON dt.datatypeid=d.datatype 
+                                WHERE molid=:num 
+                                ORDER BY type");
         $q->bindParam(":num",$thismolid,PDO::PARAM_INT);
         $q->execute();
         $response=$q->fetchAll();
 ?>
+<!-- SELECTION TABS -->
     <span class="nonlinks">
-    <a href="#"><div id="div_tabbindingdata" class="datatab datatabopen" onclick="switchdatadiv('bindingdata');return false">Binding</div></a>
-    <a href="#"><div id="div_tabpropertydata" class="datatab" onclick="switchdatadiv('propertydata');return false">Properties</div></a>
-    <a href="#"><div id="div_tabdocdata" class="datatab" onclick="switchdatadiv('docdata');return false">Documents</div></a>
-    <a href="#"><div id="div_tabmodelingdata" class="datatab" onclick="switchdatadiv('modelingdata');return false">Modeling</div></a>
-    <a href="#"><div id="div_tabcommentdata" class="datatab" onclick="switchdatadiv('commentdata');return false">Comments</div></a>
-    <a href="editmolecule.php?molid=<?php echo $thismolid;?>"><div id="div_editdata" class="datatab" >Edit</div></a>
+        <a href="#"><div id="div_tabbindingdata" class="datatab datatabopen" onclick="switchdatadiv('bindingdata');return false">Binding</div></a>
+        <a href="#"><div id="div_tabpropertydata" class="datatab" onclick="switchdatadiv('propertydata');return false">Properties</div></a>
+        <a href="#"><div id="div_tabdocdata" class="datatab" onclick="switchdatadiv('docdata');return false">Documents</div></a>
+        <a href="#"><div id="div_tabmodelingdata" class="datatab" onclick="switchdatadiv('modelingdata');return false">Modeling</div></a>
+        <a href="#"><div id="div_tabcommentdata" class="datatab" onclick="switchdatadiv('commentdata');return false">Comments</div></a>
+        <a href="editmolecule.php?molid=<?php echo $thismolid;?>"><div id="div_editdata" class="datatab" >Edit</div></a>
 <?php
     if(!in_array($thismolid,$_SESSION['notebook_molids'])){
         echo '<a href="addtonotebook.php?molid='.$thismolid.'&dest=vm"><div id="div_addtonotebook" class="datatab" >Add to Notebook</div></a>';
@@ -169,28 +191,41 @@
 ?>
     </span>
 
+<!-- BINDING DATA TAB -->
     <div id="div_bindingdata" class="div_data">
         <table id="bindingtable" class="viewmolecule_datatable">
-            <tr><th class="molecules_th">Data Type</th><th class="molecules_th">Value</th><th class="molecules_th">Target</th><th class="molecules_th">Notes</th></tr>
+            <tr>
+                <th class="molecules_th">Data Type</th>
+                <th class="molecules_th">Value</th>
+                <th class="molecules_th">Target</th>
+                <th class="molecules_th">Notes</th>
+            </tr>
             <?php
                 $count=0;
                 foreach($response as $r){
                     if(!in_array(strval($r['datatype']),$bindingdataids))continue;
                     $count++;
-                    echo '<tr><td class="molecules_td molecules_tdl">';    
-                        echo $datatypefromid[strval($r['datatype'])].'</td><td class="molecules_td molecules_tdr">';
-                        echo $r['value'].' '.$r['units'].'</td><td class="molecules_td">';
-                        echo $r['nickname'].'</td>';
-                        if($r['datacomment']){
-                            $comment = htmlentities($r['datacomment']);
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n",'<br />',addslashes($comment)).'\');return false">';
-                            echo '<img src="info_icon.png" height=15 title="Notes Available" />';
-                        }else{
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
-                        }
-                        echo '</td></tr>';
+                    echo '<tr>
+                            <td class="molecules_td molecules_tdl">    
+                                '.$r['type'].'
+                            </td>
+                            <td class="molecules_td molecules_tdr">
+                                '.$r['value'].' '.$r['units'].'
+                            </td>
+                            <td class="molecules_td">
+                                '.$r['nickname'].'
+                            </td>';
+                    if($r['datacomment']){
+                        $comment = htmlentities($r['datacomment']);
+                        echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
+                            '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n",'<br />',addslashes($comment)).'\');return false">
+                            <img src="info_icon.png" height=15 title="Notes Available" />';
+                    }else{
+                        echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
+                            '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
+                    }
+                    echo '  </td>
+                        </tr>';
                 }
                 if($count==0){    
                     echo '<tr><td></td><td><br /><br />No data.</td></tr>';
@@ -198,27 +233,34 @@
             ?>    
         </table>
     </div>
+<!-- PROPERTY DATA TAB -->
     <div id="div_propertydata" class="div_data" style="display:none">
         <table id="propertytable" class="viewmolecule_datatable">
-            <tr><th class="molecules_th">Data Type</th><th class="molecules_th">Value</th><th class="molecules_th">Notes</th></tr>
+            <tr>
+                <th class="molecules_th">Data Type</th>
+                <th class="molecules_th">Value</th>
+                <th class="molecules_th">Notes</th>
+            </tr>
             <?php
                 $count=0;
                 foreach($response as $r){
                     if(!in_array(strval($r['datatype']),$propertydataids))continue;
                     $count++;
-                    echo '<tr><td class="molecules_td molecules_tdl">';    
-                        echo $datatypefromid[strval($r['datatype'])].'</td><td class="molecules_td ">';
-                        echo $r['value'].' '.$r['units'].' </td>';
+                    echo '<tr>
+                            <td class="molecules_td molecules_tdl">  
+                            '.$r['type'].'</td><td class="molecules_td ">
+                            '.$r['value'].' '.$r['units'].' </td>';
                         if($r['datacomment']){
                             $comment = htmlentities($r['datacomment']);
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">';
-                            echo '<img src="info_icon.png" height=15 title="Notes Available" />';
+                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
+                             '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">
+                             <img src="info_icon.png" height=15 title="Notes Available" />';
                         }else{
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
+                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
+                            '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\'No Notes.\');return false">';
                         }
-                        echo '</td></tr>';
+                        echo '</td>
+                          </tr>';
                 }
                 if($count==0){
                     echo '<tr><td></td><td><br /><br />No data.</td></tr>';
@@ -226,24 +268,37 @@
             ?>    
         </table>
     </div>
+<!-- DOCUMENT DATA TAB -->
     <div id="div_docdata" class="div_data" style="display:none">
         <table id="doctable" class="viewmolecule_datatable">
-            <tr><th class="molecules_th">Data Type</th><th class="molecules_th">Link</th><th class="molecules_th">Notes</th></tr>
+            <tr>
+                <th class="molecules_th">Data Type</th>
+                <th class="molecules_th">Link</th>
+                <th class="molecules_th">Notes</th>
+            </tr>
             <?php
                 $count=0;
                 foreach($response as $r){
                     if(!in_array(strval($r['datatype']),$docdataids))continue;
                     $count++;
-                    echo '<tr><td class="molecules_td molecules_tdl">';    
-                        echo $datatypefromid[strval($r['datatype'])].'</td><td class="molecules_td ">';
-                        $filename=exec('ls uploads/documents/'.$thismolid.'_'.$r['datatype'].'_'.$r['moldataid'].'*');
-                                        echo '<a href="'.$filename.'">View</a>';
+                    echo '<tr>
+                            <td class="molecules_td molecules_tdl">
+                            '.$r['type'].'</td><td class="molecules_td ">';
+                        
+                        //Find filename for this data entry.
+                        $tarray = glob('uploads/documents/'.$thismolid.'_'.$r['datatype'].'_'.$r['moldataid'].'*');
+                        if (count($tarray)==1){
+                            $filename = $tarray[0];
+                            echo '<a href="'.$filename.'">View</a>';
+                        }else{
+                            unset($tarray);
+                        }
                         echo '</td>';
                         if($r['datacomment']){
                             $comment = htmlentities($r['datacomment']);
-                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
-                            echo $r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">';
-                            echo str_replace("\r\n", " ",htmlentities(substr($comment,0,20)));
+                            echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'
+                                '.$r['username'].'\',\''.parsetimestamp($r['dateadded']).'\',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');return false">
+                                '.str_replace("\r\n", " ",htmlentities(substr($comment,0,20)));
                             if(strlen($comment)>20) echo '...<a href="#">(more)</a>';
                         }else{
                             echo '<td class="molecules_td molecules_tdr" onclick="opendatapopup(\'';
@@ -257,38 +312,52 @@
             ?>    
         </table>
     </div>
+<!-- MODELING DATA TAB -->
     <div id="div_modelingdata" class="div_data" style="display:none">
         <table id="modelingtable" class="viewmolecule_datatable">
-        <tr><th class="molecules_th">Data Type</th><th class="molecules_th">Link</th></tr>
+            <tr>
+                <th class="molecules_th">Data Type</th>
+                <th class="molecules_th">Link</th>
+            </tr>
         <?php    
             if(file_exists('uploads/sketches/'.$thismolid.'.png')){
-                echo '<tr><td class="molecules_td molecules_tdl">PNG Image</td>';
-                echo '<td class="molecules_td molecules_tdr"><a href="uploads/sketches/'.$thismolid.'.png">Download</a></td>';
+                echo '<tr><td class="molecules_td molecules_tdl">PNG Image</td>
+                    <td class="molecules_td molecules_tdr"><a href="uploads/sketches/'.$thismolid.'.png">Download</a></td>';
             }
             if(file_exists('uploads/sketches/'.$thismolid.'.jpg')){
-                echo '<tr><td class="molecules_td molecules_tdl">JPG Image</td>';
-                echo '<td class="molecules_td molecules_tdr"><a href="uploads/sketches/'.$thismolid.'.jpg">Download</a></td>';
+                echo '<tr><td class="molecules_td molecules_tdl">JPG Image</td>
+                    <td class="molecules_td molecules_tdr"><a href="uploads/sketches/'.$thismolid.'.jpg">Download</a></td>';
             }        
             if(file_exists('uploads/structures/'.$thismolid.'.mol')){
-                echo '<tr><td class="molecules_td molecules_tdl">2D MOL</td>';
-                echo '<td class="molecules_td molecules_tdr"><a href="uploads/structures/'.$thismolid.'.mol">Download</a></td>';
+                echo '<tr><td class="molecules_td molecules_tdl">2D MOL</td>
+                    <td class="molecules_td molecules_tdr"><a href="uploads/structures/'.$thismolid.'.mol">Download</a></td>';
             }
             if(file_exists('uploads/structures/'.$thismolid.'-3d.mol')){
-                echo '<tr><td class="molecules_td molecules_tdl">3D MOL</td>';
-                echo '<td class="molecules_td molecules_tdr"><a href="uploads/structures/'.$thismolid.'-3d.mol">Download</a></td>';
+                echo '<tr><td class="molecules_td molecules_tdl">3D MOL</td>
+                    <td class="molecules_td molecules_tdr"><a href="uploads/structures/'.$thismolid.'-3d.mol">Download</a></td>';
             }
             if(file_exists('uploads/qikprop/'.$thismolid.'-QP.txt')){
-                echo '<tr><td class="molecules_td molecules_tdl">QikProp Output</td>';
-                echo '<td class="molecules_td molecules_tdr"><a href="uploads/qikprop/'.$thismolid.'-QP.txt">Download</a></td>';
+                echo '<tr><td class="molecules_td molecules_tdl">QikProp Output</td>
+                    <td class="molecules_td molecules_tdr"><a href="uploads/qikprop/'.$thismolid.'-QP.txt">Download</a></td>';
             }
         ?>
         </table>
     </div>
-
+<!-- MOLECULE COMMENT DATA TAB -->
     <div id="div_commentdata" class="div_data" style="display:none">
         <div id="div_commentblockspacer" class="div_molcommentblock" style="min-height:5px;"></div>
 <?php
-        $q = $dbconn->prepare("select molcommentid,molcomment,dateadded,username from molcomments left join users on users.userid=molcomments.authorid where molcomments.molid=:num order by dateadded");
+        $q = $dbconn->prepare("SELECT 
+                                c.molcommentid,
+                                c.molcomment,
+                                c.dateadded,
+                                u.username 
+                              FROM molcomments c 
+                                LEFT JOIN users u on u.userid=c.authorid 
+                              WHERE 
+                                c.molid=:num 
+                              ORDER BY dateadded");
+
         $q->bindParam(":num",$thismolid,PDO::PARAM_INT);
         $q->execute();
         $count=0;

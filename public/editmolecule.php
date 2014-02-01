@@ -233,13 +233,18 @@
             echo 'targetids.push("'.$target['targetid'].'");';
         }
         
-        $q=$dbconn->prepare("SELECT distinct 
-                                targetid,value,datatype,datacomment,moldataid,datacommentid
+        $q=$dbconn->prepare("SELECT DISTINCT 
+                                d.targetid,
+                                d.value,
+                                d.datatype,
+                                c.datacomment,
+                                d.moldataid,
+                                c.datacommentid
                                 FROM 
-                                    moldata d left join datacomments c 
-                                ON d.moldataid = c.dataid 
-                                WHERE molid=:num 
-                                ORDER BY datatype");
+                                    moldata d 
+                                    LEFT JOIN datacomments c ON d.moldataid = c.dataid 
+                                WHERE d.molid=:num 
+                                ORDER BY d.datatype");
         $q->bindParam(":num",$thismolid,PDO::PARAM_INT);
         $q->execute();
         while($row=$q->fetch(PDO::FETCH_ASSOC)){
@@ -257,7 +262,12 @@
                     echo 'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].',0,\'\');';
                 }
             }else if(in_array($row['datatype'],$docdataids)){
-                $filename=exec('ls uploads/documents/'.$thismolid.'_'.$row['datatype'].'_'.$row['moldataid'].'_*');
+                $tarray = glob('uploads/documents/'.$thismolid.'_'.$row['datatype'].'_'.$row['moldataid'].'*');
+                if (count($tarray)==1){
+                    $filename = $tarray[0];
+                }else{
+                    $filename = '';
+                }
                 if($row['datacommentid']){
                     echo 'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].','.$row['datacommentid'].',\''.str_replace("\r\n","\\n",addslashes($comment)).'\');';
                 }else{

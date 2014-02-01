@@ -756,11 +756,11 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO datatypes VALUES (1, 'ic50', 'µM');
-INSERT INTO datatypes VALUES (2, 'ec50', 'µM');
+INSERT INTO datatypes VALUES (1, 'IC50', 'µM');
+INSERT INTO datatypes VALUES (2, 'EC50', 'µM');
 INSERT INTO datatypes VALUES (3, 'kd', 'µM');
-INSERT INTO datatypes VALUES (4, 'cc50', 'µM');
-INSERT INTO datatypes VALUES (5, 'solwater', 'mg/mL');
+INSERT INTO datatypes VALUES (4, 'CC50', 'µM');
+INSERT INTO datatypes VALUES (5, 'Aq. Sol.', 'g/L');
 INSERT INTO datatypes VALUES (6, 'H NMR', 'file');
 INSERT INTO datatypes VALUES (7, 'C NMR', 'file');
 INSERT INTO datatypes VALUES (8, 'Mass Spec.', 'file');

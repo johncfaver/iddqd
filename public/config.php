@@ -9,7 +9,7 @@
 	$dbpass=$config['postgresql']['pass'];
     $babeldir=$config['babeldir'];
 
-//Various definition. We could also read these from database, but this is probably faster.
+//Various definitions. We could also read these from database, but this is probably faster.
 	$bindingdatatypes   = Array('IC50','EC50','kd');
 	$bindingdataids     = Array('1','2','3');
 	$propertydatatypes  = Array('CC50','Aq. Solubility');
@@ -73,5 +73,4 @@
 		return $formula;
 
 	}
-
 ?>
