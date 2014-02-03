@@ -63,7 +63,12 @@
     }
 //Structure search  
     //molecular structure 
-    $moltext=(isset($_POST['moltext']))?explode("\n",str_replace("\r",'',$_POST['moltext'])):false; 
+    if(isset($_POST['moltext'])){
+        $moltext=$_POST['moltext'];
+        $_SESSION['last_structure_query'] = str_replace("\r\n",'\n',$moltext);
+        $moltext=explode("\n",str_replace("\r",'',$moltext)); 
+    }
+
     //Is there a non-empty structure for structure search?
     $query_structure=($moltext && count($moltext)>6)?true:false; 
     $searchtype=(isset($_POST['searchtype']))?$_POST['searchtype']:0;

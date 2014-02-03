@@ -78,7 +78,6 @@ function prepare_emails(){
 <?php
         $qstr = 'SELECT username,userid,email,isadmin FROM users ORDER BY userid';
         $q = $dbconn->query($qstr,PDO::FETCH_ASSOC);
-        $count=1;
         foreach($q as $r){
             $tdcolor=($r['userid']==$_SESSION['userid'])?'moltdcolor':'';
             echo '<tr class="moltr" style="height:50px;">
@@ -97,13 +96,13 @@ function prepare_emails(){
                             <input type="hidden" name="token" value="'.$_SESSION['token'].'"/>
                             <input type="hidden" name="userid" value="'.$_SESSION['userid'].'"/>
                             <input type="hidden" name="upgradeuserid" value="'.$r['userid'].'"/>
-                            <input type="button" value="Promote" style="float:left;margin-left:20px;width:35%;font-size:1.0em" onclick="shadewindow();popnotes(\'div_createadmincheck\');return false;" />
-                            <div id="div_createadmincheck" class="div_notespopup">
+                            <input type="button" value="Promote" style="float:left;margin-left:20px;width:35%;font-size:1.0em" onclick="shadewindow();popnotes(\'div_createadmincheck_'.$r['userid'].'\');return false;" />
+                            <div id="div_createadmincheck_'.$r['userid'].'" class="div_notespopup">
                                 <span class="span_popup_main_text" style="font-size:1.1em;">
                                     Are you sure you want to promote this user? <br/><br/>They will be able to manage and invite users though this administration page.
                                 </span>
                                 <input type="submit" value="Continue" class="button_popup button_popup_left" />
-                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_createadmincheck\');unshadewindow();return false;"/>
+                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_createadmincheck_'.$r['userid'].'\');unshadewindow();return false;"/>
                             </div>
 
 
@@ -113,13 +112,13 @@ function prepare_emails(){
                             <input type="hidden" name="token" value="'.$_SESSION['token'].'"/>
                             <input type="hidden" name="userid" value="'.$_SESSION['userid'].'"/>
                             <input type="hidden" name="deleteuserid" value="'.$r['userid'].'"/>
-                            <input type="button" value="Remove" style="float:right;margin-right:20px;width:35%;font-size:1.0em" onclick="popnotes(\'div_removeusercheck\');shadewindow();return false;" />
-                            <div id="div_removeusercheck" class="div_notespopup" style="font-size:1.1em">
+                            <input type="button" value="Remove" style="float:right;margin-right:20px;width:35%;font-size:1.0em" onclick="popnotes(\'div_removeusercheck_'.$r['userid'].'\');shadewindow();return false;" />
+                            <div id="div_removeusercheck_'.$r['userid'].'" class="div_notespopup" style="font-size:1.1em">
                                 <span class="span_popup_main_text">
                                     Are you sure you want to remove this user? <br/><br/>Their data will remain but they will no longer be able to log in with this account. 
                                 </span>
                                 <input type="submit" value="Continue" class="button_popup button_popup_left" />
-                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_removeusercheck\');unshadewindow();return false;"/>
+                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_removeusercheck_'.$r['userid'].'\');unshadewindow();return false;"/>
                             </div>
 
                           </form>';
@@ -128,15 +127,15 @@ function prepare_emails(){
                     echo '<form action="cgi-bin/forfeitadmin.py" method="POST">
                             <input type="hidden" name="token" value="'.$_SESSION['token'].'"/> 
                             <input type="hidden" name="userid" value="'.$_SESSION['userid'].'"/>
-                            <input type="button" value="Forfeit Admin Status" style="margin:auto;font-size:1.0em;" onclick="popnotes(\'div_forfeitcheck\');shadewindow();return false;" />
-                            <div id="div_forfeitcheck" class="div_notespopup" style="font-size:1.1em;">
+                            <input type="button" value="Forfeit Admin Status" style="margin:auto;font-size:1.0em;" onclick="popnotes(\'div_forfeitcheck_'.$r['userid'].'\');shadewindow();return false;" />
+                            <div id="div_forfeitcheck_'.$r['userid'].'" class="div_notespopup" style="font-size:1.1em;">
                                 <span class="span_popup_main_text">
                                     Are you sure you want to forfeit your admin status?
                                     <br/><br/>
                                     You won\'t be able to invite or manage users!
                                 </span>
                                 <input type="submit" value="Continue" class="button_popup button_popup_left" />
-                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_forfeitcheck\');unshadewindow();"/>
+                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_forfeitcheck_'.$r['userid'].'\');unshadewindow();"/>
                             </div>
                           </form>';
             }
@@ -188,6 +187,7 @@ function prepare_emails(){
 <?php 
         $qstr = 'SELECT email, datesent FROM invites WHERE datejoined IS NULL';
         $q = $dbconn->query($qstr,PDO::FETCH_ASSOC);
+        $count=0;
         foreach($q as $r){
             echo '<tr class="moltr">
                     <td class="moltd moltdborderright">
@@ -197,10 +197,10 @@ function prepare_emails(){
                         '.parsetimestamp($r['datesent']).'
                     </td>
                     <td class="moltd">
-                        <a href="#" onclick="shadewindow();popnotes(\'div_void_key\');return false;">
+                        <a href="#" onclick="shadewindow();popnotes(\'div_void_key_'.$count.'\');return false;">
                             <img src="delete_icon.png" /> 
                         </a>
-                        <div id="div_void_key" class="div_notespopup" style="font-size:1.1em;">
+                        <div id="div_void_key_'.$count.'" class="div_notespopup" style="font-size:1.1em;">
                             <span class="span_popup_main_text">
                                 Are you sure you want to void this invitation key? <Br/><br/>This person won\'t be able to register without a new invitation.
                             </span>
@@ -210,11 +210,12 @@ function prepare_emails(){
                                 <input type="hidden" name="inviteemail" value="'.$r['email'].'"/>
                                 <input type="hidden" name="datesent" value="'.$r['datesent'].'"/>
                                 <input type="submit" value="Continue" class="button_popup button_popup_left" />
-                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_void_key\');unshadewindow();return false;"/>
+                                <input type="button" value="Cancel" class="button_popup button_popup_right" onclick="closenotes(\'div_void_key_'.$count.'\');unshadewindow();return false;"/>
                             </form>
                         </div>
                     </td>
                   </tr>';
+                  $count++;
         }
 ?>
     </table>

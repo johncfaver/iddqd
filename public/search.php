@@ -64,6 +64,13 @@
 		sketcher.specs.atoms_useJMOLColors = true;
 		sketcher.specs.bonds_clearOverlaps_2D = true;
 		sketcher.specs.bonds_overlapClearWidth_2D = 2;
+<?php
+        if(isset($_SESSION['last_structure_query'])){
+            echo 'sketcher.molecule=ChemDoodle.readMOL("'.$_SESSION['last_structure_query'].'");';
+            echo 'sketcher.molecule.check();';
+            echo 'sketcher.center();';
+        }
+?>        
 		sketcher.repaint();
 		</script>
 	</div>
