@@ -19,7 +19,10 @@ try:
     dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
    
-    #Retrieve series prefix. If there are multiple prefies, prefer first entry.
+    #Retrieve series prefix. If there are multiple prefixes, prefer first entry.
+    #If there is neither a prefix nor a nickname, we will suggest nothing.
+    #If there is a nickname but no prefix, we will suggest a name using the nickname
+    #Otherwise we will suggest a name using the nickname
     q.execute("SELECT split_part(series,',',1),nickname FROM targets where targetid=%s",[targetid])
     r=q.fetchone()
     if(not r):
@@ -28,31 +31,31 @@ try:
     else:
         seriesprefix=r[0]
         nickname=r[1]
+        if(not seriesprefix):
+            seriesprefix = nickname
 
     #Retrive last inhibitor entry, sorted by reverse series number (molname).
-    #Assume molecules are named as (prefix)(number) e.g. XYZ001
+    #Assume molecules are named as (prefix)(number) e.g. XYZ1
     if (seriesprefix):
-        re = '^'+seriesprefix+'.*\d+'
+        re = '^'+seriesprefix+'\d+'
         q.execute("SELECT molname FROM molecules WHERE molname ~ %s ORDER BY molname DESC LIMIT 1",[re])
         r=q.fetchone()
         if(not r):
-            lastentry=0
+            lastentry=''
         else:
             lastentry=r[0]
 
     q.close()
     dbconn.close()
 
-    if(not nickname):
+    if(not nickname and not seriesprefix):
         suggestion=''
-    elif(not seriesprefix):
-        suggestion=nickname+'001'
     elif(not lastentry):
-        suggestion=seriesprefix+'001'
+        suggestion=seriesprefix+'-1'
     else:
         try:
             newnumber=int(lastentry.lstrip(seriesprefix))+1
-            suggestion=seriesprefix+'{:>3}'.format(newnumber).replace(' ','0')
+            suggestion=seriesprefix+'-'+str(newnumber)
         except:
             suggestion='No recommendation available.'
 
