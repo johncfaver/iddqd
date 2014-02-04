@@ -224,5 +224,15 @@
     }else{
         $_SESSION['search_results'] = $structure_search_molids;
     }
+    //Remove temporary files.
+    try{
+        if(file_exists($tempmolfile)){
+            unlink($tempmolfile);
+        }
+        foreach(glob('/tmp/'.session_id().'*results.smi') as $tf){
+            unlink($tf);
+        }
+    }catch(Exception $e){
+    }
     header('Location: displaysearch.php');
 ?>

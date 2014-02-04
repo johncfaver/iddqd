@@ -294,13 +294,12 @@ if(userisauthor):
             f.write(line+' \n')
     if os.path.isfile('structures/'+str(molid)+'.mol'):
         samefile = filecmp.cmp('/tmp/'+str(molid)+'.mol','structures/'+str(molid)+'.mol')
-        if samefile:    
-            os.remove('/tmp/'+str(molid)+'.mol')
-        else:
+        if not samefile:    
             os.remove('structures/'+str(molid)+'.mol')
-            shutil.copyfile('/tmp/'+str(molid)+'.mol', 'structures/'+str(molid)+'.mol')
-            os.remove('/tmp/'+str(molid)+'.mol')
+            shutil.move('/tmp/'+str(molid)+'.mol', 'structures/'+str(molid)+'.mol')
             recalculate=True
+        else:
+            os.remove('/tmp/'+str(molid)+'.mol')
 
 #Store any newly uploaded documents.
 for i in xrange(len(olddocdataids),len(docdatas)):

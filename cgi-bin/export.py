@@ -52,6 +52,10 @@ if export=='structures':
                 shutil.copyfile(molfile2d,temp_path+'/2d/'+i+'.mol')
     filename=shutil.make_archive(temp_path, 'zip', root_dir=temp_path)
     shutil.move(filename,uploaddir+'/scratch/structures-'+userid+'.zip')
+    try:
+        shutil.rmtree(temp_path)
+    except Exception:
+        pass
     print 'Location: ../uploads/scratch/structures-'+userid+'.zip \n\n'
     exit()
 
