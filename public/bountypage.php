@@ -100,7 +100,7 @@
 
     <div id="div_bountysketch">
         <script type="text/javascript">
-            var viewerCanvas = new ChemDoodle.ViewerCanvas('viewerCanvas', 400, 200);
+            var viewerCanvas = new ChemDoodle.ViewerCanvas('viewerCanvas', 500, 300);
             viewerCanvas.specs.bonds_width_2D = 1.0;
             viewerCanvas.specs.bonds_saturationWidth_2D = .18;
             viewerCanvas.specs.bonds_hashSpacing_2D = 2.5;
@@ -120,7 +120,7 @@
         </script>
     </div>
 
-    <div id="div_molentry" style="left:400px;"><br/>
+    <div id="div_bounty_info"><br/>
         <span style="font-size:1.8em;">Bounty #<?php echo $bid;?></span>
     <?php
             if($bdata['posted_by']==$_SESSION['username']){

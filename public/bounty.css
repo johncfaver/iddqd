@@ -4,19 +4,19 @@
     left:400px;
 }
 #div_bountysketch{
-    width:400px;
-    height:200px;
+    width:500px;
+    height:300px;
     position:absolute;
-    left:10px;
-    top:10px;     
+    left:0px;
+    top:0px;     
 }
 #div_bounty_info{
     position:absolute;
     width:385px;
-    height:500px;
-    top:0px;
-    left:550px;
-    font-size:0.9em;
+    height:250px;
+    top:50px;
+    left:510px;
+    font-size:0.7em;
 }
 
 #div_postbounty_notes{
@@ -50,7 +50,7 @@
 #div_commentholder{
     width:95%;
     position:absolute;
-    top:220px;
+    top:310px;
     left:25px;
     margin:auto;
     text-align:center;
