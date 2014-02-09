@@ -1,18 +1,19 @@
 #div_molimg{
 	position:absolute;
 	border:0px dotted #bbbbbb;
-	margin:10px;
-	width:400px;
-	height:200px;
+	margin:0px;
+	width:500px;
+	height:300px;
 	margin-bottom:20px;
-	left:500px;
+	left:450px;
 }
 #div_molentry{ 
 	position:absolute;
 	border:0px solid blue;
 	margin:10px;
-	left:60px;
+	left:50px;
 	width:400px;
+    top:50px;
 	font-size:0.7em;
 }
 #div_moldata{
@@ -20,8 +21,8 @@
 	border:0px solid yellow;
 	border-bottom:1px solid black;
 	width:800px;
-	left:70px;
-	top:225px;
+	left:50px;
+	top:300px;
 }
 .div_molcommentblock{
 	display:block;

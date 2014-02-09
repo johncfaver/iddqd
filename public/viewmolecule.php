@@ -96,7 +96,7 @@
     <div id="div_molimg">
         <script type="text/javascript">
             //initialize component and set visual specifications
-            var viewerCanvas = new ChemDoodle.ViewerCanvas('viewerCanvas', 400, 200);
+            var viewerCanvas = new ChemDoodle.ViewerCanvas('viewerCanvas', 500, 300);
             //the width of the bonds should be .6 pixels
             viewerCanvas.specs.bonds_width_2D = 1.0;
             //the spacing between higher order bond lines should be 18% of the length of the bond
