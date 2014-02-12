@@ -226,7 +226,7 @@
     }
     //Remove temporary files.
     try{
-        if(file_exists($tempmolfile)){
+        if(isset($tempmolfile) and file_exists($tempmolfile)){
             unlink($tempmolfile);
         }
         foreach(glob('/tmp/'.session_id().'*results.smi') as $tf){
