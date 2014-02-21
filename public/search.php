@@ -79,7 +79,7 @@
 	<div id="div_datainput_inner" style="position:absolute;text-align:right;top:100px;float:right;">
 		<form action="performsearch.php" method="post" >
 			Name:<input type="text" id="query_molname" name="query_molname" size=15 maxlength="50" />
-				<span style="font-size:0.7em;"><br />e.g. "JLJ0294", "propan-2-amine", "JL%4"</span>
+				<span style="font-size:0.7em;"><br />e.g. "JLJ0294", "propan-2-amine", "JL*94"</span>
 			<br /><br /><br />
 			Molecular Weight:<input type="text" id="query_molweight" name="query_molweight" size=8 maxlength="8" />
 			<span style="font-size:0.7em;"><br />e.g. "340", "200-250"</span>
