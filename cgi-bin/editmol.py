@@ -62,15 +62,15 @@ if debug:
     exit()    
 
 if 'molname' in keys:
-    molname=form['molname'].value
+    molname=form['molname'].value.strip().replace(' ','_')
 else:
     molname=''
 if 'iupacname' in keys:
-    iupacname=form['iupacname'].value
+    iupacname=form['iupacname'].value.strip()
 else:
     iupacname=''
 if 'cas' in keys:
-    cas=form['cas'].value
+    cas=form['cas'].value.strip()
 else:
     cas=''
 if 'molid' in keys:

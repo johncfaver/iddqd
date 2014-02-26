@@ -53,15 +53,15 @@ except Exception:
     sys.exit()
 
 if 'molname' in keys:
-    molname=form['molname'].value.replace(' ','_')
+    molname=form['molname'].value.strip().replace(' ','_')
 else:
     molname=0
 if 'iupacname' in keys:
-    iupacname=form['iupacname'].value
+    iupacname=form['iupacname'].value.strip()
 else:
     iupacname=0
 if 'cas' in keys:
-    cas=form['cas'].value
+    cas=form['cas'].value.strip()
 else:
     cas=0
 if 'molnotes' in keys:

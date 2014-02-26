@@ -14,11 +14,12 @@ import config
 form=cgi.FieldStorage()
 keys=form.keys()
 
+
 try:
     targetid=int(form['targetid'].value)
     dbconn=psycopg2.connect(config.dsn)
     q=dbconn.cursor()
-   
+  
     #Retrieve series prefix. If there are multiple prefixes, prefer first entry.
     #If there is neither a prefix nor a nickname, we will suggest nothing.
     #If there is a nickname but no prefix, we will suggest a name using the nickname
@@ -35,16 +36,22 @@ try:
             seriesprefix = nickname
 
     #Retrive last inhibitor entry, sorted by reverse series number (molname).
-    #Assume molecules are named as (prefix)(number) e.g. XYZ1
+    #Assume molecules are named as (prefix)?(number) e.g. XYZ1,XYZ-1,XYZ_1
+    #
+    #First select molnames which match re2, that is, their name begins with the series prefix, and has a number after it somewhere.
+    #Then order these by molname, and take the last molname.
+    #Return the first string of numbers found after the series prefix.
+    #   (Do this by removing re1 from the molname, which is the series prefix.)
+    #   (Then search for all strings of digits, \d+, in the remainder. Take the first match.)
     if (seriesprefix):
-        re = '^'+seriesprefix+'\d+'
-        q.execute("SELECT molname FROM molecules WHERE molname ~ %s ORDER BY molname DESC LIMIT 1",[re])
-        r=q.fetchone()
-        if(not r):
-            lastentry=''
-        else:
+        re1 = '^'+seriesprefix
+        re2 = '^'+seriesprefix+'.*\d+'
+        q.execute("SELECT (regexp_matches(regexp_replace(molname,%s,''),'\d+'))[1] from molecules where molname ~ %s order by molname  DESC limit 1",[re1,re2])
+        if q.rowcount == 1:
+            r=q.fetchone()
             lastentry=r[0]
-
+        else:
+            lastentry=''
     q.close()
     dbconn.close()
 
@@ -54,7 +61,7 @@ try:
         suggestion=seriesprefix+'-1'
     else:
         try:
-            newnumber=int(lastentry.lstrip(seriesprefix))+1
+            newnumber=int(lastentry)+1
             suggestion=seriesprefix+'-'+str(newnumber)
         except:
             suggestion='No recommendation available.'
