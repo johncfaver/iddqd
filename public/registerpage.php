@@ -33,69 +33,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Register New Account</title>
-	<link rel="stylesheet" href="reset.css" type="text/css" />
-	<link rel="stylesheet" href="iddqd.css" type="text/css" />
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Register New Account</title>
+    <link rel="stylesheet" href="reset.css" type="text/css" />
+    <link rel="stylesheet" href="iddqd.css" type="text/css" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 </head>
 <body>
 <div id="div_holder">
-<div id="div_left"></div>	
+<div id="div_left"></div>    
 <div id="div_top">
-	<div id="div_login"></div>	
+    <div id="div_login"></div>    
 </div>
 <div id="div_main">
+    
 <?php
+    function printerror($msg){
+        echo '<span class="span_registration_error">'.$msg.'</span>';
+    }
+
     if(!$key){
-        echo '<span style="position:absolute;top:100px;left:350px;">No valid key provided!</span>';
+        printerror('No valid key provided!');
+    }elseif(isset($_GET['emailisbad'])){
+         if((int)$_GET['emailisbad']==1){
+            printerror('That email was invalid. Please consult an administrator.');
+         }
     }else{
-    	if(isset($_GET['nameexists'])){
-    		if((int)$_GET['nameexists']==1){
-    			echo 'That username or email exists already.<br />';
-    		}
-    	}
-        if(isset($_GET['usernameisbad'])){
+        if(isset($_GET['nameexists'])){
+            if((int)$_GET['nameexists']==1){
+                printerror('That username or email exists already.');
+            }
+        }elseif(isset($_GET['usernameisbad'])){
             if((int)$_GET['usernameisbad']==1){
-                echo 'That username was invalid. Try again using 3-20 valid characters.<br />';
+                printerror('That username was invalid. Try again using 3-20 valid characters.');
             }
-        }
-        if(isset($_GET['emailisbad'])){
-            if((int)$_GET['emailisbad']==1){
-                echo 'That email was invalid. Try again.<br />';
-            }
-        }
-        if(isset($_GET['passwordisbad'])){
+        }elseif(isset($_GET['passwordisbad'])){
             if((int)$_GET['passwordisbad']==1){
-                echo 'That password was invalid. Try again using 5-20 valid characters.<br />';
+                printerror('That password was invalid. Try again using 5-20 valid characters.');
             }
         }
-	
         echo '<span id="span_regspan">
-	            <form method="post" action="register.php" id="register" >
-		            Username  
+                <form method="post" action="register.php" id="register" >
+                    Username  
                     <input type="text" id="desiredusername" name="desiredusername" size="8" maxlength="20" required />  
                     <br />
                     <span style="font-size:0.7em;">
                         (3-20 valid characters)
                     </span>
                     <br /><br />
-	                Email: &nbsp;&nbsp;  '.$email.'
+                    Email: &nbsp;&nbsp;  '.htmlentities($email).'
                     <br />
                     <span style="font-size:0.7em;">
                         (for password recovery)
                     </span>
                     <br /><br />
-	                Password: 
+                    Password: 
                     <input type="password" id="desiredpassword" name="desiredpassword" size="8" maxlength="20" required /> 
                     <br />
                     <span style="font-size:0.7em;">
                         (5-20 characters)
                     </span><br /><br />
                     <input type="hidden" name="invitekey" value="'.$key.'"/>
-                    <input type="hidden" name="desiredemail" value="'.$email.'"/>
-    	            <input type="submit" value="Register" />	
-	            </form>
-	          </span>';
+                    <input type="hidden" name="desiredemail" value="'.htmlentities($email).'"/>
+                    <input type="submit" value="Register" />    
+                </form>
+              </span>';
     }
     ?>
 </div>
