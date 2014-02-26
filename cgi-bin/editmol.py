@@ -46,8 +46,13 @@ class docdata:
 #############Collect field data##########
 form=cgi.FieldStorage()
 keys=form.keys()
-moltext=form['moltext'].value.replace('\r','').split('\n')
-molfig64=form['molfig'].value.split(',')[1]
+
+try:
+    moltext=form['moltext'].value.replace('\r','').split('\n')
+    molfig64=form['molfig'].value.split(',')[1]
+except Exception: 
+    config.returnhome(63)
+    exit()
 
 if debug:
     print 'Content-type: text/html\n\n'

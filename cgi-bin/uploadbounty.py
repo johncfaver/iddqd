@@ -26,8 +26,12 @@ if debug:
         print i+'='+form[i].value+'<br />'
     sys.exit()    
 
-moltext=form['moltext'].value.replace('\r','').split('\n')
-molfig64=form['molfig'].value.split(',')[1]
+try:
+    moltext=form['moltext'].value.replace('\r','').split('\n')
+    molfig64=form['molfig'].value.split(',')[1]
+except Exception:
+    config.returnhome(64)
+    sys.exit()
 
 if 'molnotes' in keys:
     molnotes=form['molnotes'].value

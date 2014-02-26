@@ -67,6 +67,8 @@
         $moltext=$_POST['moltext'];
         $_SESSION['last_structure_query'] = str_replace("\r\n",'\n',$moltext);
         $moltext=explode("\n",str_replace("\r",'',$moltext)); 
+    }else{
+        returnhome(65);
     }
 
     //Is there a non-empty structure for structure search?
