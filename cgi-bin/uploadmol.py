@@ -38,16 +38,19 @@ class docdata:
 form=cgi.FieldStorage()
 keys=form.keys()
 
-if debug:
+if debug: #print received variables
     print 'Content-type: text/html\n\n'
     print 'Received the following:\n<br />'
     for i in keys:
         print i+'='+form[i].value+'<br />'
     sys.exit()    
 
-
-moltext=form['moltext'].value.replace('\r','').split('\n')
-molfig64=form['molfig'].value.split(',')[1]
+try:
+    moltext=form['moltext'].value.replace('\r','').split('\n')
+    molfig64=form['molfig'].value.split(',')[1]
+except Exception:
+    config.returnhome(62)
+    sys.exit()
 
 if 'molname' in keys:
     molname=form['molname'].value.replace(' ','_')
