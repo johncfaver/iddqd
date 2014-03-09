@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-
-# Utility program for uploading a single molecule from a mol file. 
+# Utility program for uploading a single molecule from a mol/sdf file. 
 # Also look for EC50 and CC50 data in the file
 # Expect a format like:
 # EC50
@@ -22,12 +21,20 @@ molcomment = 'Imported from NNRTI SDF file'
 import psycopg2,sys,os,shutil
 from molecule import molecule
 import config
-if(len(sys.argv)!=2 or sys.argv[1][-4:]!='.mol'):
-    print 'Usage: importsdf.py [*.mol]'
+
+if(__name__ != '__main__'):
     sys.exit()
 
-dbconn = psycopg2.connect(config.dsn)
-q = dbconn.cursor()
+if(len(sys.argv)!=2 or sys.argv[1][-4:] not in ['.mol','.sdf']):
+    print 'Usage: importsdf.py [*.mol/sdf]'
+    sys.exit()
+
+try:
+    dbconn = psycopg2.connect(config.dsn)
+    q = dbconn.cursor()
+except Exception:
+    print 'Cannot connect to database!'
+    sys.exit()
 
 molfilename=sys.argv[1]
 ec50s=[]
