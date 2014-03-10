@@ -1,0 +1,26 @@
+.helptabunselected{
+    background:white;
+}
+li{
+	margin-left:25px;
+	list-style-type:circle;
+	padding-bottom:10px;
+	padding-top:10px;
+}
+b{
+	font-weight:bold;
+}
+i{
+    font-style:italic;
+}
+.help_content{
+    position:absolute;
+    left:65px;
+    margin-top:100px;
+    min-height:100px;
+    margin-bottom:20px;
+    width:800px;
+    display:none;
+    text-align:justify;
+    font-size:0.9em;
+}

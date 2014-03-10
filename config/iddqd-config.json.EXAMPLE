@@ -1,0 +1,20 @@
+{
+    "domain":"https://ipaddress",
+    "babeldir":"/usr/bin/",
+    "wkhtmltopdfdir":"/usr/bin/",
+    "convertdir":"/usr/bin/",
+    "postgresql": {
+        "host":"localhost",
+        "port":5432,
+        "database":"iddqddb",
+        "user":"iddqd",
+        "pass":"pgpass"
+    },
+    "email": {
+        "from_address":"defaultemail",
+        "host":"defaulthost",
+        "port":587,
+        "user":"defaultuser",
+        "pass":"defaultpass"
+    }
+}
