@@ -1,0 +1,5 @@
+This version of ChemDoodle Web Components library has been modified since its original distribution.
+Two major items have been added:
+    1)A button/icon for centering the molecule in the sketching window
+    2)Addition of R-groups to the atom selection window, which have valence of 1 (like hydrogens)
+John Faver 2014
