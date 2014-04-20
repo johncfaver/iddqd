@@ -9,18 +9,6 @@
 	$dbpass=$config['postgresql']['pass'];
     $babeldir=$config['babeldir'];
 
-//Various definitions. We could also read these from database, but this is probably faster.
-	$bindingdatatypes   = Array('IC50','EC50','kd');
-	$bindingdataids     = Array('1','2','3');
-	$propertydatatypes  = Array('CC50','Aq. Solubility');
-	$propertydataids    = Array('4','5');
-	$docdatatypes       = Array('H NMR','C NMR','Mass Spec.','Synthesis','Manuscript','Structure','Image','Other');
-	$docdataids	        = Array('6','7','8','9','10','11','13','15');
-	$datatypefromid     = Array('1'=>'IC50','2'=>'EC50','3'=>'kd',
-				            '4'=>'CC50','5'=>'Aq. Solubility',
-				            '6'=>'H NMR','7'=>'C NMR','8'=>'Mass Spec.','9'=>'Synthesis','10'=>'Manuscript',
-			      	        '11'=>'Structure', '13'=>'Image', '15'=>'Other');
-
 //Convert timestamp to MM/DD/YYYY
 	function parsetimestamp($timestamp){
         if($timestamp){

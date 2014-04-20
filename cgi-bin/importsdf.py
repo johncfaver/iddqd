@@ -15,7 +15,7 @@
 ###OPTIONS###
 authorid = 1
 targetid = 1
-molcomment = 'Imported from NNRTI SDF file'
+molcomment = 'Imported from SDF file'
 #############
 
 import psycopg2,sys,os,shutil

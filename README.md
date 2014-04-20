@@ -1,4 +1,4 @@
-#IDDQD - Inhibitor Discovery, Design, and Quantification Database
+IDDQD - Inhibitor Discovery, Design, and Quantification Database
 
 IDDQD is an interactive web application which aids in organizing data from drug design projects.
 Compounds can be stored, documented, searched, and exported in various formats. 
@@ -8,7 +8,7 @@ An installation script *install-iddqd.sh* is included which has been tested for 
 Please read the script and update the variables at the top before running.
 
 Copyright (C) 2014 [John C. Faver](http://www.johncfaver.com)
-=====
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or

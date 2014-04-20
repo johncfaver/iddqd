@@ -1,0 +1,53 @@
+#div_targetinfo{
+   position:absolute;
+   width:350px;
+   height:200px;
+   font-size:1.0em;
+   text-align:right;
+   left:30px;
+   top:130px; 
+   border:0px dotted gray;
+}
+#div_edittarget_buttons{
+    position:absolute;
+    width:400px;
+    height:50px;
+    top:430px;
+    left:300px;
+}
+#div_targetdata_upload{
+    position:absolute;
+    width:400px;
+    height:200px;
+    left:500px;
+    top:100px;
+    border:0px dotted green;
+}
+.div_edittarget_inputlines{
+    height:200px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    border:0px dotted red;
+    font-size:0.9em;
+}
+#upload_header{
+    width:100%;
+    height:30px;
+    font-size:1.2em;
+    line-height:35px;
+    border-bottom:2px solid gray;
+    margin-bottom:10px;
+}
+#button_moredocdata{
+    position:absolute;
+    top:360px;
+    left:650px;
+    height:25px; 
+}
+#button_lessdocdata{
+    display:none;
+    position:absolute;
+    top:360px;
+    left:750px;
+    height:25px; 
+}

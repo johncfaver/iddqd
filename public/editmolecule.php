@@ -227,21 +227,29 @@
     var num_docdata = 0;
 
 <?php
+/*Populate existing data to be viewed/edited.
+  Grab info from database and filesystem, then put in javascript arrays.
+*/
+
+//Get target data from database.
         $q=$dbconn->query("SELECT nickname,targetid FROM targets ORDER BY targetid");
         foreach($q as $target){
             echo 'targetnames.push("'.$target['nickname'].'");';
             echo 'targetids.push("'.$target['targetid'].'");';
         }
-        
+
+//Get data for this molid from database        
         $q=$dbconn->prepare("SELECT DISTINCT 
                                 d.targetid,
                                 d.value,
                                 d.datatype,
+                                dt.class,
                                 c.datacomment,
                                 d.moldataid,
                                 c.datacommentid
                                 FROM 
                                     moldata d 
+                                    LEFT JOIN datatypes dt on dt.datatypeid=d.datatype
                                     LEFT JOIN datacomments c ON d.moldataid = c.dataid 
                                 WHERE d.molid=:num 
                                 ORDER BY d.datatype");
@@ -249,19 +257,19 @@
         $q->execute();
         while($row=$q->fetch(PDO::FETCH_ASSOC)){
             $comment = htmlentities($row['datacomment']);
-            if(in_array($row['datatype'],$bindingdataids)){
+            if($row['class']==1){
                 if($row['datacommentid']){
                     echo 'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');';
                 }else{
                     echo 'populatebindingdata('.$row['moldataid'].','.$row['datatype'].','.$row['targetid'].','.$row['value'].',0,\'\');';
                 }
-            }else if(in_array($row['datatype'],$propertydataids)){
+            }else if($row['class']==2){
                 if($row['datacommentid']){
                     echo 'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].','.$row['datacommentid'].',\''.str_replace("\r\n","<br />",addslashes($comment)).'\');';
                 }else{
                     echo 'populatepropertydata('.$row['moldataid'].','.$row['datatype'].','.$row['value'].',0,\'\');';
                 }
-            }else if(in_array($row['datatype'],$docdataids)){
+            }else if($row['class']==3){
                 $tarray = glob('uploads/documents/'.$thismolid.'_'.$row['datatype'].'_'.$row['moldataid'].'*');
                 if (count($tarray)==1){
                     $filename = $tarray[0];

@@ -69,7 +69,7 @@ class molecule:
                 self.charge=int(line.split()[1])
         except Exception:
             print line.split(),filename
-            print 'This XYZ format sucks. Put the charge on line 2.'
+            print 'ERROR reading XYZ file. Please put the charge on line 2.'
             exit()    
         fl=f.readlines()
         f.close()
@@ -79,7 +79,7 @@ class molecule:
                 atomlist.append(atom(fl[i].split()[0],fl[i].split()[1],fl[i].split()[2],fl[i].split()[3]))    
                 self.molweight+=sym2mass(atomlist[-1].atsym.upper())
             except Exception:
-                print 'This XYZ format sucks. Check line', str(fl.index(i)+3),' of ',filename,'.'
+                print 'ERROR reading XYZ file. Check line', str(fl.index(i)+3),' of ',filename,'.'
                 break
         return atomlist
     
@@ -99,7 +99,7 @@ class molecule:
                 atomlist.append(atom(line.split()[3],line.split()[0],line.split()[1],line.split()[2]))
                 self.molweight+=sym2mass[atomlist[-1].atsym.upper()]
             except Exception:
-                print 'This MOL file sucks!', line.split()
+                print 'ERROR Reading MOL file at line:', line.split()
                 break
         f.close()
         return atomlist

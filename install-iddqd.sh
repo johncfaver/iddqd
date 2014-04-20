@@ -11,8 +11,7 @@
 IDDQD_DIR='/var/www/iddqd'
 
 #Source for IDDQD for git
-IDDQD_SOURCE=ssh://faver@192.168.25.55/var/www/ddb/iddqd
-
+IDDQD_SOURCE=https://github.com/johncfaver/iddqd.git
 #User name of default iddqd admin user. You will log in with this account first.
 IDDQD_ADMIN_USER='admin'
 
@@ -84,7 +83,7 @@ imagemagick
 PACKAGES
 
 echo "++++++++++Downloading wkhtmltopdf..."
-#wkhtmltopdf for exporting reports.
+#wkhtmltopdf for exporting reports. Will need to edit if you need 32-bit
 wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
 tar -xf wkhtmltopdf-0.11.0_rc1-static-amd64.tar.bz2
 mv wkhtmltopdf-amd64 /usr/bin/wkhtmltopdf
