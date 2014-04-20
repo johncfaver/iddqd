@@ -2,18 +2,13 @@
 
 #
 # Edits target in database.
-<<<<<<< HEAD
-=======
 # Only target author can edit target information.
 # Anyone can upload documents and edit their own documents.
->>>>>>> iddqd-dev/master
 # Returns user to target page.
 #
 import cgi, cgitb, psycopg2, sys
 cgitb.enable(display=0,logdir="../log/",format="text")
 import config
-<<<<<<< HEAD
-=======
 #Only 5 documents can be uploaded at a time
 maxdata = 5
 debug=False
@@ -27,7 +22,6 @@ class docdata:
         self.filename=0
         self.notes=''
         self.targetdataid=0
->>>>>>> iddqd-dev/master
 
 form=cgi.FieldStorage()
 keys=form.keys()
@@ -55,20 +49,11 @@ else:
 if 'token' in keys:
     token = form['token'].value
 else:
-<<<<<<< HEAD
-    token=0
-=======
     token=''
->>>>>>> iddqd-dev/master
 if 'targetid' in keys:
     targetid = int(form['targetid'].value)
 else:
     targetid=0
-<<<<<<< HEAD
-
-if (not targetid or not userid or not token):
-    config.returhome(31)
-=======
 if 'oldtargetdataids' in keys:
     oldtargetdataids=form['oldtargetdataids'].value.split(',')[:-1]
 else:
@@ -104,7 +89,6 @@ if debug:
 
 if (not targetid or not userid or not token):
     config.returnhome(31)
->>>>>>> iddqd-dev/master
     sys.exit()
 if (not nickname.strip()):
     print 'Location: ../edittarget.php?targetid='+str(targetid)+'&status=nonickname\n\n'
@@ -113,29 +97,6 @@ if (not nickname.strip()):
 try:
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
-<<<<<<< HEAD
-        #Must be author to edit
-    q.execute("SELECT authorid FROM targets WHERE targetid=%s",[targetid])
-    r = q.fetchone()
-    if (r[0]!=userid):
-        print 'Location: ../edittarget.php?targetid='+str(targetid)+'&status=notauthor\n\n '
-        sys.exit()
-        #Must have valid token.
-    q.execute("SELECT token FROM tokens WHERE userid=%s",[userid])
-    r = q.fetchone()
-    assert(r[0]==token)
-
-    query = "UPDATE targets SET nickname=%s, fullname=%s, targetclass=%s, series=%s WHERE targetid=%s"
-    options = [nickname,fullname,class_,series,targetid]
-    q.execute(query,options)
-    dbconn.commit()
-    q.close()
-    dbconn.close()
-    print 'Location: ../viewtarget.php?targetid='+str(targetid)+' \n\n'
-except Exception:
-    config.returnhome(32)
-
-=======
 except Exception:
     config.returnhome(66)
     sys.exit()
@@ -183,4 +144,3 @@ for i in xrange(len(oldtargetdataids),len(targetdatas)):
 
 print 'Location: ../viewtarget.php?targetid='+str(targetid)+' \n\n'
 sys.exit()
->>>>>>> iddqd-dev/master
