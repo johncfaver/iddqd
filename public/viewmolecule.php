@@ -125,7 +125,7 @@
     </div>
     <div id="div_molentry">
         <span style="font-size:2.0em;"><?php echo htmlentities($moldata['molname'], ENT_QUOTES);?></span>
-        <br />Added by: <?php echo $moldata['username'];?> on <?php echo parsetimestamp($moldata['dateadded']);?>
+        <br /><br/>Added by: <?php echo $moldata['username'];?> on <?php echo parsetimestamp($moldata['dateadded']);?>
 <?php
             if($moldata['username']==$_SESSION['username']){
                 echo '&nbsp;<a href="#" onclick="deletecheck();return false;">(delete)</a>';
@@ -162,7 +162,8 @@
                                     d.datatype,
                                     d.moldataid,
                                     dt.type,
-                                    dt.units 
+                                    dt.units,
+                                    dt.class
                                 FROM moldata d
                                     LEFT JOIN targets t ON d.targetid=t.targetid 
                                     LEFT JOIN datacomments c ON d.moldataid=c.dataid 
@@ -203,7 +204,7 @@
             <?php
                 $count=0;
                 foreach($response as $r){
-                    if(!in_array(strval($r['datatype']),$bindingdataids))continue;
+                    if($r['class']!=1) continue;
                     $count++;
                     echo '<tr>
                             <td class="molecules_td molecules_tdl">    
@@ -242,7 +243,7 @@
             <?php
                 $count=0;
                 foreach($response as $r){
-                    if(!in_array(strval($r['datatype']),$propertydataids))continue;
+                    if($r['class']!=2) continue;
                     $count++;
                     echo '<tr>
                             <td class="molecules_td molecules_tdl">  
@@ -269,23 +270,25 @@
         <table id="doctable" class="viewmolecule_datatable">
             <tr>
                 <th class="molecules_th">Data Type</th>
-                <th class="molecules_th">Link</th>
+                <th class="molecules_th">Author</th>
+                <th class="molecules_th">File</th>
                 <th class="molecules_th">Notes</th>
             </tr>
             <?php
                 $count=0;
                 foreach($response as $r){
-                    if(!in_array(strval($r['datatype']),$docdataids))continue;
+                    if($r['class']!=3)continue;
                     $count++;
                     echo '<tr>
                             <td class="molecules_td molecules_tdl">
-                            '.$r['type'].'</td><td class="molecules_td ">';
+                            '.$r['type'].'</td><td class="molecules_td">'.$r['username'].' ('.parsetimestamp($r['dateadded']).')</td><td class="molecules_td ">';
                         
                         //Find filename for this data entry.
                         $tarray = glob('uploads/documents/'.$thismolid.'_'.$r['datatype'].'_'.$r['moldataid'].'*');
                         if (count($tarray)==1){
                             $filename = $tarray[0];
-                            echo '<a href="'.$filename.'">View</a>';
+                            $basename = htmlentities(preg_replace('/^(\d+_){3}/','',str_replace('uploads/documents/','',$filename)));
+                            echo '<a href="'.$filename.'">'.$basename.'</a>';
                         }else{
                             unset($tarray);
                         }

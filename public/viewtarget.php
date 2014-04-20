@@ -1,5 +1,7 @@
 <?php
-    //Revision of viewmolecule.php for targets
+//Page for viewing information about targets.
+//Revision of viewmolecule.php for target data.
+
     require('config.php');
     try{
         $dbconn = new PDO("pgsql:dbname=$dbname;host=$dbhost;port=$dbport",$dbuser,$dbpass);    
@@ -13,7 +15,7 @@
     $thistargetid = isset($_GET['targetid'])?(int)pg_escape_string($_GET['targetid']):-1;
     if($thistargetid < 0) returnhome(12);
 
-    //Get data about target. 
+    //Get general data about the target. 
     $q = $dbconn->prepare("SELECT 
                             t.nickname,
                             t.fullname,
@@ -30,7 +32,8 @@
     if($q->rowCount() != 1) returnhome(13);
     $targetdata=$q->fetch(PDO::FETCH_ASSOC);
 
-    //Get data about inhibitors for this target. Order by binding affinity. 
+    //Get data about all known inhibitors for this target. 
+    //Order inhibitors by binding affinity. 
     $q = $dbconn->prepare(" SELECT * from 
 							   (SELECT DISTINCT ON (d.molid)
 							    d.value,
@@ -69,7 +72,7 @@
     <script type="text/javascript" src="viewtarget.js"></script>
     <script type="text/javascript">
 <?php 
-    //Place $inhibitordata in javascript to avoid repetitive database lookups.
+    //Place $inhibitordata in javascript array to avoid repetitive database lookups.
     foreach($inhibitordata as $r){
         echo 'inhibitors.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",addslashes(htmlentities($r['datacomment']))).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
     }
@@ -84,7 +87,10 @@
 <div id="div_shade_window"></div>
 <div id="div_deletecheck" class="div_notespopup" >
    <?php
-    /* <form action="" method="post">
+    /* I'm not sure about the best way to handle deleting a target. Should we also delete every compound associated with it? 
+        Some compounds might have multiple associated targets.
+        What about documents about the target? 
+     <form action="" method="post">
         <input type="hidden" name="molid" value="<?php echo $thistargetid;?>" />
         <input type="hidden" name="userid" value="<?php echo $_SESSION['userid'];?>" />*/
    ?>
@@ -155,14 +161,14 @@
             <a href="#"><div id="div_tabdocdata" class="datatab" onclick="switchdatadiv('docdata');return false">Documents</div></a>
             <a href="#"><div id="div_tabmodelingdata" class="datatab" onclick="switchdatadiv('modelingdata');return false">Modeling</div></a>
             <a href="edittarget.php?targetid=<?php echo $thistargetid;?>"><div id="div_editdata" class="datatab" >Edit</div></a>
-            <a href="addtonotebook.php?targetid=<?php echo $thistargetid;?>&dest=vt"><div id="div_addtonotebook" class="datatab" >Add inhibitors to Notebook</div></a>
+            <a href="addtonotebook.php?targetid=<?php echo $thistargetid;?>&amp;dest=vt"><div id="div_addtonotebook" class="datatab" >Add inhibitors to Notebook</div></a>
         </span>
 
 
 <!--BINDING DATA -->    
     <div id="div_bindingdata" class="div_data">
     <?php
-        if($numtotmol>=0){
+        if($numtotmol>0){
 
             if($numtotmol>$nmolperpage){ // if pages are needed
                 echo '<div id="div_inhibitorPageLeft"> 
@@ -176,7 +182,7 @@
                                 Name
                             </th>
                             <th class="molecules_th">
-                                Value
+                                Activity 
                             </th>
                             <th class="molecules_th">
                                 Data Type
@@ -187,7 +193,7 @@
                         </tr>';
 
             for($i=0;$i<$nmolperpage;$i++){
-                  echo '<tr></tr>';   //one row for each inhibitor on this page. To be filled with javascript:showInhibitors()
+                  echo '<tr></tr>';   //one row for each inhibitor on this page. The row is to be filled with javascript:showInhibitors()
             }
 
             echo '</table>';
@@ -202,19 +208,82 @@
             echo '<script type="text/javascript">showInhibitors(0);</script>';
 
         }else{
-            echo '<br /><br />No data.';
+            echo '<br/><br/><br /><br />No inhibitors found.';
         }
     ?>    
     </div>
 
 <!--Document data -->
     <div id="div_docdata" class="div_data" style="display:none">
-        <br/><br/>Not Implemented.
+<?php
+    //Query database for data about target-related documents.
+    $q = $dbconn->prepare("SELECT DISTINCT
+                                 t.type,
+                                 d.datatype,
+                                 d.targetdatacomment,
+                                 d.authorid,
+                                 d.dateadded,
+                                 u.username,
+                                 d.targetdataid
+                                FROM targetdata d 
+                                    LEFT JOIN datatypes t ON t.datatypeid=d.datatype
+                                    LEFT JOIN users u ON u.userid=d.authorid
+                                WHERE d.targetid=:num
+                                ORDER BY d.dateadded");
+    $q->bindParam("num",$thistargetid,PDO::PARAM_INT);
+    $q->execute();
+    if($q->rowCount()==0){
+        echo '<br/><br/><br/><br/>No documents available.';
+    }else{
+        echo '<table id="doctable" class="viewmolecule_datatable">
+                <tr>
+                    <th class="molecules_th">Data Type</th>
+                    <th class="molecules_th">Author</th>
+                    <th class="molecules_th">File</th>
+                    <th class="molecules_th">Notes</th>
+                </tr>';
+
+        while($row=$q->fetch(PDO::FETCH_ASSOC)){
+            $comment = htmlentities($row['targetdatacomment']);
+            $dataid = $row['targetdataid'];
+            $datatype = $row['type'];
+            $datatypeid = $row['datatype'];
+            $author = $row['username'];
+            $date = parsetimestamp($row['dateadded']);
+
+            $tarray = glob('uploads/targets/'.$thistargetid.'_'.$dataid.'_'.$datatypeid.'_'.'*');
+            $fullfilename=(count($tarray)==1)?$tarray[0]:''; //Full filename for linking
+            $basename=str_replace('uploads/targets/','',$fullfilename); //Strip directory to get server's basename
+            $basename=preg_replace('/^(\d+_){3}/','',$basename); //Strip prepended ID code to get original basename
+            $basename=htmlentities($basename);
+            echo '<tr>
+                <td class="molecules_td molecules_tdl">'.$datatype.'</td>
+                <td class="molecules_td">'.$author.' ('.$date.')</td>
+                <td class="molecules_td"><a href="'.$fullfilename.'">'.$basename.'</a></td>
+                <td class="molecules_td molecules_tdr" '; 
+            if($comment){
+                echo 'onclick="opendatapopup(\''.$author.'\',\''.$date.'\',\''.str_replace("\r\n","<br/>",addslashes($comment)).'\');return false">';
+                if(strlen($comment)>20){
+                    echo substr($comment,0,20).'...';
+                }else{
+                    echo $comment;
+                }
+            }else{
+                echo '>';
+            }
+            echo '</td></tr>';
+        }
+    }
+?>
+
+
+        </table>
+
     </div>
 
 <!--Modeling data-->
     <div id="div_modelingdata" class="div_data" style="display:none">
-        <br/><br/>Not Implemented.
+        <br/><br/><br/><br/>No modeling implemented.
     </div>
 
     </div>

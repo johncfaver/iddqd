@@ -1,0 +1,70 @@
+1 public/login.php:44: returnhome(1);
+2 public/addtonotebook.php:33: returnhome(2);
+3 public/bountypage.php:15: if($bid<0) returnhome(3);
+4 public/editmolecule.php:19: if($thismolid < 0 ) returnhome(4);
+5 public/editmolecule.php:41: returnhome(5);
+6 public/edittarget.php:18: if($targetid < 0) returnhome(6);
+7 public/edittarget.php:22: if($q->rowCount()!=1) returnhome(7);
+8 public/postbounty.php:24: returnhome(8);
+9 public/removefromnotebook.php:13: returnhome(9);
+10 public/viewmolecule.php:18: if($thismolid < 0) returnhome(10);
+11 public/viewmolecule.php:35: if($q->rowCount() != 1) returnhome(11);
+12 public/viewtarget.php:16: if($thistargetid < 0) returnhome(12);
+13 public/viewtarget.php:32: if($q->rowCount() != 1) returnhome(13);
+14 cgi-bin/addbountycomment.py:32: config.returnhome(14)
+15 cgi-bin/addbountycomment.py:53: config.returnhome(15)
+16 cgi-bin/addmolcomment.py:31: config.returnhome(16)
+17 cgi-bin/addmolcomment.py:50: config.returnhome(17)
+18 cgi-bin/addtarget.py:43: config.returnhome(18)
+19 cgi-bin/addtarget.py:63: config.returnhome(19)
+20 cgi-bin/canvas2png.py:28: config.returnhome(20)
+21 cgi-bin/canvas2png.py:48: config.returnhome(21)
+22 cgi-bin/claimbounty.py:28: config.returnhome(22)
+23 cgi-bin/claimbounty.py:57: config.returnhome(23)
+24 cgi-bin/deletebounty.py:29: config.returnhome(24)
+25 cgi-bin/deletebounty.py:58: config.returnhome(25)
+26 cgi-bin/deletedata.py:40: config.returnhome(26)
+27 cgi-bin/deletedata.py:70: config.returnhome(27)
+28 cgi-bin/deletemolecule.py:31: config.returnhome(28)
+29 cgi-bin/deletemolecule.py:75: config.returnhome(29)
+30 cgi-bin/editmol.py:111: config.returnhome(30)
+31 cgi-bin/edittarget.py:91: config.returnhome(31)
+32 cgi-bin/deletetargetdata.py:41: config.returnhome(32)
+33 cgi-bin/passwordrequest.py:22: config.returnhome(33)
+34 cgi-bin/passwordrequest.py:62: config.returnhome(34)
+35 cgi-bin/pursuebounty.py:28: config.returnhome(35)
+36 cgi-bin/pursuebounty.py:44: config.returnhome(36)
+37 cgi-bin/removebountycomment.py:34: config.returnhome(37)
+38 cgi-bin/uploadbounty.py:93: config.returnhome(38)
+39 cgi-bin/uploadmol.py:86: config.returnhome(39)
+40 public/addtonotebook.php:20: returnhome(40);
+41 public/changepw.php:48: returnhome(41);
+42 public/pngwriter.php:9: returnhome(42);
+43 public/logout.php:11: returnhome(43);
+44 cgi-bin/removemolcomment.py:34: config.returnhome(44)
+45 public/changepw.php:13: if(!isset($_POST['key'])) returnhome(45);
+46 public/changepw.php:14: if(!isset($_POST['username'])) returnhome(46);
+47 public/changepw.php:15: if(!isset($_POST['desiredpassword'])) returnhome(47);
+48 public/changepw.php:52: returnhome(48);
+49 cgi-bin/uploadmol.py:130: config.returnhome(49)
+50 cgi-bin/inviteusers.py:30: config.returnhome(50)
+51 cgi-bin/inviteusers.py:70: config.returnhome(51)
+52 cgi-bin/createadmin.py:31: config.returnhome(52)
+53 cgi-bin/createadmin.py:53: config.returnhome(53)
+54 cgi-bin/forfeitadmin.py:27: config.returnhome(54)
+55 cgi-bin/forfeitadmin.py:49: config.returnhome(55)
+56 cgi-bin/deleteuser.py:31: config.returnhome(56)
+57 cgi-bin/deleteuser.py:53: config.returnhome(57)
+58 cgi-bin/export.py:34: config.returnhome(58)
+59 cgi-bin/uploadbounty.py:56: config.returnhome(59)
+60 cgi-bin/voidkey.py:35: config.returnhome(60)
+61 cgi-bin/voidkey.py:57: config.returnhome(61)
+62 cgi-bin/uploadmol.py:52: config.returnhome(62)
+63 cgi-bin/editmol.py:54: config.returnhome(63)
+64 cgi-bin/uploadbounty.py:33: config.returnhome(64)
+65 public/performsearch.php:71: returnhome(65);
+66 cgi-bin/edittarget.py:101: config.returnhome(66)
+67 cgi-bin/edittarget.py:108: config.returnhome(67)
+68 cgi-bin/editmol.py:199: config.returnhome(68)
+69 cgi-bin/deletetargetdata.py:67: config.returnhome(69)
+70 cgi-bin/editmol.py:206: config.returnhome(70)

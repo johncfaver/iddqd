@@ -192,14 +192,18 @@ for i in xrange(1,maxdata+1):
 
 #########################################
 
-dbconn = psycopg2.connect(config.dsn)
-q = dbconn.cursor()
+try:
+    dbconn = psycopg2.connect(config.dsn)
+    q = dbconn.cursor()
+except Exception:
+    config.returnhome(68)
+    exit()
 
 #Check for token.
 q.execute('SELECT token FROM tokens WHERE userid=%s',[userid])
 dbtoken = q.fetchone()[0]
 if(dbtoken != token):
-    config.returnhome(43)
+    config.returnhome(70)
     exit()
 
 ###UPDATE MOLECULE TABLE########### Only original author can edit molname,iupac,cas
