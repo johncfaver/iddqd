@@ -450,11 +450,12 @@ function populatedocdata(filename,dataid,datatype,commentid,comment){
     var doclink = document.createElement('a');
     doclink.setAttribute('href',filename);
     doclink.setAttribute('class','input_docfile');
-    basename = filename.replace('uploads/documents/','');
-    var regex = /(\d+_){3}(.*)/;
+    var basename = filename.replace('uploads/documents/','');
+    basename = basename.replace('uploads/targets/','');
+    var regex = /^(\d+_){3}(.*)/;
     basename = regex.exec(basename)[2];
     if(basename.length>20){
-        basename = basename.substring(0,20)+'...';
+        basename = basename.substring(0,17)+'...';
     }
     doclink.setAttribute('title',basename);
     doclink.innerHTML= basename 

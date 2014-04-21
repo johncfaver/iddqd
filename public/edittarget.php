@@ -141,9 +141,9 @@
         $filename=(count($tarray)==1)?$tarray[0]:'';
        
         if($comment){
-            echo 'populatedocdata(\''.$filename.'\','.$dataid.','.$datatype.','.$dataid.',\''.str_replace("\r\n","\\n",addslashes($comment)).'\');';
+            echo 'populatedocdata(\''.addslashes($filename).'\','.$dataid.','.$datatype.','.$dataid.',\''.str_replace("\r\n","\\n",addslashes($comment)).'\');';
         }else{
-            echo 'populatedocdata(\''.$filename.'\','.$dataid.','.$datatype.',0,\'\');';
+            echo 'populatedocdata(\''.addslashes($filename).'\','.$dataid.','.$datatype.',0,\'\');';
         }
     }
     if($q->rowCount()==0){

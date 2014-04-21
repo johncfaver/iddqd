@@ -253,18 +253,21 @@
 
             $tarray = glob('uploads/targets/'.$thistargetid.'_'.$dataid.'_'.$datatypeid.'_'.'*');
             $fullfilename=(count($tarray)==1)?$tarray[0]:''; //Full filename for linking
-            $basename=str_replace('uploads/targets/','',$fullfilename); //Strip directory to get server's basename
+            $basename=str_replace('uploads/targets/','',$fullfilename); //Strip directory to get server's basename for presentation to user
             $basename=preg_replace('/^(\d+_){3}/','',$basename); //Strip prepended ID code to get original basename
             $basename=htmlentities($basename);
+            if(strlen($basename)>20){
+                $basename=substr($basename,0,17).'...';
+            }
             echo '<tr>
                 <td class="molecules_td molecules_tdl">'.$datatype.'</td>
                 <td class="molecules_td">'.$author.' ('.$date.')</td>
-                <td class="molecules_td"><a href="'.$fullfilename.'">'.$basename.'</a></td>
+                <td class="molecules_td"><a href="'.htmlentities($fullfilename).'">'.$basename.'</a></td>
                 <td class="molecules_td molecules_tdr" '; 
             if($comment){
                 echo 'onclick="opendatapopup(\''.$author.'\',\''.$date.'\',\''.str_replace("\r\n","<br/>",addslashes($comment)).'\');return false">';
                 if(strlen($comment)>20){
-                    echo substr($comment,0,20).'...';
+                    echo substr($comment,0,17).'...';
                 }else{
                     echo $comment;
                 }

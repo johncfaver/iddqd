@@ -277,9 +277,9 @@
                     $filename = '';
                 }
                 if($row['datacommentid']){
-                    echo 'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].','.$row['datacommentid'].',\''.str_replace("\r\n","\\n",addslashes($comment)).'\');';
+                    echo 'populatedocdata(\''.addslashes($filename).'\','.$row['moldataid'].','.$row['datatype'].','.$row['datacommentid'].',\''.str_replace("\r\n","\\n",addslashes($comment)).'\');';
                 }else{
-                    echo 'populatedocdata(\''.$filename.'\','.$row['moldataid'].','.$row['datatype'].',0,\'\');';
+                    echo 'populatedocdata(\''.addslashes($filename).'\','.$row['moldataid'].','.$row['datatype'].',0,\'\');';
                 }
             }
         }

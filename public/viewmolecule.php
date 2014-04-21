@@ -170,7 +170,7 @@
                                     LEFT JOIN users u ON u.userid=d.authorid 
                                     LEFT JOIN datatypes dt ON dt.datatypeid=d.datatype 
                                 WHERE molid=:num 
-                                ORDER BY type");
+                                ORDER BY dateadded");
         $q->bindParam(":num",$thismolid,PDO::PARAM_INT);
         $q->execute();
         $response=$q->fetchAll();
@@ -286,8 +286,8 @@
                         //Find filename for this data entry.
                         $tarray = glob('uploads/documents/'.$thismolid.'_'.$r['datatype'].'_'.$r['moldataid'].'*');
                         if (count($tarray)==1){
-                            $filename = $tarray[0];
-                            $basename = htmlentities(preg_replace('/^(\d+_){3}/','',str_replace('uploads/documents/','',$filename)));
+                            $filename = htmlentities($tarray[0]);
+                            $basename = preg_replace('/^(\d+_){3}/','',str_replace('uploads/documents/','',$filename));
                             echo '<a href="'.$filename.'">'.$basename.'</a>';
                         }else{
                             unset($tarray);
