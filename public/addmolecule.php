@@ -141,7 +141,7 @@
             <span style="font-size:0.8em;float:right;text-align:right;">
                 Name:
                 <input type="text" name="molname" id="molname" size=10 required maxlength="50" 
-                    style="width:80px;margin-right:45px;" <?php if($fileupload) echo 'value="'.$thismolfilename.'"'; ?>/>
+                    style="width:80px;margin-right:45px;" <?php if($fileupload) echo 'value="'.htmlentities($thismolfilename).'"'; ?>/>
                 IUPAC: <input type="text" name="iupacname" id="iupacname" style="width:80px;float:right" size=10 maxlength="150" value="" />
             </span>
             <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
