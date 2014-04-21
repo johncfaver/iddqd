@@ -716,23 +716,23 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO datatypes VALUES (1, 'IC50', 'µM');
-INSERT INTO datatypes VALUES (2, 'EC50', 'µM');
-INSERT INTO datatypes VALUES (3, 'kd', 'µM');
-INSERT INTO datatypes VALUES (4, 'CC50', 'µM');
-INSERT INTO datatypes VALUES (5, 'Solubility', 'g/L');
-INSERT INTO datatypes VALUES (6, 'H NMR', 'file');
-INSERT INTO datatypes VALUES (7, 'C NMR', 'file');
-INSERT INTO datatypes VALUES (8, 'Mass Spectrum', 'file');
-INSERT INTO datatypes VALUES (9, 'Synthesis', 'file');
-INSERT INTO datatypes VALUES (10, 'Document', 'file');
-INSERT INTO datatypes VALUES (11, 'Structure ', 'file');
-INSERT INTO datatypes VALUES (13, 'Image', 'file');
-INSERT INTO datatypes VALUES (15, 'Other', 'file');
-INSERT INTO datatypes VALUES (16, 'PyMOL Session', 'file');
-INSERT INTO datatypes VALUES (17, 'Chimera Session', 'file');
-INSERT INTO datatypes VALUES (18, 'Spreadsheet', 'file');
-INSERT INTO datatypes VALUES (19, 'Docking Grid', 'file');
+INSERT INTO datatypes VALUES (1, 'IC50', 'µM', 1);
+INSERT INTO datatypes VALUES (2, 'EC50', 'µM', 1);
+INSERT INTO datatypes VALUES (3, 'kd', 'µM', 1);
+INSERT INTO datatypes VALUES (4, 'CC50', 'µM', 2);
+INSERT INTO datatypes VALUES (5, 'Solubility', 'g/L', 2);
+INSERT INTO datatypes VALUES (6, 'H NMR', 'file', 3);
+INSERT INTO datatypes VALUES (7, 'C NMR', 'file', 3);
+INSERT INTO datatypes VALUES (8, 'Mass Spectrum', 'file', 3);
+INSERT INTO datatypes VALUES (9, 'Synthesis', 'file', 3);
+INSERT INTO datatypes VALUES (10, 'Document', 'file', 3);
+INSERT INTO datatypes VALUES (11, 'Structure ', 'file', 3);
+INSERT INTO datatypes VALUES (13, 'Image', 'file', 3);
+INSERT INTO datatypes VALUES (15, 'Other', 'file', 3);
+INSERT INTO datatypes VALUES (16, 'PyMOL Session', 'file', 3);
+INSERT INTO datatypes VALUES (17, 'Chimera Session', 'file', 3);
+INSERT INTO datatypes VALUES (18, 'Spreadsheet', 'file', 3);
+INSERT INTO datatypes VALUES (19, 'Docking Grid', 'file', 3);
 
 SELECT pg_catalog.setval('datatypes_datatypeid_seq', 19, true);
 
