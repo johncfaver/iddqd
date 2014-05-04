@@ -185,6 +185,12 @@
             }
             //$similarities now is an associative array with molid=>similarity.
             $_SESSION['search_results']=$similarities;
+            try{
+                if(isset($tempmolfile) and file_exists($tempmolfile)){
+                    unlink($tempmolfile);
+                }
+            }catch(Exception $e){
+            }
             header('Location: displaysearch.php?similaritysearch=1');
             exit;
         }elseif($searchtype=='substructure'){
@@ -200,7 +206,7 @@
                         if($j>=$nmolsearch) break;
                         $cmdstr.=' '.$structure_search_molids[$j];
                     }
-                    $cmdstr.=';do echo -n $i" "; '.$babeldir.'babel uploads/structures/$i.mol -s'.$tempmolfile.' /tmp/'.session_id().$i.'results.smi -xt 2>/dev/null;';
+                    $cmdstr.=';do echo -n $i" "; '.$babeldir.'babel uploads/structures/$i.mol -s'.$tempmolfile.' /tmp/'.session_id().$i.'results.smi -xt 2>/dev/null 1>&2;';
                     $cmdstr.='[ -s /tmp/'.session_id().$i.'results.smi ] && echo 1 || echo 0;done';
                     array_push($parray,popen($cmdstr,'r'));
                 }
