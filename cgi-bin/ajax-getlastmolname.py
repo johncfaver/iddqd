@@ -44,9 +44,8 @@ try:
     #   (Do this by removing re1 from the molname, which is the series prefix.)
     #   (Then search for all strings of digits, \d+, in the remainder. Take the first match.)
     if (seriesprefix):
-        re1 = '^'+seriesprefix
-        re2 = '^'+seriesprefix+'.*\d+'
-        q.execute("SELECT (regexp_matches(regexp_replace(molname,%s,''),'\d+'))[1] from molecules where molname ~ %s order by molname  DESC limit 1",[re1,re2])
+        re1 = '^'+seriesprefix+'-\d+$'
+        q.execute("SELECT (regexp_matches(molname,'\d+$'))[1]::int as t from molecules where molname ~ %s order by t DESC limit 1",[re1])
         if q.rowcount == 1:
             r=q.fetchone()
             lastentry=r[0]
