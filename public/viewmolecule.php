@@ -288,6 +288,7 @@
                         if (count($tarray)==1){
                             $filename = htmlentities($tarray[0]);
                             $basename = preg_replace('/^(\d+_){3}/','',str_replace('uploads/documents/','',$filename));
+                            if(strlen($basename)>20) $basename = substr($basename,0,20).'...';
                             echo '<a href="'.$filename.'">'.$basename.'</a>';
                         }else{
                             unset($tarray);
