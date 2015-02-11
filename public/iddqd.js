@@ -107,6 +107,7 @@ function morebindingdata(){
     newinputvalue.setAttribute('name','bindingdata_value_new_'+i.toString());
     newinputvalue.setAttribute('id','bindingdata_value_new_'+i.toString());
     newinputvalue.setAttribute('class','input_bindingdata_value');
+    newinputvalue.setAttribute('autocomplete','off');
     newinputline.appendChild(newinputvalue);
 
     var newnoteslink = document.createElement('a');
@@ -284,6 +285,7 @@ function morepropertydata(){
     newinputvalue.setAttribute('type','text');
     newinputvalue.setAttribute('name','propertydata_value_new_'+i.toString());
     newinputvalue.setAttribute('class','input_propertydata_value');    
+    newinputvalue.setAttribute('autocomplete','off');
     newinputline.appendChild(newinputvalue);
 
     var newnoteslink = document.createElement('a');
