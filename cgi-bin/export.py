@@ -161,9 +161,14 @@ if export == 'xlsx':
                               'Date':row[2].date().isoformat(),
                               row[4]:row[3],
                             }
+                if row[3] == 0:
+                    data[mid][row[4]] = 'N/A'
                 data[mid].update(qp_parse('../public/uploads/qikprop/'+mid+'-QP.txt'))
             else:
-                data[mid][row[4]] = row[3]
+                if row[3] == 0:
+                    data[mid][row[4]] = 'N/A'
+                else:
+                    data[mid][row[4]] = row[3]
 
         q.close()
         dbconn.close()
