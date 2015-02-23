@@ -90,7 +90,8 @@ if export == 'csv':
 if export == 'xlsx':
     try:
         sys.path.append(os.path.abspath('../extensions/qikprop'))
-        sys.path.append(os.path.abspath('../extensions/xlsxwriter'))
+        sys.path.append(os.path.abspath('../extensions/'))
+
         import xlsxwriter
         from qp_parse import qp_parse
         from collections import OrderedDict
@@ -172,8 +173,8 @@ if export == 'xlsx':
         for mol in data:
             #Write image in 1st column
             worksheet.write_blank(startpos[0],0,'',default_format)
-            worksheet.insert_image(startpos[0],0,'../public/uploads/sketches/'+str(data[mol]['molid'])+'.png',{'x_scale':.6,'y_scale':.6})
-            worksheet.set_row(startpos[0],height=90)
+            worksheet.insert_image(startpos[0],0,'../public/uploads/sketches/'+str(data[mol]['molid'])+'.png',{'x_scale':.6,'y_scale':.6, 'y_offset':1})
+            worksheet.set_row(startpos[0],height=95)
             #Write remaining information
             startpos[1]=1
             for item in fields:
