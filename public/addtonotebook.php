@@ -21,7 +21,7 @@
             exit;
         }
         //Select only inhibitors with experimental data.
-        $q = $dbconn->prepare("SELECT DISTINCT molid FROM moldata WHERE targetid=:num "); 
+        $q = $dbconn->prepare("SELECT DISTINCT molid FROM moldata d WHERE targetid=:num ORDER BY d.molid "); 
         $q->bindParam(":num",$addtargetid,PDO::PARAM_INT);
         $q->execute();
         while($r = $q->fetch(PDO::FETCH_NUM)){
