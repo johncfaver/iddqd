@@ -61,11 +61,20 @@
 		      </span>';
 		echo '<span class="span_export">
 		        <form action="../cgi-bin/export.py" method="POST">
-                    <input type="hidden" name="export" value="spreadsheet" />
+                    <input type="hidden" name="export" value="csv" />
                     <input type="hidden" name="molids" value="'.$molids.'" />
                     <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
                     <input type="hidden" name="token" value="'.$_SESSION['token'].'" />
                     <input type="submit" value="Export CSV" />
+                </form>
+                </span>';
+		echo '<span class="span_export">
+		        <form action="../cgi-bin/export.py" method="POST">
+                    <input type="hidden" name="export" value="xlsx" />
+                    <input type="hidden" name="molids" value="'.$molids.'" />
+                    <input type="hidden" name="userid" value="'.$_SESSION['userid'].'" />
+                    <input type="hidden" name="token" value="'.$_SESSION['token'].'" />
+                    <input type="submit" value="Export XLSX" />
                 </form>
 		      </span>';
 		echo '<span class="span_export">
