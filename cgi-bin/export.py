@@ -40,76 +40,83 @@ if (not userid or not token or not export or not molids):
 
 if export == 'structures':
     #Create zip file with 2d and 3d structures and an sdf file.
-    temp_path='/tmp/structures-'+userid
+    temp_path='/tmp/structures-{}'.format(userid)
     if(os.path.isdir(temp_path)):
         shutil.rmtree(temp_path)
     os.mkdir(temp_path)
-    os.mkdir(temp_path+'/3d')    
-    os.mkdir(temp_path+'/2d')    
-    with open(temp_path+'/notebook.sdf','w') as sdf:
-        for i in molids:
-            molfile3d=uploaddir+'/structures/'+i+'-3d.mol'
-            molfile2d=uploaddir+'/structures/'+i+'.mol'
+    os.mkdir(os.path.join(temp_path,'3d'))
+    os.mkdir(os.path.join(temp_path,'2d'))    
+    with open(os.path.join(temp_path,'notebook.sdf'),'w') as sdf:
+        for imol in molids:
+            molfile3d=os.path.join(uploaddir,'structures','{}-3d.mol'.format(imol))
+            molfile2d=os.path.join(uploaddir,'structures','{}.mol'.format(imol))
             if(os.path.isfile(molfile3d)):
-                shutil.copyfile(molfile3d,temp_path+'/3d/'+i+'-3d.mol')
-                with open(molfile3d) as mol:
-                    sdf.write(mol.read())
+                shutil.copyfile(molfile3d,os.path.join(temp_path,'3d','{}-3d.mol'.format(imol)))
+                with open(molfile3d) as tmolfile:
+                    sdf.write(tmolfile.read())
             if(os.path.isfile(molfile2d)):
-                shutil.copyfile(molfile2d,temp_path+'/2d/'+i+'.mol')
+                shutil.copyfile(molfile2d,os.path.join(temp_path,'2d','{}-2d.mol'.format(imol)))
     filename=shutil.make_archive(temp_path, 'zip', root_dir=temp_path)
-    shutil.move(filename,uploaddir+'/scratch/structures-'+userid+'.zip')
+    shutil.move(filename,os.path.join(uploaddir,'scratch','structures-{}.zip'.format(userid)))
     try:
         shutil.rmtree(temp_path)
     except Exception:
         pass
-    print 'Location: ../uploads/scratch/structures-'+userid+'.zip \n\n'
+    print 'Location: ../uploads/scratch/structures-{}.zip \n\n'.format(userid)
     sys.exit()
 
 if export == 'csv':
+    #Create CSV file with all available data
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
-    q.execute("SELECT m.molname, m.molweight, r.nickname, t.type, d.value, t.units \
-                     FROM molecules m \
-                        LEFT JOIN moldata d ON m.molid=d.molid  \
-                        LEFT JOIN targets r ON d.targetid=r.targetid \
-                        LEFT JOIN datatypes t ON t.datatypeid=d.datatype \
-                    WHERE value IS NOT NULL AND m.molid IN %s",[tuple(molids)])    
-    response=q.fetchall()
+    q.execute("""SELECT m.molname, m.molweight, t.nickname, dt.type, d.value, 
+                        dt.units, m.molid, m.dateadded 
+                     FROM molecules m 
+                        LEFT JOIN moldata d ON m.molid=d.molid  
+                        LEFT JOIN targets t ON d.targetid=t.targetid 
+                        LEFT JOIN datatypes dt ON dt.datatypeid=d.datatype 
+                    WHERE m.molid IN %s
+                    ORDER BY m.molid
+              """,[tuple(molids)])    
+    
+    csv_file='../public/uploads/scratch/spreadsheet-{}.csv'.format(userid)
+    with open(csv_file,'w') as f:
+        f.write('Compound,MW,Target,Data type,Value,Units,Molid,Date Added\n')
+        for row in q.fetchall():
+            for item in row:
+                f.write('{},'.format(item))
+            f.write('\n')
     q.close()
     dbconn.close() 
-    csv_out='../public/uploads/scratch/spreadsheet-'+userid+'.csv'
-    with open(csv_out,'w') as f:
-        f.write('NAME,MW,TARGET,DATATYPE,VALUE,UNITS\n')
-        for row in response:
-            for item in row:
-                f.write(str(item)+',')
-            f.write('\n')
-    print 'Location: ../uploads/scratch/spreadsheet-'+userid+'.csv \n\n'    
+    print 'Location: ../uploads/scratch/spreadsheet-{}.csv \n\n'.format(userid)
     sys.exit()
 
 if export == 'xlsx':
     try:
-        sys.path.append(os.path.abspath('../extensions/qikprop'))
+        from collections import OrderedDict
         sys.path.append(os.path.abspath('../extensions/'))
-
+        assert(os.path.exists('../extensions/xlsxwriter'))
+        assert(os.path.exists('../extensions/qikprop'))
+        assert(os.path.exists('../extensions/qp_parse.py'))
         import xlsxwriter
         from qp_parse import qp_parse
-        from collections import OrderedDict
-
-        data = OrderedDict() #Hold all data for xlsx file
+        
+        data = OrderedDict() #Holds all data for xlsx file
         nmol = len(molids)
         
         dbconn = psycopg2.connect(config.dsn)
         q = dbconn.cursor()
-        #Get relevant targets
-        q.execute('SELECT t.nickname FROM moldata d \
-                        LEFT JOIN targets t ON t.targetid=d.targetid  \
-                        WHERE d.molid IN %s and d.datatype in (1,2,3) \
-                        GROUP BY t.nickname ORDER BY count(d.value) DESC ',[tuple(molids)])
+        #Get relevant targets ordered by number of data points
+        q.execute("""SELECT t.nickname FROM moldata d 
+                        LEFT JOIN targets t ON t.targetid=d.targetid  
+                        WHERE d.molid IN %s and d.datatype in (1,2,3) 
+                        GROUP BY t.nickname ORDER BY count(d.value) DESC 
+                  """,[tuple(molids)])
         targets = [ row[0] for row in q.fetchall() ]
         ntargets = len(targets)
-        #Generate XLSX
-        workbook = xlsxwriter.Workbook('../public/uploads/scratch/table-'+userid+'.xlsx',{'strings_to_numbers':True})
+
+        #Generate XLSX file
+        workbook = xlsxwriter.Workbook('../public/uploads/scratch/table-{}.xlsx'.format(userid),{'strings_to_numbers':True})
         worksheet = workbook.add_worksheet()
 
         #Cell Formats
@@ -119,9 +126,9 @@ if export == 'xlsx':
         default_format_green = workbook.add_format({'border':1, 'align':'center', 'valign':'vcenter','bg_color':'#C6EFCE'})
 
         #Conditional formats - Binding data
-        for t in xrange(ntargets):
-            worksheet.conditional_format(1,2+t,nmol,2+t,{'type':'3_color_scale','min_color':'green','max_color':'orange'})
-        #Conditional formats - QP
+        for i in xrange(ntargets):
+            worksheet.conditional_format(1,2+i,nmol,2+i,{'type':'3_color_scale','min_color':'green','max_color':'#FFC7CE'})
+        #Conditional formats - QP properties
         worksheet.conditional_format(1,ntargets+2,nmol,ntargets+2,{'type':'cell','criteria':'>=','value': 500,'format':default_format_red}) #QPMW
         worksheet.conditional_format(1,ntargets+3,nmol,ntargets+3,{'type':'cell','criteria':'>=','value': 4.5,'format':default_format_red}) #QPlogP
         worksheet.conditional_format(1,ntargets+4,nmol,ntargets+4,{'type':'cell','criteria':'<=','value':-5.0,'format':default_format_red}) #QPlogS
@@ -139,20 +146,20 @@ if export == 'xlsx':
         fields.extend(['QPMW','QPlogP','QPlogS','QPCIlogS','QPcaco2','QPRuleOf5','QPstars','Date','molid'])
         #Write field names on top row
         worksheet.set_row(0,height=15)
-        i = 0 
-        for item in fields:
+        for i,item in enumerate(fields):
             worksheet.write(0,1+i,item,field_format)
-            i+=1
-        
-        q.execute('SELECT d.molid, m.molname, m.dateadded, avg(d.value), t.nickname \
-                    FROM moldata d LEFT JOIN molecules m ON d.molid=m.molid \
-                    LEFT JOIN targets t ON t.targetid=d.targetid \
-                    WHERE d.datatype in (1,2,3)  \
-                        AND d.molid in %s \
-                        AND t.nickname in %s \
-                    GROUP BY d.molid, m.molname, m.dateadded, t.nickname \
-                    ORDER BY d.molid ', [tuple(molids),tuple(targets)])
-        
+       
+        q.execute("""SELECT m.molid, m.molname, m.dateadded, avg(d.value), t.nickname, dt.type 
+                        FROM molecules m 
+                            LEFT JOIN moldata d on m.molid=d.molid 
+                            LEFT JOIN targets t ON t.targetid=d.targetid 
+                            LEFT JOIN datatypes dt ON d.datatype = dt.datatypeid 
+                        WHERE m.molid in %s
+                            AND (t.nickname in %s OR t.nickname IS NULL)
+                        GROUP BY m.molid, m.molname, m.dateadded, t.nickname, dt.type
+                        ORDER BY m.molid 
+                    """,[tuple(molids),tuple(targets)])
+
         for row in q.fetchall():
             mid = str(row[0])
             if mid not in data:
@@ -163,7 +170,7 @@ if export == 'xlsx':
                             }
                 if row[3] == 0:
                     data[mid][row[4]] = 'N/A'
-                data[mid].update(qp_parse('../public/uploads/qikprop/'+mid+'-QP.txt'))
+                data[mid].update(qp_parse('../public/uploads/qikprop/{}-QP.txt'.format(mid)))
             else:
                 if row[3] == 0:
                     data[mid][row[4]] = 'N/A'
@@ -178,7 +185,7 @@ if export == 'xlsx':
         for mol in data:
             #Write image in 1st column
             worksheet.write_blank(startpos[0],0,'',default_format)
-            worksheet.insert_image(startpos[0],0,'../public/uploads/sketches/'+str(data[mol]['molid'])+'.png',{'x_scale':.6,'y_scale':.6, 'y_offset':1})
+            worksheet.insert_image(startpos[0],0,'../public/uploads/sketches/{}.png'.format(data[mol]['molid']),{'x_scale':.6,'y_scale':.6, 'y_offset':1})
             worksheet.set_row(startpos[0],height=95)
             #Write remaining information
             startpos[1]=1
@@ -190,32 +197,39 @@ if export == 'xlsx':
             startpos[0]+=1
         
         workbook.close()
-
-        print 'Location: ../uploads/scratch/table-'+userid+'.xlsx \n\n'                                                             
+        print 'Location: ../uploads/scratch/table-{}.xlsx \n\n'.format(userid) 
         sys.exit()
-    except Exception as e:
+    except Exception:
         config.returnhome(71)
 
 if export == 'pdf':
+    #Generate HTML report, convert to PDF with wktmltopdf
+    htmlfile = '../public/uploads/scratch/report-{}.html'.format(userid)
+    pdffile  = '../public/uploads/scratch/report-{}.pdf'.format(userid)
     dbconn = psycopg2.connect(config.dsn)
     q = dbconn.cursor()
-    q.execute('WITH molinfo AS \
-                        (SELECT m.molid,m.molname,m.molweight,m.molformula,m.dateadded,u.username \
-                            FROM molecules m \
-                            LEFT JOIN users u ON m.authorid=u.userid \
-                            WHERE m.molid in %s),\
-                    measurements AS \
-                        (SELECT d.molid,d.value,t.type,t.units,r.nickname \
-                            FROM moldata d \
-                            LEFT JOIN targets r ON r.targetid=d.targetid \
-                            LEFT JOIN datatypes t ON t.datatypeid=d.datatype \
-                            WHERE d.molid in %s AND t.units!=\'file\')\
-                    SELECT * from molinfo mi \
-                        LEFT OUTER JOIN measurements mm ON mi.molid=mm.molid ORDER BY mi.molname',[tuple(molids),tuple(molids)])    
+    q.execute("""WITH molinfo AS 
+                    (SELECT m.molid,m.molname,m.molweight,
+                            m.molformula,m.dateadded,u.username 
+                        FROM molecules m 
+                            LEFT JOIN users u ON m.authorid=u.userid 
+                        WHERE m.molid in %s
+                    ),
+                    measurements AS 
+                        (SELECT d.molid,d.value,t.type,t.units,r.nickname 
+                            FROM moldata d 
+                                LEFT JOIN targets r ON r.targetid=d.targetid 
+                                LEFT JOIN datatypes t ON t.datatypeid=d.datatype 
+                            WHERE d.molid in %s AND t.units!='file'
+                        )
+                    SELECT * from molinfo mi 
+                        LEFT OUTER JOIN measurements mm ON mi.molid=mm.molid 
+                        ORDER BY mi.molname
+              """,[tuple(molids),tuple(molids)])    
     response=q.fetchall()
     q.close()
     dbconn.close()
-    with open('../public/uploads/scratch/report-'+userid+'.html','w') as fout:
+    with open(htmlfile,'w') as fout:
         htmlstr="""
             <!DOCTYPE html>
             <html>
@@ -226,22 +240,22 @@ if export == 'pdf':
         for mol in molids:
             for row in response:
                 if str(row[0])==mol:
-                    molname=str(row[1])
-                    molweight=str(row[2])
-                    molformula=str(row[3])
+                    molname=row[1]
+                    molweight=row[2]
+                    molformula=row[3]
                     dateadded=row[4].strftime('%b %d, %Y %I:%M%p')
-                    author=str(row[5])
+                    author=row[5]
                     break
-            htmlstr+='<h1>'+molname+'</h1>'
+            htmlstr+='<h1>{}</h1>'.format(molname)
             htmlstr+='<br /><br /><div id="infodiv"><table id="infotable">'
-            htmlstr+='<tr><td class="infotd">Added by</td><td class="infotd infotdleft">'+author+'</td></tr>'
-            htmlstr+='<tr><td class="infotd">Added on</td><td class="infotd infotdleft">'+dateadded+'</td></tr>'
-            htmlstr+='<tr><td class="infotd">MW</td><td class="infotd infotdleft">'+molweight+'</td></tr>'
-            htmlstr+='<tr><td class="infotd">Formula</td><td class="infotd infotdleft">'+molformula+'</td></tr>'
+            htmlstr+='<tr><td class="infotd">Added by</td><td class="infotd infotdleft">{}</td></tr>'.format(author)
+            htmlstr+='<tr><td class="infotd">Added on</td><td class="infotd infotdleft">{}</td></tr>'.format(dateadded)
+            htmlstr+='<tr><td class="infotd">MW</td><td class="infotd infotdleft">{}</td></tr>'.format(molweight)
+            htmlstr+='<tr><td class="infotd">Formula</td><td class="infotd infotdleft">{}</td></tr>'.format(molformula)
             htmlstr+='<tr><td class="infotd">IUPAC</td><td class="infotd infotdleft"></td></tr>'
             htmlstr+='<tr><td class="infotd">CAS</td><td class="infotd infotdleft"></td></tr>'
             htmlstr+='</table></div>'
-            htmlstr+='<img src="../sketches/'+str(mol)+'.png" /><br />'
+            htmlstr+='<img src="../sketches/{}.png" /><br />'.format(mol)
             htmlstr+='<table id="datatable">'
             htmlstr+='''<tr>
                             <th class="datath datathleft">Data</th>
@@ -251,22 +265,21 @@ if export == 'pdf':
                        </tr>
                      '''
             for row in response:
-                if str(row[0])!=mol:
-                    continue
-                target=str(row[10])
-                datatype=str(row[8])
-                value=str(row[7])
-                units=str(row[9])
-                if(not value or not datatype or not units):
-                    continue
-                if(units):
-                    units=units.decode('utf-8').encode('latin-1')
-                if(not target):
-                    target='-'
-                htmlstr+='<tr><td class="datatd datatdleft">'+datatype+'</td>'
-                htmlstr+='<td class="datatd">'+value+'</td>'
-                htmlstr+='<td class="datatd">'+units+'</td>'
-                htmlstr+='<td class="datatd datatdright">'+target+'</td></tr>'
+                if str(row[0])==mol:
+                    target=row[10]
+                    datatype=row[8]
+                    value=row[7]
+                    units=row[9]
+                    if(not value or not datatype or not units):
+                        continue
+                    if(units):
+                        units=units.decode('utf-8').encode('latin-1')
+                    if(not target):
+                        target='-'
+                    htmlstr+='<tr><td class="datatd datatdleft">{}</td>'.format(datatype)
+                    htmlstr+='<td class="datatd">{}</td>'.format(value)
+                    htmlstr+='<td class="datatd">{}</td>'.format(units)
+                    htmlstr+='<td class="datatd datatdright">{}</td></tr>'.format(target)
             htmlstr+='</table>' 
 
             htmlstr+='<div class="clearfloat"></div>'
@@ -276,7 +289,7 @@ if export == 'pdf':
             </html>
         """
         fout.write(htmlstr)
-    subprocess.call([config.wkhtmltopdfdir+'wkhtmltopdf','../public/uploads/scratch/report-'+userid+'.html','../public/uploads/scratch/report-'+userid+'.pdf'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-    print 'Location: ../uploads/scratch/report-'+userid+'.pdf \n\n'
+    subprocess.call([os.path.join(config.wkhtmltopdfdir,'wkhtmltopdf'),htmlfile,pdffile],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+    print 'Location: ../uploads/scratch/report-{}.pdf \n\n'.format(userid)
     sys.exit()
 
