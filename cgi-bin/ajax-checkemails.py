@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 
-from config import find_email_addresses
+import sys
 import cgi,cgitb
-cgitb.enable(display=0,logdir="../log/",format="text")
-from sys import exit
 from urllib import unquote_plus
+from config import find_email_addresses
+
+cgitb.enable(display=0,logdir="../log/",format="text")
 
 form=cgi.FieldStorage()
 
@@ -15,4 +16,4 @@ try:
     outstring = find_email_addresses(emailstr)
     print outstring.replace(',','\r\n'),
 except Exception:
-    exit()
+    sys.exit()

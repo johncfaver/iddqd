@@ -4,12 +4,20 @@
 #
 # Update given molecule based on input from editmolecule.php page.
 # Check if structure changed before doing any computations or rendering
-# Send to either pngwriter or viewmolecule depending on structure change.
+# Send to either pngwriter or viewmolecule depending on the presence
+# of a structure change.
 #
 
-import cgi, os, cgitb, base64, psycopg2, subprocess, filecmp, shutil
-from sys import exit, executable
+import os 
+import sys
+import cgi, cgitb
+import base64
+import subprocess
+import filecmp
+import shutil
+import psycopg2
 import config
+
 cgitb.enable(display=0,logdir="../log/",format="text")
 
 #MOVE TO UPLOAD DIRECTORY
@@ -52,14 +60,14 @@ try:
     molfig64=form['molfig'].value.split(',')[1]
 except Exception: 
     config.returnhome(63)
-    exit()
+    sys.exit()
 
 if debug:
     print 'Content-type: text/html\n\n'
     print 'Received the following:\n<br />'
     for i in keys:
         print i+'='+form[i].value+'<br />'
-    exit()    
+    sys.exit()    
 
 if 'molname' in keys:
     molname=form['molname'].value.strip().replace(' ','_')
@@ -105,11 +113,11 @@ else:
 ##Check inputs - empty molname not valid
 if(not molname.strip()):
     print 'Location: ../editmolecule.php?emptyname=1&molid='+str(molid)+' \n\n'
-    exit()
+    sys.exit()
 #Must be logged in with valid token.
 if(not userid or not token or not molid):
     config.returnhome(30)
-    exit()
+    sys.exit()
 
 bindingdatas=[]
 propertydatas=[]
@@ -197,14 +205,14 @@ try:
     q = dbconn.cursor()
 except Exception:
     config.returnhome(68)
-    exit()
+    sys.exit()
 
 #Check for token.
 q.execute('SELECT token FROM tokens WHERE userid=%s',[userid])
 dbtoken = q.fetchone()[0]
 if(dbtoken != token):
     config.returnhome(70)
-    exit()
+    sys.exit()
 
 ###UPDATE MOLECULE TABLE########### Only original author can edit molname,iupac,cas
 query='UPDATE molecules SET molname=%s, iupac=%s, cas=%s WHERE molid=%s AND authorid=%s'
@@ -324,7 +332,7 @@ for i in xrange(len(olddocdataids),len(docdatas)):
 #############COMPUTATION##################
 if(recalculate):
     os.chdir('../../cgi-bin')
-    subprocess.Popen([executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+    subprocess.Popen([sys.executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 
 ###############REDIRECT####################
 

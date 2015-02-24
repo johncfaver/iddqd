@@ -16,7 +16,7 @@ dbname = conf['postgresql']['database'].encode('utf-8')
 dbuser = conf['postgresql']['user'].encode('utf-8')
 dbpass = conf['postgresql']['pass'].encode('utf-8')
 
-dsn = "host="+dbhost+" port="+dbport+" dbname="+dbname+" user="+dbuser+" password="+dbpass
+dsn = "host={} port={} dbname={} user={} password={}".format(dbhost,dbport,dbname,dbuser,dbpass)
 
 host = conf['email']['host'].encode('utf-8')
 port = str(conf['email']['port'])

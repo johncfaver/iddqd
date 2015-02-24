@@ -6,14 +6,14 @@
 #e.g. if the last XXY compound was XXY144
 #     then we suggest XXY145
 
-import psycopg2,cgi,cgitb
-cgitb.enable(display=0,logdir="../log/",format="text")
-from sys import exit
+import sys
+import cgi,cgitb
+import psycopg2
 import config
+cgitb.enable(display=0,logdir="../log/",format="text")
 
 form=cgi.FieldStorage()
 keys=form.keys()
-
 
 try:
     targetid=int(form['targetid'].value)
@@ -67,7 +67,7 @@ try:
 
     print 'Content-type: text/html\n'
     print suggestion,
-    exit()
+    sys.exit()
 
 except Exception:
-   exit()
+   sys.exit()

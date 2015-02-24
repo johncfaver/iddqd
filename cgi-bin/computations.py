@@ -2,33 +2,41 @@
 
 #
 #  Perform various computations on molecule after entry into molecule table and filesystem
-#    1) Generate 3d structures with obgen
+#    1) Generate netralized 3D structures with obgen
 #    2) MW and formula computation
-#    3) Extras
+#    3) Extensions
 #
-import os, psycopg2, subprocess, sys, shutil
+import os
+import subprocess
+import sys
+import shutil
+import psycopg2
 from molecule import molecule
 import config
 
 cgidir=os.getcwd()
 
+if len(sys.argv) != 2:
+    sys.exit()
+
 molid = int(sys.argv[1])
 
 ###GENERATE 3D MOL FILE WITH OBGEN###
 os.chdir('../public/uploads/structures')
-#3D conformer search
-subprocess.call([config.babeldir+'obgen',str(molid)+'.mol'],stdout=open(str(molid)+'-3dt.mol','w'),stderr=open(os.devnull,'w'))
+#3D conformer search with obgen
+subprocess.call([os.path.join(config.babeldir,'obgen'),'{}.mol'.format(molid)],stdout=open('{}-3dt.mol'.format(molid),'w'),stderr=open(os.devnull,'w'))
 #Remove warning flags
-subprocess.call(['/bin/grep','-v','WARNING',str(molid)+'-3dt.mol'],stdout=open(str(molid)+'-3d.mol','w'),stderr=open(os.devnull,'w'))
+subprocess.call(['/bin/grep','-v','WARNING','{}-3dt.mol'.format(molid)],stdout=open('{}-3d.mol'.format(molid),'w'),stderr=open(os.devnull,'w'))
+os.remove('{}-3dt.mol'.format(molid))
 #Convert to PDB without hydrogens
-subprocess.call([config.babeldir+'babel','-imol',str(molid)+'-3d.mol','-d','-opdb',str(molid)+'-3d.pdb'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-#Remove charged atoms (necessary for qikprop)
-subprocess.call(['/bin/sed','-i',r"s/1[\+-]$//g",str(molid)+'-3d.pdb'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+subprocess.call([os.path.join(config.babeldir,'babel'),'-imol','{}-3d.mol'.format(molid),'-d','-opdb','{}-3d.pdb'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+#Neutralize atoms
+subprocess.call(['/bin/sed','-i',r"s/1[\+-]$//g",'{}-3d.pdb'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 #Finally convert to 3D mol with hydrogens in neutral state
-subprocess.call([config.babeldir+'babel','-ipdb',str(molid)+'-3d.pdb','-h','-omol',str(molid)+'-3d.mol'],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-os.remove(str(molid)+'-3dt.mol')
-os.remove(str(molid)+'-3d.pdb')
-molobj = molecule(str(molid)+'-3d.mol')
+subprocess.call([config.babeldir+'babel','-ipdb','{}-3d.pdb'.format(molid),'-h','-omol','{}-3d.mol'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+os.remove('{}-3d.pdb'.format(molid))
+
+molobj = molecule('{}-3d.mol'.format(molid))
 os.chdir(cgidir)
 
 ####UPATE MOLECULE DATA IN DATABASE############
@@ -43,15 +51,14 @@ dbconn.close()
 
 ######EXTENSIONS###############
 ##### RUN QIKPROP##############
-qpdir = '../extensions/qikprop'
-if(os.path.isdir(qpdir)):
+if(os.path.isdir('../extensions/qikprop')):
     os.chdir(qpdir)
-    shutil.copyfile('../../public/uploads/structures/'+str(molid)+'-3d.mol',os.getcwd()+'/'+str(molid)+'-3d.mol')
-    subprocess.call(['./qikprop',str(molid)+'-3d.mol'], stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-    shutil.move('QP.out','../../public/uploads/qikprop/'+str(molid)+'-QP.txt')
-    for i in ['QPmyfits','QPwarning','Similar.name','QP.CSV','QPSA.out',str(molid)+'-3d.mol']:
+    shutil.copyfile('../../public/uploads/structures/{}-3d.mol'.format(molid),os.path.join(os.getcwd(),'{}-3d.mol'.format(molid)))
+    subprocess.call(['./qikprop','{}-3d.mol'.format(molid)], stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+    shutil.move('QP.out','../../public/uploads/qikprop/{}-QP.txt'.format(molid))
+    for tmpfile in ['QPmyfits','QPwarning','Similar.name','QP.CSV','QPSA.out','{}-3d.mol'.format(molid)]:
         try:
-            os.remove(i)
+            os.remove(tmpfile)
         except Exception:
             pass
 

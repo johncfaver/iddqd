@@ -3,10 +3,15 @@
 #
 # Inserts new molecule data into database.
 #
-
-import cgi, os, cgitb, base64, psycopg2, subprocess, sys
-cgitb.enable(display=0,logdir="../log/",format="text")
+import os
+import sys
+import cgi, cgitb
+import base64
+import subprocess 
+import psycopg2
 import config
+
+cgitb.enable(display=0,logdir="../log/",format="text")
 
 #MOVE TO UPLOAD DIRECTORY
 os.chdir('../public/uploads/')
