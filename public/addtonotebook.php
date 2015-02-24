@@ -10,7 +10,7 @@
 	if(isset($_GET['molid'])){
 		$addmolid=(int)pg_escape_string($_GET['molid']);	
 	    if(!in_array($addmolid,$_SESSION['notebook_molids'])){
-		    array_push($_SESSION['notebook_molids'],$addmolid);
+		    $_SESSION['notebook_molids'][] = $addmolid;
 	    }
 	}elseif(isset($_GET['targetid'])){
         $addtargetid = (int)pg_escape_string($_GET['targetid']);
@@ -20,13 +20,24 @@
             returnhome(40);
             exit;
         }
-        //Select only inhibitors with experimental data.
+       
+        //Append inhibitors by series prefix.
+        $q = $dbconn->prepare("WITH p AS (SELECT regexp_split_to_table(series,',') AS prefix FROM TARGETS WHERE targetid=:num)
+            SELECT DISTINCT m.molid FROM molecules m RIGHT JOIN p ON m.molname ~* p.prefix ORDER BY m.molid"); 
+        $q->bindParam(":num",$addtargetid,PDO::PARAM_INT);
+        $q->execute();
+        while($r = $q->fetch(PDO::FETCH_NUM)){
+            if(!in_array($r[0],$_SESSION['notebook_molids'])){
+                $_SESSION['notebook_molids'][] = $r[0];
+            }
+        }
+        //Append inhibitors with experimental data.
         $q = $dbconn->prepare("SELECT DISTINCT molid FROM moldata d WHERE targetid=:num ORDER BY d.molid "); 
         $q->bindParam(":num",$addtargetid,PDO::PARAM_INT);
         $q->execute();
         while($r = $q->fetch(PDO::FETCH_NUM)){
             if(!in_array($r[0],$_SESSION['notebook_molids'])){
-		        array_push($_SESSION['notebook_molids'],$r[0]);
+                $_SESSION['notebook_molids'][] = $r[0];
 	        }
         }
     }else{
