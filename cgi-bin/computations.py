@@ -16,10 +16,11 @@ import config
 
 cgidir=os.getcwd()
 
-if len(sys.argv) != 2:
+if len(sys.argv) != 3:
     sys.exit()
 
 molid = int(sys.argv[1])
+molname = sys.argv[2]
 
 ###GENERATE 3D MOL FILE WITH OBGEN###
 os.chdir('../public/uploads/structures')
@@ -33,7 +34,7 @@ subprocess.call([os.path.join(config.babeldir,'babel'),'-imol','{}-3d.mol'.forma
 #Neutralize atoms
 subprocess.call(['/bin/sed','-i',r"s/1[\+-]$//g",'{}-3d.pdb'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 #Finally convert to 3D mol with hydrogens in neutral state
-subprocess.call([config.babeldir+'babel','-ipdb','{}-3d.pdb'.format(molid),'-h','-omol','{}-3d.mol'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+subprocess.call([config.babeldir+'babel','-ipdb','{}-3d.pdb'.format(molid),'-h','--title',molname,'-omol','{}-3d.mol'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 os.remove('{}-3d.pdb'.format(molid))
 
 molobj = molecule('{}-3d.mol'.format(molid))

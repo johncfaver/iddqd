@@ -222,7 +222,7 @@ for i in xrange(len(docdatas)):
 
 #############COMPUTATION##################
 os.chdir('../../cgi-bin')
-subprocess.Popen([sys.executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+subprocess.Popen([sys.executable,'computations.py',str(molid),molname],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 ############################################
 
 print 'Location: ../pngwriter.php?molid='+str(molid)+'&dest=am \n\n'

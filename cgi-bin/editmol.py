@@ -332,7 +332,7 @@ for i in xrange(len(olddocdataids),len(docdatas)):
 #############COMPUTATION##################
 if(recalculate):
     os.chdir('../../cgi-bin')
-    subprocess.Popen([sys.executable,'computations.py',str(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+    subprocess.Popen([sys.executable,'computations.py',str(molid),molname],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 
 ###############REDIRECT####################
 
