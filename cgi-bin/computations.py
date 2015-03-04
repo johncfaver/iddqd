@@ -33,8 +33,8 @@ os.remove('{}-3dt.mol'.format(molid))
 subprocess.call([os.path.join(config.babeldir,'babel'),'-imol','{}-3d.mol'.format(molid),'-d','-opdb','{}-3d.pdb'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 #Neutralize atoms
 subprocess.call(['/bin/sed','-i',r"s/1[\+-]$//g",'{}-3d.pdb'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
-#Finally convert to 3D mol with hydrogens in neutral state
-subprocess.call([config.babeldir+'babel','-ipdb','{}-3d.pdb'.format(molid),'-h','--title',molname,'-omol','{}-3d.mol'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
+#Finally convert to 3D SDF with hydrogens in neutral state
+subprocess.call([config.babeldir+'babel','-ipdb','{}-3d.pdb'.format(molid),'-h','--title',molname,'-osdf','{}-3d.mol'.format(molid)],stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
 os.remove('{}-3d.pdb'.format(molid))
 
 molobj = molecule('{}-3d.mol'.format(molid))
