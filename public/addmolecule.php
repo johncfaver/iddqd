@@ -140,15 +140,15 @@
             <br /><br />
             <span style="font-size:0.8em;float:right;text-align:right;">
                 Name:
-                <input type="text" name="molname" id="molname" size=10 required maxlength="50" 
+                <input type="text" name="molname" id="molname" size=10 required maxlength="50" autocomplete="off" 
                     style="width:80px;margin-right:45px;" <?php if($fileupload) echo 'value="'.htmlentities($thismolfilename).'"'; ?>/>
-                IUPAC: <input type="text" name="iupacname" id="iupacname" style="width:80px;float:right" size=10 maxlength="150" value="" />
+                IUPAC: <input type="text" name="iupacname" id="iupacname" style="width:80px;float:right" autocomplete="off" size=10 maxlength="150" value="" />
             </span>
             <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
                 <span style="font-style:italic;color:#884444;margin-right:45px;" id="molnameRecommendation">
                     <?php if($emptyname) echo 'Name can not be empty.';?>
                 </span>
-                CAS#: <input type="text" name="cas" id="cas" size=10 maxlength="20" style="width:80px;float:right" value="" />
+                CAS#: <input type="text" name="cas" id="cas" size=10 maxlength="20" style="width:80px;float:right" value="" autocomplete="off" />
             </span>
             <br /><br />
             <div id="div_dataentry">
