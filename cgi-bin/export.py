@@ -149,16 +149,27 @@ if export == 'xlsx':
         for i,item in enumerate(fields):
             worksheet.write(0,1+i,item,field_format)
        
-        q.execute("""SELECT m.molid, m.molname, m.dateadded, avg(d.value), t.nickname, dt.type 
-                        FROM molecules m 
-                            LEFT JOIN moldata d on m.molid=d.molid 
-                            LEFT JOIN targets t ON t.targetid=d.targetid 
-                            LEFT JOIN datatypes dt ON d.datatype = dt.datatypeid 
-                        WHERE m.molid in %s
-                            AND (t.nickname in %s OR t.nickname IS NULL)
-                        GROUP BY m.molid, m.molname, m.dateadded, t.nickname, dt.type
-                        ORDER BY m.molid 
-                    """,[tuple(molids),tuple(targets)])
+        if len(targets) > 0:
+            q.execute("""SELECT m.molid, m.molname, m.dateadded, avg(d.value), t.nickname, dt.type 
+                            FROM molecules m 
+                                LEFT JOIN moldata d on m.molid=d.molid 
+                                LEFT JOIN targets t ON t.targetid=d.targetid 
+                                LEFT JOIN datatypes dt ON d.datatype = dt.datatypeid 
+                            WHERE m.molid in %s
+                                AND (t.nickname in %s OR t.nickname IS NULL)
+                            GROUP BY m.molid, m.molname, m.dateadded, t.nickname, dt.type
+                            ORDER BY m.molid 
+                        """,[tuple(molids),tuple(targets)])
+        else:
+            q.execute("""SELECT m.molid, m.molname, m.dateadded, avg(d.value), t.nickname, dt.type 
+                            FROM molecules m 
+                                LEFT JOIN moldata d on m.molid=d.molid 
+                                LEFT JOIN targets t ON t.targetid=d.targetid 
+                                LEFT JOIN datatypes dt ON d.datatype = dt.datatypeid 
+                            WHERE m.molid in %s
+                            GROUP BY m.molid, m.molname, m.dateadded, t.nickname, dt.type
+                            ORDER BY m.molid 
+                        """,[tuple(molids)])
 
         for row in q.fetchall():
             mid = str(row[0])
