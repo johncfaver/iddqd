@@ -51,9 +51,10 @@ q.close()
 dbconn.close()
 
 ######EXTENSIONS###############
+os.chdir('../extensions')
 ##### RUN QIKPROP##############
-if(os.path.isdir('../extensions/qikprop')):
-    os.chdir(qpdir)
+if(os.path.isdir('qikprop')):
+    os.chdir('qikprop')
     shutil.copyfile('../../public/uploads/structures/{}-3d.mol'.format(molid),os.path.join(os.getcwd(),'{}-3d.mol'.format(molid)))
     subprocess.call(['./qikprop','{}-3d.mol'.format(molid)], stdout=open(os.devnull,'w'),stderr=open(os.devnull,'w'))
     shutil.move('QP.out','../../public/uploads/qikprop/{}-QP.txt'.format(molid))
@@ -62,4 +63,5 @@ if(os.path.isdir('../extensions/qikprop')):
             os.remove(tmpfile)
         except Exception:
             pass
+    os.chdir('../')
 
