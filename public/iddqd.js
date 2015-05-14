@@ -633,8 +633,16 @@ function getMolnameSuggestion(){
     xhr.onreadystatechange = function(){
         try{
             if(xhr.readyState === 4 && xhr.status === 200){
-                recspan.innerHTML='Recommended:'+xhr.responseText;
-                recspan.style.color="#4444bb";
+                var suggestion = xhr.responseText;
+                var link = document.createElement("a");
+                link.setAttribute("href","#");
+                link.style.color="#4444bb";
+                link.onclick=function(){
+                                    document.getElementById("molname").value = suggestion;
+                                };
+                link.innerHTML='Recommended:'+suggestion;
+
+                recspan.appendChild(link);
             }
         }
         catch(e){
