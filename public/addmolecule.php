@@ -68,7 +68,7 @@
     </script>
     <title>Add a Molecule</title>
 </head>
-<body onload="morebindingdata();morepropertydata();moredocdata();getMolnameSuggestion();">
+<body onload="morebindingdata();morepropertydata();moredocdata();getMolnameSuggestion();updateDataTypes();">
 <div id="div_holder">
 <div id="div_left">
     <div id="left_links">
@@ -145,7 +145,7 @@
                 IUPAC: <input type="text" name="iupacname" id="iupacname" style="width:80px;float:right" autocomplete="off" size=10 maxlength="150" value="" />
             </span>
             <span style="margin-top:5px;font-size:0.8em;float:right;text-align:right;line-height:3em;">
-                <span style="font-style:italic;color:#884444;margin-right:45px;" id="molnameRecommendation">
+                <span style="font-style:italic;color:#884444;margin-right:65px;" id="molnameRecommendation">
                     <?php if($emptyname) echo 'Name can not be empty.';?>
                 </span>
                 CAS#: <input type="text" name="cas" id="cas" size=10 maxlength="20" style="width:80px;float:right" value="" autocomplete="off" />

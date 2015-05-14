@@ -65,7 +65,7 @@ function morebindingdata(){
     var t = document.getElementById("bindingdatainputlines");
     num_bindingdata+=1;
     var i = num_bindingdata;
-    
+
     var newinputline = document.createElement('div');        
     newinputline.setAttribute('id','div_bindingdata_new_'+i.toString());    
     newinputline.setAttribute('class','div_inputline');
@@ -75,7 +75,10 @@ function morebindingdata(){
     newtargetselect.setAttribute('name','bindingdata_targetid_new_'+i.toString());
     newtargetselect.setAttribute('class','select_bindingdata_target');
     if(i==1){
-        newtargetselect.setAttribute('onChange','getMolnameSuggestion()');
+        newtargetselect.onchange = function(){ getMolnameSuggestion(); 
+                                               updateDataTypes();
+                                             };
+
     }
     for(var j=0;j<targetnames.length;j++){
         var newoption = document.createElement('option');
@@ -93,9 +96,6 @@ function morebindingdata(){
     for(var j=0;j<bindingdatatypes.length;j++){
         var newoption = document.createElement('option');
         newoption.setAttribute('value',bindingdataids[j]);
-        if(j==1){
-            newoption.setAttribute('selected','selected');
-        }
         newoption.innerHTML=bindingdatatypes[j];
         newoption.innerHTML+=' ('+bindingdataunits[j]+')';
         newdatatypeselect.appendChild(newoption);
@@ -628,7 +628,6 @@ function getMolnameSuggestion(){
     var recspan = document.getElementById("molnameRecommendation");
     var tid = firstTargetSelectElement.value;
     var xhr = new XMLHttpRequest();
-    
     recspan.innerHTML= '';
     xhr.onreadystatechange = function(){
         try{
@@ -640,7 +639,7 @@ function getMolnameSuggestion(){
                 link.onclick=function(){
                                     document.getElementById("molname").value = suggestion;
                                 };
-                link.innerHTML='Recommended:'+suggestion;
+                link.innerHTML=suggestion+' ?';
 
                 recspan.appendChild(link);
             }
@@ -652,5 +651,25 @@ function getMolnameSuggestion(){
         xhr.open("GET","../cgi-bin/ajax-getlastmolname.py?targetid="+tid,true);
         xhr.send();
     }
+}
+function updateDataTypes(){
+    var firstTargetSelectElement = document.getElementById('bindingdata_targetid_new_1');
+    var tid = firstTargetSelectElement.value;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        try{
+            if(xhr.readyState === 4 && xhr.status === 200){
+                var ddt = parseInt(xhr.responseText);
+                var selects = document.getElementsByClassName("select_bindingdata_datatype");
+                for(var i=0;i<selects.length;i++){
+                    selects[i].value = ddt;
+                }
+            }
+        }
+        catch(e){
+        }
+    };
+    xhr.open('GET','../cgi-bin/ajax-getfrequentdatatypes.py?targetid='+tid,'true');
+    xhr.send();
 }
 
