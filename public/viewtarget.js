@@ -49,6 +49,10 @@ function inhibitorEntry(molid,molname,activity,datatype,comment,commenter,commen
     this.row+='</td>';
 }
 var inhibitors = new Array();
+var inactives = new Array();
+var actives = new Array();
+
+
 var inhibitorstart=0;
 function inhibitorPageRight(nmolperpage){
     inhibitorstart+=nmolperpage;

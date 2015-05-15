@@ -126,7 +126,7 @@
 }
 .molecules_td{
 	border:1px solid #cccccc;	
-    padding:5px;
+    padding:4px;
 	width:20%;
 }
 .molecules_tdl{
@@ -155,12 +155,12 @@
     position:absolute;
     width:100px;
     left:0px;
-    top:200px;
+    margin-top:275px;
 }
 #div_inhibitorPageRight{
     position:absolute;
     width:100px;
     right:0px;
-    top:200px;
+    margin-top:275px;
 }
 

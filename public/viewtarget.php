@@ -32,7 +32,7 @@
     if($q->rowCount() != 1) returnhome(13);
     $targetdata=$q->fetch(PDO::FETCH_ASSOC);
 
-    //Get data about all known inhibitors for this target. 
+    //Get data about all known compounds for this target. 
     //Order inhibitors by binding affinity. 
     $q = $dbconn->prepare(" SELECT * from 
 							   (SELECT DISTINCT ON (d.molid)
@@ -74,8 +74,24 @@
 <?php 
     //Place $inhibitordata in javascript array to avoid repetitive database lookups.
     foreach($inhibitordata as $r){
-        echo 'inhibitors.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",addslashes(htmlentities($r['datacomment']))).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
+        if($r['value'] < 1.0 and $r['units'] == 'µM'){
+            $r['units'] = 'nM';
+            $r['value'] = $r['value'] * 1000;
+        }
+        if($r['value'] < 1.0 and $r['units'] == 'nM'){
+            $r['units'] = 'pM';
+            $r['value'] = $r['value'] * 1000;
+        }
+        if($r['value'] > 0){ //Separate actives/inactives
+            echo 'actives.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",addslashes(htmlentities($r['datacomment']))).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
+        }else{
+            $r['value'] = 'N/A';
+            $r['units'] = '';
+            echo 'inactives.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",addslashes(htmlentities($r['datacomment']))).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
+        }
+        echo 'inhibitors = actives.concat(inactives);';
     }
+
 ?>
     </script>
     <title><?php echo htmlentities($targetdata['nickname'], ENT_QUOTES); ?></title>
