@@ -22,8 +22,13 @@
         }
        
         //Append inhibitors by series prefix.
-        $q = $dbconn->prepare("WITH p AS (SELECT regexp_split_to_table(series,',') AS prefix FROM TARGETS WHERE targetid=:num)
-            SELECT DISTINCT m.molid FROM molecules m RIGHT JOIN p ON m.molname ~* p.prefix ORDER BY m.molid"); 
+        $q = $dbconn->prepare("WITH p AS 
+            (SELECT regexp_split_to_table(series,',') AS prefix 
+                FROM TARGETS WHERE targetid=:num
+            )
+            SELECT DISTINCT m.molid 
+            FROM molecules m RIGHT JOIN p ON m.molname ~* p.prefix 
+            ORDER BY m.molid"); 
         $q->bindParam(":num",$addtargetid,PDO::PARAM_INT);
         $q->execute();
         while($r = $q->fetch(PDO::FETCH_NUM)){
@@ -32,7 +37,10 @@
             }
         }
         //Append inhibitors with experimental data.
-        $q = $dbconn->prepare("SELECT DISTINCT molid FROM moldata d WHERE targetid=:num ORDER BY d.molid "); 
+        $q = $dbconn->prepare("SELECT DISTINCT molid 
+            FROM moldata d  
+            WHERE targetid=:num 
+            ORDER BY d.molid "); 
         $q->bindParam(":num",$addtargetid,PDO::PARAM_INT);
         $q->execute();
         while($r = $q->fetch(PDO::FETCH_NUM)){

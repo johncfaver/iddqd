@@ -32,27 +32,26 @@
     if($q->rowCount() != 1) returnhome(13);
     $targetdata=$q->fetch(PDO::FETCH_ASSOC);
 
-    //Get data about all known compounds for this target. 
-    //Order inhibitors by binding affinity. 
-    $q = $dbconn->prepare(" SELECT * from 
-							   (SELECT DISTINCT ON (d.molid)
-							    d.value,
-							    d.molid,
-							    m.molname,
-							    k.type,
-							    k.units,
-							    c.datacomment,
-                                c.dateadded as commentdate,
-							    u.username as commenter
-							    FROM moldata d 
-							        LEFT JOIN molecules m on m.molid=d.molid 
-							        LEFT JOIN datatypes k on k.datatypeid=d.datatype
-							        LEFT JOIN datacomments c on c.dataid=d.moldataid
-							        LEFT JOIN users u on u.userid=c.authorid
-							    WHERE d.targetid=:num and d.datatype in (1,2,3)
-							    ORDER BY d.molid, d.value
-							    ) AS temp 
-                            ORDER BY temp.value ");
+    //Get binding data for all compounds for this target. 
+    $q = $dbconn->prepare("
+        WITH p AS 
+            (SELECT regexp_split_to_table(series,',') AS prefix
+            FROM targets WHERE targetid=:num)
+        SELECT 
+            d.molid,
+            m.molname, 
+            avg(d.value) as value, 
+            k.type,
+            k.units
+        FROM moldata d
+            LEFT JOIN molecules m ON m.molid = d.molid
+            LEFT JOIN datatypes k ON k.datatypeid = d.datatype
+            LEFT JOIN p on m.molname ~* p.prefix
+        WHERE d.targetid = :num and k.class = 1
+        GROUP BY d.molid, m.molname, k.type, k.units
+        ORDER BY avg(d.value)
+        "); 
+
     $q->bindParam(":num",$thistargetid,PDO::PARAM_INT);
     $q->execute();
     $numtotmol=$q->rowCount();
@@ -82,12 +81,13 @@
             $r['units'] = 'pM';
             $r['value'] = $r['value'] * 1000;
         }
+        $r['value'] = round($r['value'],1);
         if($r['value'] > 0){ //Separate actives/inactives
-            echo 'actives.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",addslashes(htmlentities($r['datacomment']))).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
+            echo 'actives.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'"));';
         }else{
             $r['value'] = 'N/A';
             $r['units'] = '';
-            echo 'inactives.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'","'.str_replace("\r\n","<br/>",addslashes(htmlentities($r['datacomment']))).'","'.$r['commenter'].'","'.parsetimestamp($r['commentdate']).'"));';
+            echo 'inactives.push(new inhibitorEntry("'.$r['molid'].'","'.$r['molname'].'","'.$r['value'].' '.$r['units'].'","'.$r['type'].'"));';
         }
         echo 'inhibitors = actives.concat(inactives);';
     }
@@ -202,9 +202,6 @@
                             </th>
                             <th class="molecules_th">
                                 Data Type
-                            </th>
-                            <th class="molecules_th">
-                                Notes
                             </th>
                         </tr>';
 

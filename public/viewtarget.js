@@ -29,24 +29,14 @@ function closedeletecheck(){
     var t = document.getElementById("div_shade_window");
     t.style.display = 'none';
 }
-function inhibitorEntry(molid,molname,activity,datatype,comment,commenter,commentdate){
+function inhibitorEntry(molid,molname,activity,datatype){
     this.molid = molid;
     this.molname = molname;
     this.activity=activity;
     this.datatype = datatype;
-    this.comment = comment;
-    this.commenter = commenter;
-    this.commentdate = commentdate;
     this.row='<td class="molecules_td molecules_tdl"><a href="viewmolecule.php?molid='+this.molid+'">'+this.molname+'</a></td>';
     this.row+='<td class="molecules_td molecules_tdr">'+this.activity+'</td>';
     this.row+='<td class="molecules_td">'+this.datatype+'</td>';
-    if(this.comment!=''){
-        this.row+='<td class="molecules_td molecules_tdr" onclick="opendatapopup(\''+this.commenter+'\',\''+this.commentdate+'\',\''+this.comment+'\');return false">';
-        this.row+='<img src="info_icon.png" height=15 title="Notes Available" />';
-    }else{
-        this.row+='<td class="molecules_td molecules_tdr">';
-    }
-    this.row+='</td>';
 }
 var inhibitors = new Array();
 var inactives = new Array();
